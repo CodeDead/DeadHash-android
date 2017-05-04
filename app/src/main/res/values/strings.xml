@@ -19,4 +19,11 @@
     <string name="card_open_folder">Open folder</string>
     <string name="copy_data">Copy data</string>
     <string name="toast_data_copied">Data copied to clipboard!</string>
+    <string name="text_compare">Compare:</string>
+    <string name="text_compare_hint">Place your hash here</string>
+    <string name="text_compare_hash">Compare hash</string>
+    <string name="toast_file_not_found">File does not exist!</string>
+    <string name="toast_back_again">Press \'BACK\' again to exit.</string>
+    <string name="toast_hash_match">Hash matches your input!</string>
+    <string name="toast_hash_mismatch">Hash does not match your input!</string>
 </resources>

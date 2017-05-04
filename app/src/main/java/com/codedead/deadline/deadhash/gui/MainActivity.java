@@ -18,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 File file = new File(edtPath.getText().toString());
                 if (!file.exists()) {
-                    Toast.makeText(MainActivity.this, "File does not exist!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.toast_file_not_found, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press 'BACK' again to exit.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_back_again, Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override

@@ -63,9 +63,9 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
                 public void onClick(View v) {
                     if (originalCompare == null || originalCompare.length() == 0) return;
                     if (originalCompare.equals(encryptionData.getText().toString())) {
-                        Toast.makeText(v.getContext(), "Hash matches your input!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), R.string.toast_hash_match, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(v.getContext(), "Hash does not match your input!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), R.string.toast_hash_mismatch, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
