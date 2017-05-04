@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.codedead.deadline.deadhash.gui.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.codedead.deadline.deadhash.gui.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,35 +17,17 @@
         android:padding="10dp">
 
         <TableLayout
-            android:id="@+id/layout_file"
+            android:id="@+id/layout_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TableRow>
-                <TextView
-                    android:id="@+id/TxtFile_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/card_file"
-                    android:textSize="16sp"
-                    android:textStyle="bold">
-
-                </TextView>
-
                 <EditText
-                    android:id="@+id/EdtFile_name"
+                    android:id="@+id/EdtText_Content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.85"
-                    android:hint="@string/card_file_path" />
-
-                <ImageButton
-                    android:id="@+id/ImgBtnFileData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:contentDescription="@string/card_open_folder"
-                    android:src="@drawable/ic_open_folder" />
+                    android:layout_weight="1"
+                    android:hint="@string/text_content_hint" />
             </TableRow>
 
             <TableRow>
@@ -59,20 +41,20 @@
 
                 <EditText
                     android:id="@+id/Edit_FileCompare"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:hint="@string/text_compare_hint" />
             </TableRow>
         </TableLayout>
 
         <Button
-            android:id="@+id/ButtonGenerateFile"
+            android:id="@+id/ButtonGenerateText"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/layout_file"
+            android:layout_below="@+id/layout_text"
             android:text="@string/button_generate">
 
         </Button>
@@ -85,7 +67,7 @@
         android:background="@android:color/darker_gray"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/file_recycler"
+        android:id="@+id/text_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

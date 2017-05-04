@@ -27,8 +27,8 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.codedead.deadline.deadhash.R;
-import com.codedead.deadline.deadhash.domain.FileAdapter;
-import com.codedead.deadline.deadhash.domain.FileData;
+import com.codedead.deadline.deadhash.domain.DataAdapter;
+import com.codedead.deadline.deadhash.domain.EncryptionData;
 import com.codedead.deadline.deadhash.domain.FileDialog;
 import com.codedead.deadline.deadhash.domain.HashService;
 import com.codedead.deadline.deadhash.domain.LocaleHelper;
@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FileAdapter mAdapter;
+    private DataAdapter mAdapter;
 
-    private ArrayList<FileData> fileDataArrayList;
+    private ArrayList<EncryptionData> encryptionDataArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fileDataArrayList = new ArrayList<>();
+        encryptionDataArrayList = new ArrayList<>();
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         super.onCreate(savedInstanceState);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new FileAdapter(fileDataArrayList);
+        mAdapter = new DataAdapter(encryptionDataArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
         ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int size = fileDataArrayList.size();
-                fileDataArrayList.clear();
+                int size = encryptionDataArrayList.size();
+                encryptionDataArrayList.clear();
                 mAdapter.notifyItemRangeRemoved(0, size);
 
                 File file = new File(edtPath.getText().toString());
@@ -153,9 +153,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (hashName == null || hashName.length() == 0) return;
         if (data == null || data.length() == 0) return;
 
-        FileData fileData = new FileData(hashName, data, compare);
-        fileDataArrayList.add(fileData);
-        mAdapter.notifyItemInserted(fileDataArrayList.size());
+        EncryptionData encryptionData = new EncryptionData(hashName, data, compare);
+        encryptionDataArrayList.add(encryptionData);
+        mAdapter.notifyItemInserted(encryptionDataArrayList.size());
     }
 
     @Override

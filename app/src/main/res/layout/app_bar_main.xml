@@ -29,6 +29,9 @@
         <include
             android:id="@+id/fileContent"
             layout="@layout/content_file" />
+        <include
+            android:id="@+id/textContent"
+            layout="@layout/content_text" />
     </ViewFlipper>
 
 </LinearLayout>

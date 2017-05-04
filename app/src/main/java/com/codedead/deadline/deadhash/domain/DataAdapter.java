@@ -15,11 +15,11 @@ import com.codedead.deadline.deadhash.R;
 
 import java.util.ArrayList;
 
-public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder> {
-    private ArrayList<FileData> fileDataList;
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FileDataHolder> {
+    private ArrayList<EncryptionData> encryptionDataList;
 
-    public FileAdapter(ArrayList<FileData> fileDataList) {
-        this.fileDataList = fileDataList;
+    public DataAdapter(ArrayList<EncryptionData> encryptionDataList) {
+        this.encryptionDataList = encryptionDataList;
     }
 
     @Override
@@ -30,13 +30,13 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
 
     @Override
     public void onBindViewHolder(FileDataHolder holder, int position) {
-        FileData file = fileDataList.get(position);
+        EncryptionData file = encryptionDataList.get(position);
         holder.bindFileData(file);
     }
 
     @Override
     public int getItemCount() {
-        return fileDataList.size();
+        return encryptionDataList.size();
     }
 
     static class FileDataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -80,7 +80,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
             Toast.makeText(v.getContext(), R.string.toast_data_copied, Toast.LENGTH_SHORT).show();
         }
 
-        void bindFileData(FileData data) {
+        void bindFileData(EncryptionData data) {
             encryptionName.setText(data.getEncryption_name());
             encryptionData.setText(data.getEncryption_data());
 
