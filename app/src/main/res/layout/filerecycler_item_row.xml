@@ -23,16 +23,7 @@
             android:layout_alignParentTop="true"
             android:textSize="18sp"
             android:textStyle="bold">
-
         </TextView>
-
-        <TextView
-            android:id="@+id/Encryption_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/Encryption_title"
-            android:layout_gravity="center"
-            android:textAlignment="center" />
 
         <ImageButton
             android:id="@+id/Copy_Data"
@@ -42,6 +33,12 @@
             android:layout_alignParentTop="true"
             android:contentDescription="@string/copy_data"
             android:src="@drawable/ic_content_copy" />
+
+        <TextView
+            android:id="@+id/Encryption_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Copy_Data" />
 
     </RelativeLayout>
 

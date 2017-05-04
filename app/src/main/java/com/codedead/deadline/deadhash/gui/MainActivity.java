@@ -129,30 +129,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String sha384 = HashService.calculateHash(file, "SHA-384");
                 String sha512 = HashService.calculateHash(file, "SHA-512");
 
-                if (md5 != null && md5.length() != 0) {
-                    addFileHash("MD5", md5);
-                }
+                String ripemd128 = HashService.calculateHash(file,"RIPEMD128");
+                String ripemd160 = HashService.calculateHash(file,"RIPEMD160");
 
-                if (sha1 != null && sha1.length() != 0) {
-                    addFileHash("SHA-1", sha1);
-                }
+                addFileHash("MD5", md5);
+                addFileHash("SHA-1", sha1);
+                addFileHash("SHA-256", sha256);
+                addFileHash("SHA-384", sha384);
+                addFileHash("SHA-512", sha512);
 
-                if (sha256 != null && sha256.length() != 0) {
-                    addFileHash("SHA-256", sha256);
-                }
-
-                if (sha384 != null && sha384.length() != 0) {
-                    addFileHash("SHA-384", sha384);
-                }
-
-                if (sha512 != null && sha512.length() != 0) {
-                    addFileHash("SHA-512", sha512);
-                }
+                addFileHash("RIPEMD-128", ripemd128);
+                addFileHash("RIPEMD-160", ripemd160);
             }
         });
     }
 
     private void addFileHash(String hashName, String data) {
+        if (hashName == null || hashName.length() == 0) return;
+        if (data == null || data.length() == 0) return;
+
         FileData fileData = new FileData(hashName, data);
         fileDataArrayList.add(fileData);
         mAdapter.notifyItemInserted(fileDataArrayList.size());
