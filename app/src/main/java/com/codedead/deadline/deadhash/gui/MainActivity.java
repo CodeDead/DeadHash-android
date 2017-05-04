@@ -1,9 +1,15 @@
 package com.codedead.deadline.deadhash.gui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -15,20 +21,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.codedead.deadline.deadhash.R;
 import com.codedead.deadline.deadhash.domain.FileAdapter;
 import com.codedead.deadline.deadhash.domain.FileData;
+import com.codedead.deadline.deadhash.domain.FileDialog;
 import com.codedead.deadline.deadhash.domain.LocaleHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 
-//TODO: allow translations
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private int currentPage;
+    private boolean doubleBackToExitPressedOnce;
+
     private SharedPreferences sharedPreferences;
 
     private ViewFlipper viewFlipper;
@@ -63,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_file() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
+
         mRecyclerView = (RecyclerView) findViewById(R.id.file_recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -71,12 +86,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdapter = new FileAdapter(fileDataArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
-        ImageButton btnGenerate = (ImageButton) findViewById(R.id.ImgBtnFileData);
+        ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
+        final EditText edtPath = (EditText) findViewById(R.id.EdtFile_name);
 
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
+        btnOpenFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: generate hashes, depending on user settings
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                } else {
+                    File mPath = Environment.getExternalStorageDirectory();
+                    FileDialog fileDialog = new FileDialog(MainActivity.this, mPath, null);
+                    fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
+                        public void fileSelected(File file) {
+                            edtPath.setText(file.toString());
+                        }
+                    });
+                    fileDialog.showDialog();
+                }
             }
         });
     }
@@ -98,7 +125,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Press 'BACK' again to exit.", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
 

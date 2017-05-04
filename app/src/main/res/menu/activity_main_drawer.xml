@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/icon_group_nav"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_file"
             android:icon="@drawable/ic_menu_file"
@@ -14,22 +16,26 @@
             android:id="@+id/nav_compare"
             android:icon="@drawable/ic_menu_compare"
             android:title="@string/nav_compare" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/nav_settings" />
     </group>
 
     <item android:title="@string/nav_info">
         <menu>
-            <item
-                android:id="@+id/nav_help"
-                android:icon="@drawable/ic_menu_help"
-                android:title="@string/nav_help" />
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_about"
-                android:title="@string/nav_about" />
+            <group
+                android:id="@+id/icon_group_info"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_help"
+                    android:icon="@drawable/ic_menu_help"
+                    android:title="@string/nav_help" />
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/ic_menu_about"
+                    android:title="@string/nav_about" />
+                <item
+                    android:id="@+id/nav_manage"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="@string/nav_settings" />
+            </group>
         </menu>
     </item>
 
