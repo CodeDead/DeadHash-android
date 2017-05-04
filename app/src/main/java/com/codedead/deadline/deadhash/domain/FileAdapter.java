@@ -2,6 +2,7 @@ package com.codedead.deadline.deadhash.domain;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +39,12 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
         return fileDataList.size();
     }
 
-    public static class FileDataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class FileDataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView encryptionName;
         private TextView encryptionData;
         private ImageButton copyData;
 
-        public FileDataHolder(View v) {
+        FileDataHolder(View v) {
             super(v);
 
             encryptionName = (TextView) v.findViewById(R.id.Encryption_title);
@@ -55,14 +56,15 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
 
         @Override
         public void onClick(View v) {
-            ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(v.getContext().CLIPBOARD_SERVICE);
+            v.getContext();
+            ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText(encryptionName.getText(), encryptionData.getText());
             clipboard.setPrimaryClip(clip);
 
             Toast.makeText(v.getContext(), R.string.toast_data_copied, Toast.LENGTH_SHORT).show();
         }
 
-        public void bindFileData(FileData data) {
+        void bindFileData(FileData data) {
             encryptionName.setText(data.getEncryption_name());
             encryptionData.setText(data.getEncryption_data());
         }

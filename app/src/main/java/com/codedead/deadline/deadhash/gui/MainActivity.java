@@ -1,5 +1,8 @@
 package com.codedead.deadline.deadhash.gui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +21,7 @@ import android.widget.ViewFlipper;
 import com.codedead.deadline.deadhash.R;
 import com.codedead.deadline.deadhash.domain.FileAdapter;
 import com.codedead.deadline.deadhash.domain.FileData;
+import com.codedead.deadline.deadhash.domain.LocaleHelper;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private int currentPage;
+    private SharedPreferences sharedPreferences;
 
     private ViewFlipper viewFlipper;
 
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fileDataArrayList = new ArrayList<>();
+        sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -73,6 +79,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //TODO: generate hashes, depending on user settings
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleHelper.onAttach(getBaseContext());
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
     @Override
