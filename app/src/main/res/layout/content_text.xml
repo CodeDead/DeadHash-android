@@ -40,7 +40,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/Edit_FileCompare"
+                    android:id="@+id/Edit_TextCompare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

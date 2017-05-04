@@ -15,7 +15,7 @@ import com.codedead.deadline.deadhash.R;
 
 import java.util.ArrayList;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FileDataHolder> {
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
     private ArrayList<EncryptionData> encryptionDataList;
 
     public DataAdapter(ArrayList<EncryptionData> encryptionDataList) {
@@ -23,15 +23,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FileDataHolder
     }
 
     @Override
-    public FileDataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.filerecycler_item_row, parent, false);
-        return new FileDataHolder(inflatedView);
+        return new DataHolder(inflatedView);
     }
 
     @Override
-    public void onBindViewHolder(FileDataHolder holder, int position) {
+    public void onBindViewHolder(DataHolder holder, int position) {
         EncryptionData file = encryptionDataList.get(position);
-        holder.bindFileData(file);
+        holder.bindData(file);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FileDataHolder
         return encryptionDataList.size();
     }
 
-    static class FileDataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class DataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView encryptionName;
         private TextView encryptionData;
 
@@ -48,7 +48,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FileDataHolder
 
         private String originalCompare;
 
-        FileDataHolder(View v) {
+        DataHolder(View v) {
             super(v);
 
             encryptionName = (TextView) v.findViewById(R.id.Encryption_title);
@@ -80,7 +80,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FileDataHolder
             Toast.makeText(v.getContext(), R.string.toast_data_copied, Toast.LENGTH_SHORT).show();
         }
 
-        void bindFileData(EncryptionData data) {
+        void bindData(EncryptionData data) {
             encryptionName.setText(data.getEncryption_name());
             encryptionData.setText(data.getEncryption_data());
 

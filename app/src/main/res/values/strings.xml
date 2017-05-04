@@ -27,4 +27,5 @@
     <string name="toast_hash_match">Hash matches your input!</string>
     <string name="toast_hash_mismatch">Hash does not match your input!</string>
     <string name="text_content_hint">Enter your text here</string>
+    <string name="toast_error_notext">Please enter some text first!</string>
 </resources>

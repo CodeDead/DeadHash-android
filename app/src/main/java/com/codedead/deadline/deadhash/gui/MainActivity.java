@@ -45,15 +45,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ViewFlipper viewFlipper;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private DataAdapter mAdapter;
+    private RecyclerView mRecyclerViewFile;
+    private RecyclerView mRecyclerViewText;
+    private RecyclerView.LayoutManager mLayoutManagerFile;
 
-    private ArrayList<EncryptionData> encryptionDataArrayList;
+    private DataAdapter mAdapterFile;
+    private DataAdapter mAdapterText;
+
+    private ArrayList<EncryptionData> fileDataArrayList;
+    private ArrayList<EncryptionData> textDataArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        encryptionDataArrayList = new ArrayList<>();
+        fileDataArrayList = new ArrayList<>();
+        textDataArrayList = new ArrayList<>();
+
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         super.onCreate(savedInstanceState);
@@ -71,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(0).setChecked(true);
 
         viewFlipper = (ViewFlipper) findViewById(R.id.vf);
+
         content_file();
+        content_text();
     }
 
     private void content_file() {
@@ -79,13 +87,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.file_recycler);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
+        mRecyclerViewFile.setHasFixedSize(true);
+        mLayoutManagerFile = new LinearLayoutManager(this);
+        mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
 
-        mAdapter = new DataAdapter(encryptionDataArrayList);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapterFile = new DataAdapter(fileDataArrayList);
+        mRecyclerViewFile.setAdapter(mAdapterFile);
 
         ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
         final EditText edtPath = (EditText) findViewById(R.id.EdtFile_name);
@@ -115,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int size = encryptionDataArrayList.size();
-                encryptionDataArrayList.clear();
-                mAdapter.notifyItemRangeRemoved(0, size);
+                int size = fileDataArrayList.size();
+                fileDataArrayList.clear();
+                mAdapterFile.notifyItemRangeRemoved(0, size);
 
                 File file = new File(edtPath.getText().toString());
                 if (!file.exists()) {
@@ -130,13 +138,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     compare = edtCompare.getText().toString();
                 }
 
-                String md5 = HashService.calculateHash(file, "MD5");
-                String sha1 = HashService.calculateHash(file, "SHA-1");
-                String sha256 = HashService.calculateHash(file, "SHA-256");
-                String sha384 = HashService.calculateHash(file, "SHA-384");
-                String sha512 = HashService.calculateHash(file, "SHA-512");
+                String md5 = HashService.calculateFileHash(file, "MD5");
+                String sha1 = HashService.calculateFileHash(file, "SHA-1");
+                String sha256 = HashService.calculateFileHash(file, "SHA-256");
+                String sha384 = HashService.calculateFileHash(file, "SHA-384");
+                String sha512 = HashService.calculateFileHash(file, "SHA-512");
 
-                String crc32 = HashService.calculateCRC32(file);
+                String crc32 = HashService.calculateFileCRC32(file);
 
                 addFileHash("MD5", md5, compare);
                 addFileHash("SHA-1", sha1, compare);
@@ -149,13 +157,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void content_text() {
+        mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
+        mRecyclerViewText.setHasFixedSize(true);
+        mLayoutManagerFile = new LinearLayoutManager(this);
+        mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
+
+        mAdapterText = new DataAdapter(textDataArrayList);
+        mRecyclerViewText.setAdapter(mAdapterText);
+
+        final EditText edtData = (EditText) findViewById(R.id.EdtText_Content);
+        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateText);
+
+        final EditText edtCompare = (EditText) findViewById(R.id.Edit_TextCompare);
+
+        btnGenerate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtData.getText() == null || edtData.getText().toString().length() == 0) {
+                    Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                int size = textDataArrayList.size();
+                textDataArrayList.clear();
+                mAdapterText.notifyItemRangeRemoved(0, size);
+
+                String data = edtData.getText().toString();
+                String compare = "";
+                if (edtCompare.getText() != null) {
+                    compare = edtCompare.getText().toString();
+                }
+
+                String md5 = HashService.calculateStringHash(data, "MD5");
+                String sha1 = HashService.calculateStringHash(data, "SHA-1");
+                String sha256 = HashService.calculateStringHash(data, "SHA-256");
+                String sha384 = HashService.calculateStringHash(data, "SHA-384");
+                String sha512 = HashService.calculateStringHash(data, "SHA-512");
+
+                String crc32 = HashService.calculateStringCRC32(data);
+
+                addTextHash("MD5", md5, compare);
+                addTextHash("SHA-1", sha1, compare);
+                addTextHash("SHA-256", sha256, compare);
+                addTextHash("SHA-384", sha384, compare);
+                addTextHash("SHA-512", sha512, compare);
+
+                addTextHash("CRC32", crc32, compare);
+            }
+        });
+    }
+
     private void addFileHash(String hashName, String data, String compare) {
         if (hashName == null || hashName.length() == 0) return;
         if (data == null || data.length() == 0) return;
 
         EncryptionData encryptionData = new EncryptionData(hashName, data, compare);
-        encryptionDataArrayList.add(encryptionData);
-        mAdapter.notifyItemInserted(encryptionDataArrayList.size());
+        fileDataArrayList.add(encryptionData);
+        mAdapterFile.notifyItemInserted(fileDataArrayList.size());
+    }
+
+    private void addTextHash(String hashName, String data, String compare) {
+        if (hashName == null || hashName.length() == 0) return;
+        if (data == null || data.length() == 0) return;
+
+        EncryptionData encryptionData = new EncryptionData(hashName, data, compare);
+        textDataArrayList.add(encryptionData);
+        mAdapterText.notifyItemInserted(textDataArrayList.size());
     }
 
     @Override

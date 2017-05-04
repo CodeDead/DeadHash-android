@@ -12,17 +12,29 @@ public final class HashService {
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
-            int halfbyte = (b >>> 4) & 0x0F;
-            int two_halfs = 0;
+            int halfByte = (b >>> 4) & 0x0F;
+            int two_Halfs = 0;
             do {
-                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
-                halfbyte = b & 0x0F;
-            } while (two_halfs++ < 1);
+                buf.append((0 <= halfByte) && (halfByte <= 9) ? (char) ('0' + halfByte) : (char) ('a' + (halfByte - 10)));
+                halfByte = b & 0x0F;
+            } while (two_Halfs++ < 1);
         }
         return buf.toString();
     }
 
-    public static String calculateHash(File fileName, String kind) {
+    public static String calculateStringHash(String text, String kind) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(kind);
+            byte[] textBytes = text.getBytes();
+            md.update(textBytes, 0, textBytes.length);
+            byte[] hash = md.digest();
+            return convertToHex(hash);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static String calculateFileHash(File fileName, String kind) {
         try {
             MessageDigest digest = MessageDigest.getInstance(kind);
             InputStream fis = new FileInputStream(fileName);
@@ -41,7 +53,18 @@ public final class HashService {
         }
     }
 
-    public static String calculateCRC32(File filePath) {
+    public static String calculateStringCRC32(String data) {
+        try {
+            CRC32 crc = new CRC32();
+            crc.update(data.getBytes());
+
+            return "" + crc.getValue();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static String calculateFileCRC32(File filePath) {
         try {
             InputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
             CRC32 crc = new CRC32();
