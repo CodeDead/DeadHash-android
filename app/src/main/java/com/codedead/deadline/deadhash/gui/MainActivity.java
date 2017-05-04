@@ -1,12 +1,8 @@
 package com.codedead.deadline.deadhash.gui;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,15 +11,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ViewFlipper;
 
 import com.codedead.deadline.deadhash.R;
 import com.codedead.deadline.deadhash.domain.FileAdapter;
 import com.codedead.deadline.deadhash.domain.FileData;
 
 import java.util.ArrayList;
-import java.util.List;
 
+//TODO: allow translations
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private int currentPage;
+
+    private ViewFlipper viewFlipper;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -40,19 +43,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final String[] addresses = {"admin@codedead.com"};
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","admin@codedead.com", null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "DeadHash - Android");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses); // String[] addresses
-                startActivity(Intent.createChooser(emailIntent, getString(R.string.text_send_mail)));
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -61,6 +51,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        viewFlipper = (ViewFlipper) findViewById(R.id.vf);
+
+        content_file();
+    }
+
+    private void content_file() {
         mRecyclerView = (RecyclerView) findViewById(R.id.file_recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -69,9 +65,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdapter = new FileAdapter(fileDataArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
-        FileData fileData = new FileData("MD5", "Hello world");
-        fileDataArrayList.add(fileData);
-        mAdapter.notifyItemInserted(fileDataArrayList.size());
+        ImageButton btnGenerate = (ImageButton) findViewById(R.id.ImgBtnFileData);
+
+        btnGenerate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: generate hashes, depending on user settings
+            }
+        });
     }
 
     @Override
@@ -100,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            currentPage = 3;
+            viewFlipper.setDisplayedChild(currentPage);
         }
 
         return super.onOptionsItemSelected(item);
@@ -111,20 +113,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        //TODO: create all pages for content...
 
         if (id == R.id.nav_file) {
-            // Handle the camera action
+            currentPage = 0;
         } else if (id == R.id.nav_text) {
-
+            currentPage = 1;
         } else if (id == R.id.nav_compare) {
-
+            currentPage = 2;
         } else if (id == R.id.nav_manage) {
-
+            currentPage = 3;
         } else if (id == R.id.nav_help) {
-
+            currentPage = 4;
         } else if (id == R.id.nav_about) {
-
+            currentPage = 5;
         }
+
+        viewFlipper.setDisplayedChild(currentPage);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
