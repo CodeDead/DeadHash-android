@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.codedead.deadline.deadhash.R;
 import com.codedead.deadline.deadhash.domain.FileAdapter;
 import com.codedead.deadline.deadhash.domain.FileData;
 import com.codedead.deadline.deadhash.domain.FileDialog;
+import com.codedead.deadline.deadhash.domain.HashService;
 import com.codedead.deadline.deadhash.domain.LocaleHelper;
 
 import java.io.File;
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
         final EditText edtPath = (EditText) findViewById(R.id.EdtFile_name);
+        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateFile);
 
         btnOpenFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +106,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     });
                     fileDialog.showDialog();
+                }
+            }
+        });
+
+
+        btnGenerate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileDataArrayList.clear();
+                mAdapter.notifyDataSetChanged();
+
+                File file = new File(edtPath.getText().toString());
+                if (!file.exists()) {
+                    Toast.makeText(MainActivity.this, "File does not exist!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String md5 = HashService.calculateMD5(file);
+
+                if (md5 != null || md5.length() != 0) {
+                    FileData fileData = new FileData("MD5", md5);
+                    fileDataArrayList.add(fileData);
+                    mAdapter.notifyItemInserted(fileDataArrayList.size());
                 }
             }
         });
