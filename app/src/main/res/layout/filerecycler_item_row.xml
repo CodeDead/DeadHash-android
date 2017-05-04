@@ -26,29 +26,22 @@
 
         </TextView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/Encryption_data"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/Encryption_title"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_gravity="center"
+            android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/Encryption_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_weight="0.85" />
-
-            <ImageButton
-                android:id="@+id/Copy_Data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
-                android:contentDescription="@string/copy_data"
-                android:src="@drawable/ic_content_copy" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/Copy_Data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/copy_data"
+            android:src="@drawable/ic_content_copy" />
 
     </RelativeLayout>
 

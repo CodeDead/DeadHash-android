@@ -66,11 +66,11 @@ public final class HashService {
         return buf.toString();
     }
 
-    public static String calculateSHA1(File filename)
+    public static String calculateHash(File filename, String kind)
     {
         try
         {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            MessageDigest digest = MessageDigest.getInstance(kind);
             InputStream fis = new FileInputStream(filename);
             int n = 0;
             byte[] buffer = new byte[8192];

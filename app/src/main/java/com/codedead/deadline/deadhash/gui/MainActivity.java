@@ -123,22 +123,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
 
-                String md5 = HashService.calculateMD5(file);
-                String sha1 = HashService.calculateSHA1(file);
+                String md5 = HashService.calculateHash(file, "MD5");
+                String sha1 = HashService.calculateHash(file, "SHA-1");
+                String sha256 = HashService.calculateHash(file, "SHA-256");
+                String sha384 = HashService.calculateHash(file, "SHA-384");
+                String sha512 = HashService.calculateHash(file, "SHA-512");
 
                 if (md5 != null && md5.length() != 0) {
-                    FileData fileData = new FileData("MD5", md5);
-                    fileDataArrayList.add(fileData);
-                    mAdapter.notifyItemInserted(fileDataArrayList.size());
+                    addFileHash("MD5", md5);
                 }
 
                 if (sha1 != null && sha1.length() != 0) {
-                    FileData fileData = new FileData("SHA-1", sha1);
-                    fileDataArrayList.add(fileData);
-                    mAdapter.notifyItemInserted(fileDataArrayList.size());
+                    addFileHash("SHA-1", sha1);
+                }
+
+                if (sha256 != null && sha256.length() != 0) {
+                    addFileHash("SHA-256", sha256);
+                }
+
+                if (sha384 != null && sha384.length() != 0) {
+                    addFileHash("SHA-384", sha384);
+                }
+
+                if (sha512 != null && sha512.length() != 0) {
+                    addFileHash("SHA-512", sha512);
                 }
             }
         });
+    }
+
+    private void addFileHash(String hashName, String data) {
+        FileData fileData = new FileData(hashName, data);
+        fileDataArrayList.add(fileData);
+        mAdapter.notifyItemInserted(fileDataArrayList.size());
     }
 
     @Override
