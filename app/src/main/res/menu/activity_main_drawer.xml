@@ -12,10 +12,6 @@
             android:id="@+id/nav_text"
             android:icon="@drawable/ic_menu_text"
             android:title="@string/nav_text" />
-        <item
-            android:id="@+id/nav_compare"
-            android:icon="@drawable/ic_menu_compare"
-            android:title="@string/nav_compare" />
     </group>
 
     <item android:title="@string/nav_info">

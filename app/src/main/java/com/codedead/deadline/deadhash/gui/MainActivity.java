@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final EditText edtPath = (EditText) findViewById(R.id.EdtFile_name);
         Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateFile);
 
+        final EditText edtCompare = (EditText) findViewById(R.id.Edit_FileCompare);
+
         btnOpenFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,13 +116,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int size = fileDataArrayList.size();
                 fileDataArrayList.clear();
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemRangeRemoved(0, size);
 
                 File file = new File(edtPath.getText().toString());
                 if (!file.exists()) {
                     Toast.makeText(MainActivity.this, "File does not exist!", Toast.LENGTH_SHORT).show();
                     return;
+                }
+
+                String compare = "";
+                if (edtCompare.getText() != null) {
+                    compare = edtCompare.getText().toString();
                 }
 
                 String md5 = HashService.calculateHash(file, "MD5");
@@ -129,26 +137,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String sha384 = HashService.calculateHash(file, "SHA-384");
                 String sha512 = HashService.calculateHash(file, "SHA-512");
 
-                String ripemd128 = HashService.calculateHash(file,"RIPEMD128");
-                String ripemd160 = HashService.calculateHash(file,"RIPEMD160");
+                String crc32 = HashService.calculateCRC32(file);
 
-                addFileHash("MD5", md5);
-                addFileHash("SHA-1", sha1);
-                addFileHash("SHA-256", sha256);
-                addFileHash("SHA-384", sha384);
-                addFileHash("SHA-512", sha512);
+                addFileHash("MD5", md5, compare);
+                addFileHash("SHA-1", sha1, compare);
+                addFileHash("SHA-256", sha256, compare);
+                addFileHash("SHA-384", sha384, compare);
+                addFileHash("SHA-512", sha512, compare);
 
-                addFileHash("RIPEMD-128", ripemd128);
-                addFileHash("RIPEMD-160", ripemd160);
+                addFileHash("CRC32", crc32, compare);
             }
         });
     }
 
-    private void addFileHash(String hashName, String data) {
+    private void addFileHash(String hashName, String data, String compare) {
         if (hashName == null || hashName.length() == 0) return;
         if (data == null || data.length() == 0) return;
 
-        FileData fileData = new FileData(hashName, data);
+        FileData fileData = new FileData(hashName, data, compare);
         fileDataArrayList.add(fileData);
         mAdapter.notifyItemInserted(fileDataArrayList.size());
     }
@@ -221,14 +227,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentPage = 0;
         } else if (id == R.id.nav_text) {
             currentPage = 1;
-        } else if (id == R.id.nav_compare) {
+        }  else if (id == R.id.nav_manage) {
             currentPage = 2;
-        } else if (id == R.id.nav_manage) {
-            currentPage = 3;
         } else if (id == R.id.nav_help) {
-            currentPage = 4;
+            currentPage = 3;
         } else if (id == R.id.nav_about) {
-            currentPage = 5;
+            currentPage = 4;
         }
 
         viewFlipper.setDisplayedChild(currentPage);

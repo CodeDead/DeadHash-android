@@ -26,6 +26,15 @@
         </TextView>
 
         <ImageButton
+            android:id="@+id/Compare_check_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/Copy_Data"
+            card_view:srcCompat="@drawable/ic_compare_uncheck">
+
+        </ImageButton>
+
+        <ImageButton
             android:id="@+id/Copy_Data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

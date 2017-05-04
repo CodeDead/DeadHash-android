@@ -42,21 +42,37 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
     static class FileDataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView encryptionName;
         private TextView encryptionData;
+
+        private ImageButton compareData;
         private ImageButton copyData;
+
+        private String originalCompare;
 
         FileDataHolder(View v) {
             super(v);
 
             encryptionName = (TextView) v.findViewById(R.id.Encryption_title);
             encryptionData = (TextView) v.findViewById(R.id.Encryption_data);
+            compareData = (ImageButton) v.findViewById(R.id.Compare_check_image);
+
             copyData = (ImageButton) v.findViewById(R.id.Copy_Data);
 
             copyData.setOnClickListener(this);
+            compareData.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (originalCompare == null || originalCompare.length() == 0) return;
+                    if (originalCompare.equals(encryptionData.getText().toString())) {
+                        Toast.makeText(v.getContext(), "Hash matches your input!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(v.getContext(), "Hash does not match your input!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
-            v.getContext();
             ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText(encryptionName.getText(), encryptionData.getText());
             clipboard.setPrimaryClip(clip);
@@ -67,6 +83,15 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileDataHolder
         void bindFileData(FileData data) {
             encryptionName.setText(data.getEncryption_name());
             encryptionData.setText(data.getEncryption_data());
+
+            if (data.getCompareCheck() != null && data.getCompareCheck().length() != 0) {
+                originalCompare = data.getCompareCheck();
+                if (data.getEncryption_data().equals(data.getCompareCheck())) {
+                    compareData.setImageResource(R.drawable.ic_compare_check);
+                } else {
+                    compareData.setImageResource(R.drawable.ic_compare_uncheck);
+                }
+            }
         }
     }
 }
