@@ -13,4 +13,11 @@
     <string name="nav_info">Info</string>
     <string name="nav_help">Help</string>
     <string name="nav_about">About</string>
+    <string name="text_send_mail">Send email</string>
+    <string name="card_file">File</string>
+    <string name="card_file_path">File path</string>
+    <string name="button_generate">Generate</string>
+    <string name="card_open_folder">Open folder</string>
+    <string name="copy_data">Copy data</string>
+    <string name="toast_data_copied">Data copied to clipboard!</string>
 </resources>
