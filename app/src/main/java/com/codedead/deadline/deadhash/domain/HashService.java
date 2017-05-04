@@ -52,4 +52,40 @@ public final class HashService {
             }
         }
     }
+
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfbyte = (b >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
+                halfbyte = b & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+
+    public static String calculateSHA1(File filename)
+    {
+        try
+        {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            InputStream fis = new FileInputStream(filename);
+            int n = 0;
+            byte[] buffer = new byte[8192];
+            while (n != -1) {
+                n = fis.read(buffer);
+                if (n > 0) {
+                    digest.update(buffer, 0, n);
+                }
+            }
+
+            return convertToHex(digest.digest());
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 }

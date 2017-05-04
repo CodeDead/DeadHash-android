@@ -124,9 +124,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 String md5 = HashService.calculateMD5(file);
+                String sha1 = HashService.calculateSHA1(file);
 
-                if (md5 != null || md5.length() != 0) {
+                if (md5 != null && md5.length() != 0) {
                     FileData fileData = new FileData("MD5", md5);
+                    fileDataArrayList.add(fileData);
+                    mAdapter.notifyItemInserted(fileDataArrayList.size());
+                }
+
+                if (sha1 != null && sha1.length() != 0) {
+                    FileData fileData = new FileData("SHA-1", sha1);
                     fileDataArrayList.add(fileData);
                     mAdapter.notifyItemInserted(fileDataArrayList.size());
                 }
