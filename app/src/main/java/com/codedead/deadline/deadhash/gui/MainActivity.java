@@ -2,13 +2,17 @@ package com.codedead.deadline.deadhash.gui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,16 +41,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private int currentPage;
     private boolean doubleBackToExitPressedOnce;
-
-    private SharedPreferences sharedPreferences;
 
     private ViewFlipper viewFlipper;
 
-    private RecyclerView mRecyclerViewFile;
-    private RecyclerView mRecyclerViewText;
     private RecyclerView.LayoutManager mLayoutManagerFile;
 
     private DataAdapter mAdapterFile;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fileDataArrayList = new ArrayList<>();
         textDataArrayList = new ArrayList<>();
 
-        sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -69,17 +67,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(0).getSubMenu().getItem(0).setChecked(true);
 
         viewFlipper = (ViewFlipper) findViewById(R.id.vf);
 
+        if (savedInstanceState != null) {
+            int flipperPosition = savedInstanceState.getInt("TAB_NUMBER");
+            viewFlipper.setDisplayedChild(flipperPosition);
+
+            if (flipperPosition > 1) {
+
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(flipperPosition - 2).setChecked(true);
+            } else {
+                navigationView.getMenu().getItem(0).getSubMenu().getItem(flipperPosition).setChecked(true);
+            }
+        }
+
         content_file();
         content_text();
+        content_help();
+        content_about();
     }
 
     private void content_file() {
@@ -87,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
-        mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
+        RecyclerView mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
         mRecyclerViewFile.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
@@ -158,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_text() {
-        mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
+        RecyclerView mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
@@ -208,6 +220,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void content_help() {
+        Button btnWebsite = (Button) findViewById(R.id.ButtonWebsite);
+        Button btnSupport = (Button) findViewById(R.id.ButtonSupport);
+
+        btnWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCodeDead();
+            }
+        });
+
+        btnSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareCompat.IntentBuilder.from(MainActivity.this)
+                        .setType("message/rfc822")
+                        .addEmailTo("admin@codedead.com")
+                        .setSubject("DeadHash - Android")
+                        .setText("")
+                        .setChooserTitle("Send us an e-mail")
+                        .startChooser();
+            }
+        });
+    }
+
+    private void content_about() {
+        Button btnWebsite = (Button) findViewById(R.id.BtnWebsiteAbout);
+        btnWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCodeDead();
+            }
+        });
+    }
+
+    private void openCodeDead() {
+        Uri uriUrl = Uri.parse("http://codedead.com/");
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
+    }
+
     private void addFileHash(String hashName, String data, String compare) {
         if (hashName == null || hashName.length() == 0) return;
         if (data == null || data.length() == 0) return;
@@ -227,9 +280,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("TAB_NUMBER", viewFlipper.getDisplayedChild());
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleHelper.onAttach(getBaseContext());
+
+        viewFlipper.setDisplayedChild(3);
     }
 
     @Override
@@ -262,24 +322,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        int page = 0;
         //TODO: create all pages for content...
 
-        if (id == R.id.nav_file) {
-            currentPage = 0;
-        } else if (id == R.id.nav_text) {
-            currentPage = 1;
-        }  else if (id == R.id.nav_manage) {
-            currentPage = 2;
-        } else if (id == R.id.nav_help) {
-            currentPage = 3;
+        if (id == R.id.nav_text) {
+            page = 1;
+        }  else if (id == R.id.nav_help) {
+            page = 2;
         } else if (id == R.id.nav_about) {
-            currentPage = 4;
+            page = 3;
+        } else if (id == R.id.nav_manage) {
+            page = 4;
         }
 
-        viewFlipper.setDisplayedChild(currentPage);
+        viewFlipper.setDisplayedChild(page);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

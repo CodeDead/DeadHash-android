@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/icon_group_nav"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_file"
-            android:icon="@drawable/ic_menu_file"
-            android:title="@string/nav_file" />
-        <item
-            android:id="@+id/nav_text"
-            android:icon="@drawable/ic_menu_text"
-            android:title="@string/nav_text" />
-    </group>
+    <item
+        android:checkable="false"
+        android:title="@string/nav_tools">
+        <menu>
+            <group
+                android:id="@+id/icon_group_nav"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_file"
+                    android:icon="@drawable/ic_menu_file"
+                    android:title="@string/nav_file"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/nav_text"
+                    android:icon="@drawable/ic_menu_text"
+                    android:title="@string/nav_text" />
+            </group>
+        </menu>
+    </item>
 
-    <item android:title="@string/nav_info">
+    <item
+        android:checkable="false"
+        android:title="@string/nav_info">
         <menu>
             <group
                 android:id="@+id/icon_group_info"

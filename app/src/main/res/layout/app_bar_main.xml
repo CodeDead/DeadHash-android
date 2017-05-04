@@ -32,6 +32,12 @@
         <include
             android:id="@+id/textContent"
             layout="@layout/content_text" />
+        <include
+            android:id="@+id/helpContent"
+            layout="@layout/content_help" />
+        <include
+            android:id="@+id/helpContent"
+            layout="@layout/content_about" />
     </ViewFlipper>
 
 </LinearLayout>
