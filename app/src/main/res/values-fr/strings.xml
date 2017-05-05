@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_generate">Générer</string>
+    <string name="button_reset">Réinitialiser</string>
+    <string name="button_save">Sauvegarder</string>
+    <string name="button_support">Soutien</string>
+    <string name="button_website">Site internet</string>
+    <string name="card_file">Fichier:</string>
+    <string name="card_file_path">Chemin du fichier</string>
+    <string name="card_open_folder">Ouvrir un dossier</string>
+    <string name="copy_data">Copier les données</string>
+    <string name="nav_about">A propos</string>
+    <string name="nav_file">Fichier</string>
+    <string name="nav_help">Aide</string>
+    <string name="nav_info">Info</string>
+    <string name="nav_settings">Paramètres</string>
+    <string name="nav_text">Texte</string>
+    <string name="nav_tools">Outils</string>
+    <string name="toast_settings_save">Tous les réglages ont été sauvegardés!</string>
+    <string name="toast_settings_reset">Tous les réglages ont été réinitialisés!</string>
+    <string name="toast_hash_mismatch">Hash ne correspond pas à votre saisie!</string>
+    <string name="toast_hash_match">Le hash correspond à votre saisie!</string>
+    <string name="toast_file_not_found">Fichier ne existe pas!</string>
+    <string name="toast_error_notext">Entrez d\'abord un texte!</string>
+    <string name="toast_data_copied">Les données sont copiées dans le presse-papiers.</string>
+    <string name="toast_back_again">Appuyez de nouveau sur \'RETOURNER\' pour quitter.</string>
+    <string name="text_language">Langue:</string>
+    <string name="text_interface">Interface</string>
+    <string name="text_hash_generator">Générateur hash</string>
+    <string name="text_content_hint">Entrez votre texte ici</string>
+    <string name="text_compare_hint">Placez votre hash ici</string>
+    <string name="text_compare_hash">Comparer hash</string>
+    <string name="text_compare">Comparer:</string>
+    <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
+    <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
+    <string name="text_about">DeadHash a été créé par DeadLine. Cette application peut être utilisée pour générer des hachages de fichiers et de chaînes.\n\nAucune publicité ou périphérique de suivi n\'est inclus dans cette version. Toutes les autorisations requises sont nécessaires pour utiliser correctement cette application.\n\nToutes les images sont gracieusement fournies par Google.\n\nCopyright © CodeDead 2017.</string>
+    <string name="text_help">La génération de hachages de fichiers ne peut être effectuée que lorsque DeadHash a été autorisé à lire votre stockage. Génération hash pour des fichiers plus volumineux peut prendre un certain temps. Cela dépend entièrement du pouvoir de traitement de votre appareil.\n\nLa génération de hachages de texte ne nécessite aucune autorisation supplémentaire. La génération de hachis pour un texte plus grand peut prendre un certain temps. Cela dépend entièrement du pouvoir de traitement de votre appareil.\n\nSi vous rencontrez un bug ou si vous avez besoin de soutien, vous pouvez toujours nous contacter!</string>
+</resources>
