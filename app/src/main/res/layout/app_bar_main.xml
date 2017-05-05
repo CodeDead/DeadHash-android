@@ -36,8 +36,11 @@
             android:id="@+id/helpContent"
             layout="@layout/content_help" />
         <include
-            android:id="@+id/helpContent"
+            android:id="@+id/aboutContent"
             layout="@layout/content_about" />
+        <include
+            android:id="@+id/settingsContent"
+            layout="@layout/content_settings" />
     </ViewFlipper>
 
 </LinearLayout>

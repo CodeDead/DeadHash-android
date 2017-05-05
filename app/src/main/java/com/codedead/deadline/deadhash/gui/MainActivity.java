@@ -25,8 +25,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -53,12 +55,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<EncryptionData> fileDataArrayList;
     private ArrayList<EncryptionData> textDataArrayList;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fileDataArrayList = new ArrayList<>();
         textDataArrayList = new ArrayList<>();
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -81,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewFlipper.setDisplayedChild(flipperPosition);
 
             if (flipperPosition > 1) {
-
                 navigationView.getMenu().getItem(1).getSubMenu().getItem(flipperPosition - 2).setChecked(true);
             } else {
                 navigationView.getMenu().getItem(0).getSubMenu().getItem(flipperPosition).setChecked(true);
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         content_text();
         content_help();
         content_about();
+        content_settings();
     }
 
     private void content_file() {
@@ -150,21 +154,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     compare = edtCompare.getText().toString();
                 }
 
-                String md5 = HashService.calculateFileHash(file, "MD5");
-                String sha1 = HashService.calculateFileHash(file, "SHA-1");
-                String sha256 = HashService.calculateFileHash(file, "SHA-256");
-                String sha384 = HashService.calculateFileHash(file, "SHA-384");
-                String sha512 = HashService.calculateFileHash(file, "SHA-512");
+                if (sharedPreferences.getBoolean("md5", true)) {
+                    String md5 = HashService.calculateFileHash(file, "MD5");
+                    addFileHash("MD5", md5, compare);
+                }
 
-                String crc32 = HashService.calculateFileCRC32(file);
+                if (sharedPreferences.getBoolean("sha1", true)) {
+                    String sha1 = HashService.calculateFileHash(file, "SHA-1");
+                    addFileHash("SHA-1", sha1, compare);
+                }
 
-                addFileHash("MD5", md5, compare);
-                addFileHash("SHA-1", sha1, compare);
-                addFileHash("SHA-256", sha256, compare);
-                addFileHash("SHA-384", sha384, compare);
-                addFileHash("SHA-512", sha512, compare);
+                if (sharedPreferences.getBoolean("sha256", true)) {
+                    String sha256 = HashService.calculateFileHash(file, "SHA-256");
+                    addFileHash("SHA-256", sha256, compare);
+                }
 
-                addFileHash("CRC32", crc32, compare);
+                if (sharedPreferences.getBoolean("sha384", true)) {
+                    String sha384 = HashService.calculateFileHash(file, "SHA-384");
+                    addFileHash("SHA-384", sha384, compare);
+                }
+
+                if (sharedPreferences.getBoolean("sha512", true)) {
+                    String sha512 = HashService.calculateFileHash(file, "SHA-512");
+                    addFileHash("SHA-512", sha512, compare);
+                }
+
+                if (sharedPreferences.getBoolean("crc32", true)) {
+                    String crc32 = HashService.calculateFileCRC32(file);
+                    addFileHash("CRC32", crc32, compare);
+                }
             }
         });
     }
@@ -201,21 +219,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     compare = edtCompare.getText().toString();
                 }
 
-                String md5 = HashService.calculateStringHash(data, "MD5");
-                String sha1 = HashService.calculateStringHash(data, "SHA-1");
-                String sha256 = HashService.calculateStringHash(data, "SHA-256");
-                String sha384 = HashService.calculateStringHash(data, "SHA-384");
-                String sha512 = HashService.calculateStringHash(data, "SHA-512");
+                if (sharedPreferences.getBoolean("md5", true)) {
+                    String md5 = HashService.calculateStringHash(data, "MD5");
+                    addTextHash("MD5", md5, compare);
+                }
 
-                String crc32 = HashService.calculateStringCRC32(data);
+                if (sharedPreferences.getBoolean("sha1", true)) {
+                    String sha1 = HashService.calculateStringHash(data, "SHA-1");
+                    addTextHash("SHA-1", sha1, compare);
+                }
 
-                addTextHash("MD5", md5, compare);
-                addTextHash("SHA-1", sha1, compare);
-                addTextHash("SHA-256", sha256, compare);
-                addTextHash("SHA-384", sha384, compare);
-                addTextHash("SHA-512", sha512, compare);
+                if (sharedPreferences.getBoolean("sha256", true)) {
+                    String sha256 = HashService.calculateStringHash(data, "SHA-256");
+                    addTextHash("SHA-256", sha256, compare);
+                }
 
-                addTextHash("CRC32", crc32, compare);
+                if (sharedPreferences.getBoolean("sha384", true)) {
+                    String sha384 = HashService.calculateStringHash(data, "SHA-384");
+                    addTextHash("SHA-384", sha384, compare);
+                }
+
+                if (sharedPreferences.getBoolean("sha512", true)) {
+                    String sha512 = HashService.calculateStringHash(data, "SHA-512");
+                    addTextHash("SHA-512", sha512, compare);
+                }
+
+                if (sharedPreferences.getBoolean("crc32", true)) {
+                    String crc32 = HashService.calculateStringCRC32(data);
+                    addTextHash("CRC32", crc32, compare);
+                }
             }
         });
     }
@@ -255,6 +287,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void content_settings() {
+        final Spinner spnLanguages = (Spinner) findViewById(R.id.SpnLanguages);
+        final CheckBox ChbMD5 = (CheckBox) findViewById(R.id.ChbMD5);
+        final CheckBox ChbSHA1 = (CheckBox) findViewById(R.id.ChbSHA1);
+        final CheckBox ChbSHA256 = (CheckBox) findViewById(R.id.ChbSHA256);
+        final CheckBox ChbSHA384 = (CheckBox) findViewById(R.id.ChbSHA384);
+        final CheckBox ChbSHA512 = (CheckBox) findViewById(R.id.ChbSHA512);
+        final CheckBox ChbCRC32 = (CheckBox) findViewById(R.id.ChbCRC32);
+
+        Button btnReset = (Button) findViewById(R.id.BtnResetSettings);
+        Button btnSave = (Button) findViewById(R.id.BtnSaveSettings);
+
+        String l = sharedPreferences.getString("language", "en");
+        switch (l) {
+            default:
+            case "en":
+                spnLanguages.setSelection(0);
+                break;
+            case "nl":
+                spnLanguages.setSelection(1);
+                break;
+            case "fr":
+                spnLanguages.setSelection(2);
+                break;
+            case "ge":
+                spnLanguages.setSelection(3);
+                break;
+        }
+
+        ChbMD5.setChecked(sharedPreferences.getBoolean("md5", true));
+        ChbSHA1.setChecked(sharedPreferences.getBoolean("sha1", true));
+        ChbSHA256.setChecked(sharedPreferences.getBoolean("sha256", true));
+        ChbSHA384.setChecked(sharedPreferences.getBoolean("sha384", true));
+        ChbSHA512.setChecked(sharedPreferences.getBoolean("sha512", true));
+        ChbCRC32.setChecked(sharedPreferences.getBoolean("crc32", true));
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveSettings("en",true, true, true, true, true, true);
+                Toast.makeText(MainActivity.this, R.string.toast_settings_reset, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String lang;
+                switch (spnLanguages.getSelectedItemPosition()) {
+                    default:
+                        lang = "en";
+                        break;
+                    case 1:
+                        lang = "nl";
+                        break;
+                    case 2:
+                        lang = "fr";
+                        break;
+                    case 3:
+                        lang = "ge";
+                        break;
+                }
+
+                saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
+                Toast.makeText(MainActivity.this, R.string.toast_settings_save, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveSettings(String lang, boolean MD5, boolean SHA1, boolean SHA256, boolean SHA384, boolean SHA512, boolean CRC32) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+
+        edit.putString("language", lang);
+        edit.putBoolean("md5", MD5);
+        edit.putBoolean("sha1", SHA1);
+        edit.putBoolean("sha256", SHA256);
+        edit.putBoolean("sha384", SHA384);
+        edit.putBoolean("sha512", SHA512);
+        edit.putBoolean("crc32", CRC32);
+
+        edit.apply();
+        recreate();
+    }
+
     private void openCodeDead() {
         Uri uriUrl = Uri.parse("http://codedead.com/");
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
@@ -288,8 +404,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleHelper.onAttach(getBaseContext());
-
-        viewFlipper.setDisplayedChild(3);
     }
 
     @Override
@@ -314,23 +428,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         int page = 0;
-        //TODO: create all pages for content...
 
         if (id == R.id.nav_text) {
             page = 1;
-        }  else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_help) {
             page = 2;
         } else if (id == R.id.nav_about) {
             page = 3;

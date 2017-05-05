@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">DeadHash</string>
     <string name="preferences_file_key" translatable="false">deadhashsettings</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="text_codedead">CodeDead</string>
     <string name="nav_file">File</string>
     <string name="nav_text">Text</string>
     <string name="nav_settings">Settings</string>
@@ -33,4 +29,24 @@
     <string name="text_help">Generating file hashes can only be done when DeadHash has been given permission to read your storage. Generating hashes for larger files may take a while. This depends entirely on the processing power of your device.\n\nGenerating text hashes does not require any additional permissions to be granted. Generating hashes for larger strings may take a while. This depends entirely on the processing power of your device.\n\nIf you happen to come across a bug or if you need support, you can always contact us!</string>
     <string name="nav_tools">Tools</string>
     <string name="text_about">DeadHash was created by DeadLine. This app can be used to generate hashes of files and strings.\n\nNo ads or tracking devices are included in this release. All requested permissions are required in order to properly use this app.\n\nAll images are courtesy of Google.\n\nCopyright © CodeDead 2017.</string>
+    <string name="toast_settings_reset">All settings have been reset!</string>
+    <string name="toast_settings_save">All settings have been saved!</string>
+    <string name="text_interface">Interface</string>
+    <string name="text_language">Language:</string>
+    <string name="text_hash_generator">Hash generator</string>
+    <string name="button_reset">Reset</string>
+    <string name="button_save">Save</string>
+    <string name="md5" translatable="false">MD5</string>
+    <string name="sha_1" translatable="false">SHA-1</string>
+    <string name="sha_256" translatable="false">SHA-256</string>
+    <string name="sha_384" translatable="false">SHA-384</string>
+    <string name="sha_512" translatable="false">SHA-512</string>
+    <string name="crc32" translatable="false">CRC32</string>
+
+    <string-array name="array_languages">
+        <item>English</item>
+        <item>Nederlands</item>
+        <item>Français</item>
+        <item>Deutsch</item>
+    </string-array>
 </resources>
