@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_generate">Genereer</string>
+    <string name="button_reset">Reset</string>
+    <string name="button_save">Opslaan</string>
+    <string name="button_support">Ondersteuning</string>
+    <string name="button_website">Website</string>
+    <string name="card_file">Bestand:</string>
+    <string name="card_file_path">Pad</string>
+    <string name="card_open_folder">Open folder</string>
+    <string name="copy_data">Kopieer data</string>
+    <string name="nav_about">Over</string>
+    <string name="nav_file">Bestand</string>
+    <string name="nav_help">Help</string>
+    <string name="nav_info">Info</string>
+    <string name="nav_settings">Instellingen</string>
+    <string name="nav_text">Tekst</string>
+    <string name="nav_tools">Gereedschap</string>
+    <string name="navigation_drawer_close">Sluit navigatie lade</string>
+    <string name="navigation_drawer_open">Open navigatie lade</string>
+    <string name="text_about">DeadHash werd gemaakt door DeadLine. Deze app kan gebruikt worden om hashes te genereren van bestanden en tekst.\n\nAdvertenties of trackers werden niet toegevoegd in deze release. Alle aangevraagde permissies zijn nodig om de app correct te laten functioneren.\n\nAlle gebruikte afbeeldingen waren gemaakt door Google.\n\nCopyright © CodeDead 2017</string>
+    <string name="text_compare">Vergelijk:</string>
+    <string name="text_compare_hash">Vergelijk hash</string>
+    <string name="text_compare_hint">Plaats uw hash hier</string>
+    <string name="text_content_hint">Plaats uw tekst hier</string>
+    <string name="text_hash_generator">Hash generator</string>
+    <string name="text_help">Bestand hashes kunnen alleen gegenereerd worden indien DeadHash toegang heeft tot uw bestanden. Het genereren van hashes voor grotere bestanden kan enige tijd in beslag nemen. Dit is volledig afhankelijk van de kracht van uw toestel.\n\nHet genereren van tekst hashes heeft geen nood aan additionele permissies. Het genereren van tekst hashes kan enige tijd in beslag nemen. Dit is volledig afhankelijk van de kracht van uw toestel.\n\nIndien u een fout tegenkomt of indien u hulp nodig heeft kunt u ons steeds contacteren!</string>
+    <string name="text_interface">Interface</string>
+    <string name="text_language">Taal:</string>
+    <string name="toast_back_again">Druk nogmaals op \'TERUG\' om de app te sluiten.</string>
+    <string name="toast_data_copied">Data gekopieerd naar het klembord.</string>
+    <string name="toast_error_notext">Gelieve eerst tekst op te geven!</string>
+    <string name="toast_file_not_found">Bestand bestaat niet!</string>
+    <string name="toast_hash_match">Hash is gelijk aan uw input!</string>
+    <string name="toast_hash_mismatch">Hash is niet gelijk aan uw input!</string>
+    <string name="toast_settings_reset">Alle instellingen zijn hersteld!</string>
+    <string name="toast_settings_save">Alle instellingen zijn opgeslagen!</string>
+</resources>

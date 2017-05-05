@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textDataArrayList = new ArrayList<>();
 
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
+        LocaleHelper.setLocale(this, sharedPreferences.getString("language", "en"));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -300,6 +301,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Button btnSave = (Button) findViewById(R.id.BtnSaveSettings);
 
         String l = sharedPreferences.getString("language", "en");
+
+
         switch (l) {
             default:
             case "en":
@@ -327,7 +330,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 saveSettings("en",true, true, true, true, true, true);
-                Toast.makeText(MainActivity.this, R.string.toast_settings_reset, Toast.LENGTH_SHORT).show();
+                Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
+                Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
+                recreate();
             }
         });
 
@@ -351,7 +356,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
-                Toast.makeText(MainActivity.this, R.string.toast_settings_save, Toast.LENGTH_SHORT).show();
+                Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
+                Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
+                recreate();
             }
         });
     }
@@ -368,7 +375,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         edit.putBoolean("crc32", CRC32);
 
         edit.apply();
-        recreate();
     }
 
     private void openCodeDead() {
