@@ -35,4 +35,5 @@
     <string name="toast_hash_mismatch">Hash is niet gelijk aan uw input!</string>
     <string name="toast_settings_reset">Alle instellingen zijn hersteld!</string>
     <string name="toast_settings_save">Alle instellingen zijn opgeslagen!</string>
+    <string name="text_send_mail">Stuur ons een e-mail</string>
 </resources>

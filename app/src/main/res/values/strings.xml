@@ -42,8 +42,10 @@
     <string name="sha_384" translatable="false">SHA-384</string>
     <string name="sha_512" translatable="false">SHA-512</string>
     <string name="crc32" translatable="false">CRC32</string>
+    <string name="text_send_mail">Send us an e-mail</string>
+    <string name="hint_launcher_icon" translatable="false">Launcher icon</string>
 
-    <string-array name="array_languages">
+    <string-array name="array_languages" translatable="false">
         <item>English</item>
         <item>Nederlands</item>
         <item>Français</item>

@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_reset"></Button>
+            android:text="@string/button_reset" />
 
         <Button
             android:id="@+id/BtnSaveSettings"
@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_save"></Button>
+            android:text="@string/button_save" />
 
     </LinearLayout>
 

@@ -26,21 +26,11 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/fileContent"
-            layout="@layout/content_file" />
-        <include
-            android:id="@+id/textContent"
-            layout="@layout/content_text" />
-        <include
-            android:id="@+id/helpContent"
-            layout="@layout/content_help" />
-        <include
-            android:id="@+id/aboutContent"
-            layout="@layout/content_about" />
-        <include
-            android:id="@+id/settingsContent"
-            layout="@layout/content_settings" />
+        <include layout="@layout/content_file" />
+        <include layout="@layout/content_text" />
+        <include layout="@layout/content_help" />
+        <include layout="@layout/content_about" />
+        <include layout="@layout/content_settings" />
     </ViewFlipper>
 
 </LinearLayout>

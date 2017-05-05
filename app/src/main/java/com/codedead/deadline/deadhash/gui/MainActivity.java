@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .addEmailTo("admin@codedead.com")
                         .setSubject("DeadHash - Android")
                         .setText("")
-                        .setChooserTitle("Send us an e-mail")
+                        .setChooserTitle(R.string.text_send_mail)
                         .startChooser();
             }
         });
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "fr":
                 spnLanguages.setSelection(2);
                 break;
-            case "ge":
+            case "de":
                 spnLanguages.setSelection(3);
                 break;
         }
@@ -351,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         lang = "fr";
                         break;
                     case 3:
-                        lang = "ge";
+                        lang = "de";
                         break;
                 }
 
@@ -442,7 +442,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         int page = 0;
 

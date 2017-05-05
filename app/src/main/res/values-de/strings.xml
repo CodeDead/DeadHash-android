@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_generate">Generieren</string>
+    <string name="button_reset">Zurücksetzen</string>
+    <string name="button_save">Sparen</string>
+    <string name="button_support">Unterstützung</string>
+    <string name="button_website">Webseite</string>
+    <string name="card_file">Datei:</string>
+    <string name="card_file_path">Dateipfad</string>
+    <string name="card_open_folder">Ordner öffnen</string>
+    <string name="copy_data">Daten kopieren</string>
+    <string name="nav_about">Über</string>
+    <string name="nav_file">Datei</string>
+    <string name="nav_help">Hilfe</string>
+    <string name="nav_info">Info</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="nav_text">Text</string>
+    <string name="nav_tools">Werkzeuge</string>
+    <string name="navigation_drawer_close">Schliessschloss schließen</string>
+    <string name="navigation_drawer_open">Öffnen Sie die Schublade</string>
+    <string name="text_about">DeadHash wurde von DeadLine erstellt. Diese App kann verwendet werden, um Hashes von Dateien und Strings zu erzeugen.\n\nIn dieser Version sind keine Anzeigen oder Tracking-Geräte enthalten. Alle erforderlichen Berechtigungen sind erforderlich, um diese App richtig nutzen zu können.\n\nAlle Bilder sind mit freundlicher Genehmigung von Google.\n\nCopyright © CodeDead 2017</string>
+    <string name="text_compare">Vergleichen:</string>
+    <string name="text_compare_hash">Hash vergleichen</string>
+    <string name="text_compare_hint">Lege deinen Hash hier</string>
+    <string name="text_content_hint">Geben Sie hier Ihren Text ein</string>
+    <string name="text_hash_generator">Hash Generator</string>
+    <string name="text_help">Das Erstellen von Aktenhacken kann nur durchgeführt werden, wenn DeadHash die Berechtigung zum Lesen deines Speichers erhalten hat. Das Erzeugen von Hashes für größere Dateien kann eine Weile dauern. Dies hängt ganz von der Rechenleistung Ihres Gerätes ab.\n\nBei der Erstellung von Text-Hashes sind keine zusätzlichen Berechtigungen erforderlich. Das Erzeugen von Hashes für größere Saiten kann eine Weile dauern. Dies hängt ganz von der Rechenleistung Ihres Gerätes ab.\n\nWenn du zufällig über einen Bug kommst oder wenn du Unterstützung brauchst, kannst du uns jederzeit kontaktieren!</string>
+    <string name="text_interface">Schnittstelle</string>
+    <string name="text_language">Sprache:</string>
+    <string name="toast_back_again">Drücken Sie erneut \'ZURÜCK\', um zu beenden.</string>
+    <string name="toast_data_copied">Daten in die Zwischenablage kopiert!</string>
+    <string name="toast_error_notext">Bitte zuerst einen Text eingeben!</string>
+    <string name="toast_file_not_found">Die Datei existiert nicht!</string>
+    <string name="toast_hash_match">Hash passt zu Ihrer Eingabe!</string>
+    <string name="toast_hash_mismatch">Hash stimmt nicht mit deinem Eingang überein!</string>
+    <string name="toast_settings_reset">Alle Einstellungen wurden zurückgesetzt!</string>
+    <string name="toast_settings_save">Alle Einstellungen wurden gespeichert!</string>
+    <string name="text_send_mail">Senden Sie uns eine Email</string>
+</resources>

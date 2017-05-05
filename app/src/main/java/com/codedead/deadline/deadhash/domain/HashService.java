@@ -13,11 +13,11 @@ public final class HashService {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
             int halfByte = (b >>> 4) & 0x0F;
-            int two_Halfs = 0;
+            int two_Halves = 0;
             do {
                 buf.append((0 <= halfByte) && (halfByte <= 9) ? (char) ('0' + halfByte) : (char) ('a' + (halfByte - 10)));
                 halfByte = b & 0x0F;
-            } while (two_Halfs++ < 1);
+            } while (two_Halves++ < 1);
         }
         return buf.toString();
     }
