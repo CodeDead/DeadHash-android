@@ -11,8 +11,7 @@
                 <item
                     android:id="@+id/nav_file"
                     android:icon="@drawable/ic_menu_file"
-                    android:title="@string/nav_file"
-                    android:checked="true"/>
+                    android:title="@string/nav_file"/>
                 <item
                     android:id="@+id/nav_text"
                     android:icon="@drawable/ic_menu_text"

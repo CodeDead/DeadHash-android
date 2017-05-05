@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).getSubMenu().getItem(0).setChecked(true);
 
         viewFlipper = (ViewFlipper) findViewById(R.id.vf);
 
@@ -86,10 +85,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewFlipper.setDisplayedChild(flipperPosition);
 
             if (flipperPosition > 1) {
-                navigationView.getMenu().getItem(1).getSubMenu().getItem(flipperPosition - 2).setChecked(true);
+                navigationView.setCheckedItem(navigationView.getMenu().getItem(1).getSubMenu().getItem(flipperPosition - 2).getItemId());
             } else {
-                navigationView.getMenu().getItem(0).getSubMenu().getItem(flipperPosition).setChecked(true);
+                navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(flipperPosition).getItemId());
             }
+        } else {
+            navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getItemId());
         }
 
         content_file();
