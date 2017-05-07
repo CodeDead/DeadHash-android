@@ -58,7 +58,7 @@ public final class HashService {
             CRC32 crc = new CRC32();
             crc.update(data.getBytes());
 
-            return "" + crc.getValue();
+            return Long.toHexString(crc.getValue());
         } catch (Exception ex) {
             return null;
         }
@@ -73,7 +73,7 @@ public final class HashService {
             while ((cnt = inputStream.read()) != -1) {
                 crc.update(cnt);
             }
-            return "" + crc.getValue();
+            return Long.toHexString(crc.getValue());
         } catch (Exception ex) {
             return null;
         }
