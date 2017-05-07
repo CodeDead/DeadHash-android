@@ -38,6 +38,7 @@
     <string name="button_save">Save</string>
     <string name="md5" translatable="false">MD5</string>
     <string name="sha_1" translatable="false">SHA-1</string>
+    <string name="sha_224" translatable="false">SHA-224</string>
     <string name="sha_256" translatable="false">SHA-256</string>
     <string name="sha_384" translatable="false">SHA-384</string>
     <string name="sha_512" translatable="false">SHA-512</string>

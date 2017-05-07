@@ -47,20 +47,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ViewFlipper viewFlipper;
 
+    private RecyclerView mRecyclerViewFile;
+    private RecyclerView mRecyclerViewText;
+
     private RecyclerView.LayoutManager mLayoutManagerFile;
 
-    private DataAdapter mAdapterFile;
-    private DataAdapter mAdapterText;
+    private ArrayList<EncryptionData> fileDataArrayList = new ArrayList<>();
+    private ArrayList<EncryptionData> textDataArrayList = new ArrayList<>();
 
-    private ArrayList<EncryptionData> fileDataArrayList;
-    private ArrayList<EncryptionData> textDataArrayList;
+    private DataAdapter mAdapterFile = new DataAdapter(fileDataArrayList);
+    private DataAdapter mAdapterText = new DataAdapter(textDataArrayList);
 
     private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fileDataArrayList = new ArrayList<>();
-        textDataArrayList = new ArrayList<>();
 
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
         LocaleHelper.setLocale(this, sharedPreferences.getString("language", "en"));
@@ -105,12 +106,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
-        RecyclerView mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
+        mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
         mRecyclerViewFile.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
 
-        mAdapterFile = new DataAdapter(fileDataArrayList);
         mRecyclerViewFile.setAdapter(mAdapterFile);
 
         ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
@@ -141,9 +141,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int size = fileDataArrayList.size();
+                mRecyclerViewFile.setAdapter(null);
+
+                fileDataArrayList = new ArrayList<>();
+                mAdapterFile = new DataAdapter(fileDataArrayList);
+
+                mRecyclerViewFile.setAdapter(mAdapterFile);
+
                 fileDataArrayList.clear();
-                mAdapterFile.notifyItemRangeRemoved(0, size);
+                mAdapterFile.notifyDataSetChanged();
 
                 File file = new File(edtPath.getText().toString());
                 if (!file.exists()) {
@@ -164,6 +170,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (sharedPreferences.getBoolean("sha1", true)) {
                     String sha1 = HashService.calculateFileHash(file, "SHA-1");
                     addFileHash("SHA-1", sha1, compare);
+                }
+
+                if (sharedPreferences.getBoolean("sha224", true)) {
+                    String sha224 = HashService.calculateFileHash(file, "SHA-224");
+                    addFileHash("SHA-224", sha224, compare);
                 }
 
                 if (sharedPreferences.getBoolean("sha256", true)) {
@@ -190,12 +201,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_text() {
-        RecyclerView mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
+        mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
 
-        mAdapterText = new DataAdapter(textDataArrayList);
         mRecyclerViewText.setAdapter(mAdapterText);
 
         final EditText edtData = (EditText) findViewById(R.id.EdtText_Content);
@@ -206,14 +216,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mRecyclerViewText.setAdapter(null);
+
+                textDataArrayList = new ArrayList<>();
+                mAdapterText = new DataAdapter(textDataArrayList);
+
+                mRecyclerViewText.setAdapter(mAdapterText);
+
+                fileDataArrayList.clear();
+                mAdapterText.notifyDataSetChanged();
+
                 if (edtData.getText() == null || edtData.getText().toString().length() == 0) {
                     Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                int size = textDataArrayList.size();
                 textDataArrayList.clear();
-                mAdapterText.notifyItemRangeRemoved(0, size);
+                mAdapterText.notifyDataSetChanged();
 
                 String data = edtData.getText().toString();
                 String compare = "";
@@ -229,6 +248,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (sharedPreferences.getBoolean("sha1", true)) {
                     String sha1 = HashService.calculateStringHash(data, "SHA-1");
                     addTextHash("SHA-1", sha1, compare);
+                }
+
+                if (sharedPreferences.getBoolean("sha224", true)) {
+                    String sha224 = HashService.calculateStringHash(data, "SHA-224");
+                    addTextHash("SHA-224", sha224, compare);
                 }
 
                 if (sharedPreferences.getBoolean("sha256", true)) {
@@ -293,6 +317,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Spinner spnLanguages = (Spinner) findViewById(R.id.SpnLanguages);
         final CheckBox ChbMD5 = (CheckBox) findViewById(R.id.ChbMD5);
         final CheckBox ChbSHA1 = (CheckBox) findViewById(R.id.ChbSHA1);
+        final CheckBox ChbSHA224 = (CheckBox) findViewById(R.id.ChbSHA224);
         final CheckBox ChbSHA256 = (CheckBox) findViewById(R.id.ChbSHA256);
         final CheckBox ChbSHA384 = (CheckBox) findViewById(R.id.ChbSHA384);
         final CheckBox ChbSHA512 = (CheckBox) findViewById(R.id.ChbSHA512);
@@ -302,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Button btnSave = (Button) findViewById(R.id.BtnSaveSettings);
 
         String l = sharedPreferences.getString("language", "en");
-
 
         switch (l) {
             default:
@@ -322,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ChbMD5.setChecked(sharedPreferences.getBoolean("md5", true));
         ChbSHA1.setChecked(sharedPreferences.getBoolean("sha1", true));
+        ChbSHA224.setChecked(sharedPreferences.getBoolean("sha224", true));
         ChbSHA256.setChecked(sharedPreferences.getBoolean("sha256", true));
         ChbSHA384.setChecked(sharedPreferences.getBoolean("sha384", true));
         ChbSHA512.setChecked(sharedPreferences.getBoolean("sha512", true));
@@ -330,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveSettings("en",true, true, true, true, true, true);
+                saveSettings("en",true, true, true, true, true, true, true);
                 Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
                 Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
                 recreate();
@@ -356,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                 }
 
-                saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
+                saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
                 Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
                 Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
                 recreate();
@@ -364,12 +389,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void saveSettings(String lang, boolean MD5, boolean SHA1, boolean SHA256, boolean SHA384, boolean SHA512, boolean CRC32) {
+    private void saveSettings(String lang, boolean MD5, boolean SHA1, boolean SHA224, boolean SHA256, boolean SHA384, boolean SHA512, boolean CRC32) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
 
         edit.putString("language", lang);
         edit.putBoolean("md5", MD5);
         edit.putBoolean("sha1", SHA1);
+        edit.putBoolean("sha224", SHA224);
         edit.putBoolean("sha256", SHA256);
         edit.putBoolean("sha384", SHA384);
         edit.putBoolean("sha512", SHA512);

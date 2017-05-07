@@ -11,7 +11,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -42,7 +41,6 @@
                     android:id="@+id/ImgBtnFileData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
                     android:contentDescription="@string/card_open_folder"
                     android:src="@drawable/ic_open_folder" />
             </TableRow>
@@ -58,9 +56,9 @@
 
                 <EditText
                     android:id="@+id/Edit_FileCompare"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:hint="@string/text_compare_hint" />
             </TableRow>
         </TableLayout>

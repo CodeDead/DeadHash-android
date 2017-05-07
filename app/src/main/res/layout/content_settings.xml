@@ -66,23 +66,30 @@
         <TableRow android:gravity="center">
 
             <CheckBox
-                android:id="@+id/ChbSHA256"
-                android:text="@string/sha_256"
+                android:id="@+id/ChbSHA224"
+                android:text="@string/sha_224"
                 android:textSize="16sp" />
 
             <CheckBox
-                android:id="@+id/ChbSHA384"
-                android:text="@string/sha_384"
+                android:id="@+id/ChbSHA256"
+                android:text="@string/sha_256"
                 android:textSize="16sp" />
         </TableRow>
 
         <TableRow android:gravity="center">
 
             <CheckBox
+                android:id="@+id/ChbSHA384"
+                android:text="@string/sha_384"
+                android:textSize="16sp" />
+
+            <CheckBox
                 android:id="@+id/ChbSHA512"
                 android:text="@string/sha_512"
                 android:textSize="16sp" />
+        </TableRow>
 
+        <TableRow android:gravity="center">
             <CheckBox
                 android:id="@+id/ChbCRC32"
                 android:text="@string/crc32"

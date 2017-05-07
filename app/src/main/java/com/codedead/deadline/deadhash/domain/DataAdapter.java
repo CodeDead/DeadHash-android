@@ -91,6 +91,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
                 } else {
                     compareData.setImageResource(R.drawable.ic_compare_uncheck);
                 }
+            } else {
+                compareData.setVisibility(View.INVISIBLE);
             }
         }
     }
