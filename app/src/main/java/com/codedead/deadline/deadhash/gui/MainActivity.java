@@ -231,9 +231,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
 
-                textDataArrayList.clear();
-                mAdapterText.notifyDataSetChanged();
-
                 String data = edtData.getText().toString();
                 String compare = "";
                 if (edtCompare.getText() != null) {
