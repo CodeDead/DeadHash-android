@@ -7,14 +7,14 @@ public class EncryptionData {
 
     private String compareCheck;
 
-    public EncryptionData(String encryption_name, String encryption_data, String compareCheck) {
+    EncryptionData(String encryption_name, String encryption_data, String compareCheck) {
         this.encryption_name = encryption_name;
         this.encryption_data = encryption_data;
 
         this.compareCheck = compareCheck;
     }
 
-    public String getCompareCheck() {
+    String getCompareCheck() {
         return compareCheck;
     }
 

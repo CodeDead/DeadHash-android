@@ -81,6 +81,12 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
 
+    <ProgressBar
+        android:id="@+id/PgbFile"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/file_recycler"
         android:layout_width="match_parent"

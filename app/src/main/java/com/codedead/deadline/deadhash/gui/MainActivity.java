@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -36,19 +38,29 @@ import com.codedead.deadline.deadhash.R;
 import com.codedead.deadline.deadhash.domain.DataAdapter;
 import com.codedead.deadline.deadhash.domain.EncryptionData;
 import com.codedead.deadline.deadhash.domain.FileDialog;
-import com.codedead.deadline.deadhash.domain.HashService;
+import com.codedead.deadline.deadhash.domain.FileHashGenerator;
+import com.codedead.deadline.deadhash.domain.HashGenerator;
+import com.codedead.deadline.deadhash.domain.HashResponse;
 import com.codedead.deadline.deadhash.domain.LocaleHelper;
+import com.codedead.deadline.deadhash.domain.TextHashGenerator;
+import com.tapadoo.alerter.Alerter;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, HashResponse {
     private boolean doubleBackToExitPressedOnce;
 
     private ViewFlipper viewFlipper;
 
     private RecyclerView mRecyclerViewFile;
     private RecyclerView mRecyclerViewText;
+
+    private ProgressBar pgbFile;
+    private ProgressBar pgbText;
 
     private RecyclerView.LayoutManager mLayoutManagerFile;
 
@@ -59,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DataAdapter mAdapterText = new DataAdapter(textDataArrayList);
 
     private SharedPreferences sharedPreferences;
+
+    private boolean fileLoading;
+    private boolean textLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +114,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         content_help();
         content_about();
         content_settings();
+
+        content_alerts();
+    }
+
+    private void content_alerts() {
+        if (sharedPreferences.getInt("reviewTimes", 0) >= 2) return;
+
+        Random rnd = new Random();
+
+        new CountDownTimer(rnd.nextInt(30) * 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                Alerter.create(MainActivity.this)
+                        .setTitle(R.string.alert_review_title)
+                        .setText(R.string.alert_review_text)
+                        .setIcon(R.drawable.ic_rate_review)
+                        .setBackgroundColor(R.color.colorAccent)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                addReview(true);
+                                openPlayStore();
+                            }
+                        })
+                        .show();
+                addReview(false);
+            }
+        }.start();
+    }
+
+    private void addReview(boolean done) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (done) {
+            editor.putInt("reviewTimes", 3);
+        } else {
+            editor.putInt("reviewTimes", sharedPreferences.getInt("reviewTimes", 0) + 1);
+        }
+
+        editor.apply();
     }
 
     private void content_file() {
@@ -106,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
+        pgbFile = (ProgressBar) findViewById(R.id.PgbFile);
         mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
         mRecyclerViewFile.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
@@ -141,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (fileLoading) return;
+
                 mRecyclerViewFile.setAdapter(null);
 
                 fileDataArrayList = new ArrayList<>();
@@ -162,45 +226,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     compare = edtCompare.getText().toString();
                 }
 
-                if (sharedPreferences.getBoolean("md5", true)) {
-                    String md5 = HashService.calculateFileHash(file, "MD5");
-                    addFileHash("MD5", md5, compare);
-                }
+                try {
+                    HashGenerator fileHashGenerator = new FileHashGenerator(
+                            file,
+                            sharedPreferences.getBoolean("md5", true),
+                            sharedPreferences.getBoolean("sha1", true),
+                            sharedPreferences.getBoolean("sha224", true),
+                            sharedPreferences.getBoolean("sha256", true),
+                            sharedPreferences.getBoolean("sha384", true),
+                            sharedPreferences.getBoolean("sha512", true),
+                            sharedPreferences.getBoolean("crc32", true),
+                            compare);
+                    fileLoading = true;
+                    fileHashGenerator.delegate = MainActivity.this;
+                    fileHashGenerator.execute();
 
-                if (sharedPreferences.getBoolean("sha1", true)) {
-                    String sha1 = HashService.calculateFileHash(file, "SHA-1");
-                    addFileHash("SHA-1", sha1, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha224", true)) {
-                    String sha224 = HashService.calculateFileHash(file, "SHA-224");
-                    addFileHash("SHA-224", sha224, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha256", true)) {
-                    String sha256 = HashService.calculateFileHash(file, "SHA-256");
-                    addFileHash("SHA-256", sha256, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha384", true)) {
-                    String sha384 = HashService.calculateFileHash(file, "SHA-384");
-                    addFileHash("SHA-384", sha384, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha512", true)) {
-                    String sha512 = HashService.calculateFileHash(file, "SHA-512");
-                    addFileHash("SHA-512", sha512, compare);
-                }
-
-                if (sharedPreferences.getBoolean("crc32", true)) {
-                    String crc32 = HashService.calculateFileCRC32(file);
-                    addFileHash("CRC32", crc32, compare);
+                    pgbFile.setVisibility(View.VISIBLE);
+                } catch (IOException e) {
+                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    pgbFile.setVisibility(View.GONE);
                 }
             }
         });
     }
 
     private void content_text() {
+        pgbText = (ProgressBar) findViewById(R.id.PgbText);
         mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
@@ -216,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (textLoading) return;
                 mRecyclerViewText.setAdapter(null);
 
                 textDataArrayList = new ArrayList<>();
@@ -237,40 +289,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     compare = edtCompare.getText().toString();
                 }
 
-                if (sharedPreferences.getBoolean("md5", true)) {
-                    String md5 = HashService.calculateStringHash(data, "MD5");
-                    addTextHash("MD5", md5, compare);
-                }
 
-                if (sharedPreferences.getBoolean("sha1", true)) {
-                    String sha1 = HashService.calculateStringHash(data, "SHA-1");
-                    addTextHash("SHA-1", sha1, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha224", true)) {
-                    String sha224 = HashService.calculateStringHash(data, "SHA-224");
-                    addTextHash("SHA-224", sha224, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha256", true)) {
-                    String sha256 = HashService.calculateStringHash(data, "SHA-256");
-                    addTextHash("SHA-256", sha256, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha384", true)) {
-                    String sha384 = HashService.calculateStringHash(data, "SHA-384");
-                    addTextHash("SHA-384", sha384, compare);
-                }
-
-                if (sharedPreferences.getBoolean("sha512", true)) {
-                    String sha512 = HashService.calculateStringHash(data, "SHA-512");
-                    addTextHash("SHA-512", sha512, compare);
-                }
-
-                if (sharedPreferences.getBoolean("crc32", true)) {
-                    String crc32 = HashService.calculateStringCRC32(data);
-                    addTextHash("CRC32", crc32, compare);
-                }
+                HashGenerator textHashGenerator = new TextHashGenerator(
+                        data.getBytes(),
+                        sharedPreferences.getBoolean("md5", true),
+                        sharedPreferences.getBoolean("sha1", true),
+                        sharedPreferences.getBoolean("sha224", true),
+                        sharedPreferences.getBoolean("sha256", true),
+                        sharedPreferences.getBoolean("sha384", true),
+                        sharedPreferences.getBoolean("sha512", true),
+                        sharedPreferences.getBoolean("crc32", true),
+                        compare);
+                textLoading = true;
+                textHashGenerator.delegate = MainActivity.this;
+                textHashGenerator.execute();
+                pgbText.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -282,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCodeDead();
+                openSite("http://codedead.com/");
             }
         });
 
@@ -305,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCodeDead();
+                openSite("http://codedead.com/");
             }
         });
     }
@@ -401,28 +434,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         edit.apply();
     }
 
-    private void openCodeDead() {
-        Uri uriUrl = Uri.parse("http://codedead.com/");
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-        startActivity(launchBrowser);
+    private void openSite(String site) {
+        try {
+            Uri uriUrl = Uri.parse(site);
+            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+            startActivity(launchBrowser);
+        } catch (Exception e) {
+
+        }
     }
 
-    private void addFileHash(String hashName, String data, String compare) {
-        if (hashName == null || hashName.length() == 0) return;
-        if (data == null || data.length() == 0) return;
+    private void openPlayStore() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=com.codedead.deadline.deadhash"));
+            startActivity(intent);
+        } catch (Exception e) {
 
-        EncryptionData encryptionData = new EncryptionData(hashName, data, compare);
-        fileDataArrayList.add(encryptionData);
-        mAdapterFile.notifyItemInserted(fileDataArrayList.size());
-    }
-
-    private void addTextHash(String hashName, String data, String compare) {
-        if (hashName == null || hashName.length() == 0) return;
-        if (data == null || data.length() == 0) return;
-
-        EncryptionData encryptionData = new EncryptionData(hashName, data, compare);
-        textDataArrayList.add(encryptionData);
-        mAdapterText.notifyItemInserted(textDataArrayList.size());
+        }
     }
 
     @Override
@@ -484,5 +513,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void hashDataFile(List<EncryptionData> data) {
+        fileLoading = false;
+        pgbFile.setVisibility(View.GONE);
+
+        for (EncryptionData d : data) {
+            fileDataArrayList.add(d);
+            mAdapterFile.notifyItemInserted(fileDataArrayList.size());
+        }
+    }
+
+    @Override
+    public void hashDataText(List<EncryptionData> data) {
+        textLoading = false;
+        pgbText.setVisibility(View.GONE);
+
+        for (EncryptionData d : data) {
+            textDataArrayList.add(d);
+            mAdapterText.notifyItemInserted(textDataArrayList.size());
+        }
     }
 }

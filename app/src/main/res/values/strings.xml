@@ -45,6 +45,8 @@
     <string name="crc32" translatable="false">CRC32</string>
     <string name="text_send_mail">Send us an e-mail</string>
     <string name="hint_launcher_icon" translatable="false">Launcher icon</string>
+    <string name="alert_review_title">Review</string>
+    <string name="alert_review_text">Consider leaving a review if you like this app!</string>
 
     <string-array name="array_languages" translatable="false">
         <item>English</item>
