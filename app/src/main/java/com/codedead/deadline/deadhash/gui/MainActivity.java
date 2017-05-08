@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doubleBackToExitPressedOnce;
 
     private ViewFlipper viewFlipper;
+    private EditText edtFileCompare;
+    private EditText edtFilePath;
+    private EditText edtTextCompare;
+    private EditText edtTextData;
 
     private RecyclerView mRecyclerViewFile;
     private RecyclerView mRecyclerViewText;
@@ -173,21 +177,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
 
-        if (savedInstance != null && savedInstance.containsKey("FILE_KEY")) {
-            fileDataArrayList = savedInstance.getParcelableArrayList("FILE_KEY");
-            if (fileDataArrayList != null) {
-                mAdapterFile = new DataAdapter(fileDataArrayList);
-                mAdapterFile.notifyDataSetChanged();
+        ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
+        edtFilePath = (EditText) findViewById(R.id.EdtFile_name);
+        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateFile);
+        edtFileCompare = (EditText) findViewById(R.id.Edit_FileCompare);
+
+        if (savedInstance != null) {
+            if (savedInstance.containsKey("FILE_PATH")) {
+                edtFilePath.setText(savedInstance.getString("FILE_PATH"));
+            }
+            if (savedInstance.containsKey("FILE_COMPARE")) {
+                edtFileCompare.setText(savedInstance.getString("FILE_COMPARE"));
+            }
+            if (savedInstance.containsKey("FILE_KEY")) {
+                fileDataArrayList = savedInstance.getParcelableArrayList("FILE_KEY");
+                if (fileDataArrayList != null) {
+                    mAdapterFile = new DataAdapter(fileDataArrayList);
+                    mAdapterFile.notifyDataSetChanged();
+                }
             }
         }
 
         mRecyclerViewFile.setAdapter(mAdapterFile);
-
-        ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
-        final EditText edtPath = (EditText) findViewById(R.id.EdtFile_name);
-        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateFile);
-
-        final EditText edtCompare = (EditText) findViewById(R.id.Edit_FileCompare);
 
         btnOpenFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     FileDialog fileDialog = new FileDialog(MainActivity.this, mPath, null);
                     fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
                         public void fileSelected(File file) {
-                            edtPath.setText(file.toString());
+                            edtFilePath.setText(file.toString());
                         }
                     });
                     fileDialog.showDialog();
@@ -223,15 +234,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fileDataArrayList.clear();
                 mAdapterFile.notifyDataSetChanged();
 
-                File file = new File(edtPath.getText().toString());
+                File file = new File(edtFilePath.getText().toString());
                 if (!file.exists()) {
                     Toast.makeText(MainActivity.this, R.string.toast_file_not_found, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String compare = "";
-                if (edtCompare.getText() != null) {
-                    compare = edtCompare.getText().toString();
+                if (edtFileCompare.getText() != null) {
+                    compare = edtFileCompare.getText().toString();
                 }
 
                 try {
@@ -265,20 +276,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
 
-        if (savedInstance != null && savedInstance.containsKey("TEXT_KEY")) {
-            textDataArrayList = savedInstance.getParcelableArrayList("TEXT_KEY");
-            if (textDataArrayList != null) {
-                mAdapterText = new DataAdapter(textDataArrayList);
-                mAdapterText.notifyDataSetChanged();
+        edtTextData = (EditText) findViewById(R.id.EdtText_Content);
+        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateText);
+        edtTextCompare = (EditText) findViewById(R.id.Edit_TextCompare);
+
+        if (savedInstance != null) {
+            if (savedInstance.containsKey("TEXT_DATA")) {
+                edtTextData.setText(savedInstance.getString("TEXT_DATA"));
+            }
+            if (savedInstance.containsKey("TEXT_COMPARE")) {
+                edtTextCompare.setText(savedInstance.getString("TEXT_COMPARE"));
+            }
+            if (savedInstance.containsKey("TEXT_KEY")) {
+                textDataArrayList = savedInstance.getParcelableArrayList("TEXT_KEY");
+                if (textDataArrayList != null) {
+                    mAdapterText = new DataAdapter(textDataArrayList);
+                    mAdapterText.notifyDataSetChanged();
+                }
             }
         }
 
         mRecyclerViewText.setAdapter(mAdapterText);
-
-        final EditText edtData = (EditText) findViewById(R.id.EdtText_Content);
-        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateText);
-
-        final EditText edtCompare = (EditText) findViewById(R.id.Edit_TextCompare);
 
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,15 +312,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fileDataArrayList.clear();
                 mAdapterText.notifyDataSetChanged();
 
-                if (edtData.getText() == null || edtData.getText().toString().length() == 0) {
+                if (edtTextData.getText() == null || edtTextData.getText().toString().length() == 0) {
                     Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String data = edtData.getText().toString();
+                String data = edtTextData.getText().toString();
                 String compare = "";
-                if (edtCompare.getText() != null) {
-                    compare = edtCompare.getText().toString();
+                if (edtTextCompare.getText() != null) {
+                    compare = edtTextCompare.getText().toString();
                 }
 
 
@@ -473,7 +491,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt("TAB_NUMBER", viewFlipper.getDisplayedChild());
+
+        savedInstanceState.putString("FILE_PATH", edtFilePath.getText().toString());
+        savedInstanceState.putString("FILE_COMPARE", edtFileCompare.getText().toString());
         savedInstanceState.putParcelableArrayList("FILE_KEY", fileDataArrayList);
+
+        savedInstanceState.putString("TEXT_DATA", edtTextData.getText().toString());
+        savedInstanceState.putString("TEXT_COMPARE", edtTextCompare.getText().toString());
         savedInstanceState.putParcelableArrayList("TEXT_KEY", textDataArrayList);
     }
 
