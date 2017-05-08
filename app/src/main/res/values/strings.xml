@@ -48,7 +48,6 @@
     <string name="alert_review_title">Review</string>
     <string name="alert_review_text">Consider leaving a review if you like this app!</string>
     <string name="text_information">Information</string>
-    <string name="text_social_media">Social media</string>
     <string name="hint_facebook_logo" translatable="false">Facebook logo</string>
     <string name="hint_twitter_logo" translatable="false">Twitter logo</string>
 
