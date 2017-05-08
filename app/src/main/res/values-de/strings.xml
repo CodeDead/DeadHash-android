@@ -38,4 +38,6 @@
     <string name="text_send_mail">Senden Sie uns eine Email</string>
     <string name="alert_review_title">Rezension</string>
     <string name="alert_review_text">Betrachten Sie eine Rezension zu verlassen, wenn Sie diese App gefällt!</string>
+    <string name="text_information">Informationen</string>
+    <string name="text_social_media">Sozialen Medien</string>
 </resources>
