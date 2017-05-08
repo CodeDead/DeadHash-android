@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getItemId());
         }
 
-        content_file();
-        content_text();
+        content_file(savedInstanceState);
+        content_text(savedInstanceState);
         content_help();
         content_about();
         content_settings();
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onTick(long millisUntilFinished) {
-
+                //Not used
             }
 
             @Override
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
     }
 
-    private void content_file() {
+    private void content_file(Bundle savedInstance) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
@@ -172,6 +172,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerViewFile.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
+
+        if (savedInstance != null && savedInstance.containsKey("FILE_KEY")) {
+            fileDataArrayList = savedInstance.getParcelableArrayList("FILE_KEY");
+            if (fileDataArrayList != null) {
+                mAdapterFile = new DataAdapter(fileDataArrayList);
+                mAdapterFile.notifyDataSetChanged();
+            }
+        }
 
         mRecyclerViewFile.setAdapter(mAdapterFile);
 
@@ -250,12 +258,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void content_text() {
+    private void content_text(Bundle savedInstance) {
         pgbText = (ProgressBar) findViewById(R.id.PgbText);
         mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
+
+        if (savedInstance != null && savedInstance.containsKey("TEXT_KEY")) {
+            textDataArrayList = savedInstance.getParcelableArrayList("TEXT_KEY");
+            if (textDataArrayList != null) {
+                mAdapterText = new DataAdapter(textDataArrayList);
+                mAdapterText.notifyDataSetChanged();
+            }
+        }
 
         mRecyclerViewText.setAdapter(mAdapterText);
 
@@ -439,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Uri uriUrl = Uri.parse(site);
             Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
             startActivity(launchBrowser);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -449,7 +465,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=com.codedead.deadline.deadhash"));
             startActivity(intent);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -457,6 +473,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt("TAB_NUMBER", viewFlipper.getDisplayedChild());
+        savedInstanceState.putParcelableArrayList("FILE_KEY", fileDataArrayList);
+        savedInstanceState.putParcelableArrayList("TEXT_KEY", textDataArrayList);
     }
 
     @Override

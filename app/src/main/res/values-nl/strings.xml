@@ -36,4 +36,6 @@
     <string name="toast_settings_reset">Alle instellingen zijn hersteld!</string>
     <string name="toast_settings_save">Alle instellingen zijn opgeslagen!</string>
     <string name="text_send_mail">Stuur ons een e-mail</string>
+    <string name="alert_review_title">Recensie</string>
+    <string name="alert_review_text">Overweeg om een beoordeling te schrijven als je deze app leuk vindt!</string>
 </resources>

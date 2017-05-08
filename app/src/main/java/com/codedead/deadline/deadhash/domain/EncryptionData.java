@@ -1,6 +1,9 @@
 package com.codedead.deadline.deadhash.domain;
 
-public class EncryptionData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class EncryptionData implements Parcelable {
 
     private String encryption_name;
     private String encryption_data;
@@ -14,6 +17,24 @@ public class EncryptionData {
         this.compareCheck = compareCheck;
     }
 
+    protected EncryptionData(Parcel in) {
+        encryption_name = in.readString();
+        encryption_data = in.readString();
+        compareCheck = in.readString();
+    }
+
+    public static final Creator<EncryptionData> CREATOR = new Creator<EncryptionData>() {
+        @Override
+        public EncryptionData createFromParcel(Parcel in) {
+            return new EncryptionData(in);
+        }
+
+        @Override
+        public EncryptionData[] newArray(int size) {
+            return new EncryptionData[size];
+        }
+    };
+
     String getCompareCheck() {
         return compareCheck;
     }
@@ -24,5 +45,17 @@ public class EncryptionData {
 
     String getEncryption_data() {
         return encryption_data;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(encryption_name);
+        dest.writeString(encryption_data);
+        dest.writeString(compareCheck);
     }
 }
