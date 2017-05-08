@@ -47,6 +47,10 @@
     <string name="hint_launcher_icon" translatable="false">Launcher icon</string>
     <string name="alert_review_title">Review</string>
     <string name="alert_review_text">Consider leaving a review if you like this app!</string>
+    <string name="text_information">Information</string>
+    <string name="text_social_media">Social media</string>
+    <string name="hint_facebook_logo">Facebook logo</string>
+    <string name="hint_twitter_logo">Twitter logo</string>
 
     <string-array name="array_languages" translatable="false">
         <item>English</item>

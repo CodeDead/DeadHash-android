@@ -368,11 +368,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_about() {
+        ImageButton btnFacebook = (ImageButton) findViewById(R.id.BtnFacebook);
+        ImageButton btnTwitter = (ImageButton) findViewById(R.id.BtnTwitter);
         Button btnWebsite = (Button) findViewById(R.id.BtnWebsiteAbout);
+
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openSite("http://codedead.com/");
+            }
+        });
+
+        btnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSite("https://facebook.com/deadlinecodedead");
+            }
+        });
+
+        btnTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSite("https://twitter.com/C0DEDEAD");
             }
         });
     }
