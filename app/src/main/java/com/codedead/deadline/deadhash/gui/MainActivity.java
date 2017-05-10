@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Random rnd = new Random();
 
-        new CountDownTimer(rnd.nextInt(30) * 1000, 1000) {
+        new CountDownTimer(rnd.nextInt(180) * 1000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setTitle(R.string.alert_review_title)
                         .setText(R.string.alert_review_text)
                         .setIcon(R.drawable.ic_rate_review)
+                        .setDuration(10000)
                         .setBackgroundColor(R.color.colorAccent)
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
