@@ -25,20 +25,22 @@
                 android:contentDescription="@string/hint_launcher_icon" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_margin="5dp"
                 android:text="@string/text_information"
+                android:textAlignment="center"
+                android:textSize="16sp"
                 android:textStyle="bold">
 
             </TextView>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="@string/text_about"
+                android:textAlignment="center"
                 android:textSize="16sp" />
 
             <LinearLayout
