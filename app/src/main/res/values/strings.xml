@@ -50,6 +50,7 @@
     <string name="text_information">Information</string>
     <string name="hint_facebook_logo" translatable="false">Facebook logo</string>
     <string name="hint_twitter_logo" translatable="false">Twitter logo</string>
+    <string name="alert_review_never">Never</string>
 
     <string-array name="array_languages" translatable="false">
         <item>English</item>

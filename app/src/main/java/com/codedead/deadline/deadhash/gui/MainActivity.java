@@ -2,6 +2,7 @@ package com.codedead.deadline.deadhash.gui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -43,7 +45,6 @@ import com.codedead.deadline.deadhash.domain.HashGenerator;
 import com.codedead.deadline.deadhash.domain.HashResponse;
 import com.codedead.deadline.deadhash.domain.LocaleHelper;
 import com.codedead.deadline.deadhash.domain.TextHashGenerator;
-import com.tapadoo.alerter.Alerter;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,26 +132,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onTick(long millisUntilFinished) {
-                //Not used
             }
 
             @Override
             public void onFinish() {
-                Alerter.create(MainActivity.this)
-                        .setTitle(R.string.alert_review_title)
-                        .setText(R.string.alert_review_text)
-                        .setIcon(R.drawable.ic_rate_review)
-                        .setDuration(10000)
-                        .setBackgroundColor(R.color.colorAccent)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                addReview(true);
-                                openPlayStore();
-                            }
-                        })
-                        .show();
-                addReview(false);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                builder1.setTitle(R.string.alert_review_title);
+                builder1.setMessage(R.string.alert_review_text);
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                        addReview(true);
+                        openPlayStore();
+                    }
+                });
+
+                builder1.setNegativeButton(R.string.alert_review_never, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        addReview(true);
+                    }
+                });
+
+                builder1.setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        addReview(false);
+                    }
+                });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
             }
         }.start();
     }
