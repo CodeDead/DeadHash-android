@@ -442,6 +442,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "de":
                 spnLanguages.setSelection(3);
                 break;
+            case "it":
+                spnLanguages.setSelection(4);
+                break;
         }
 
         ChbMD5.setChecked(sharedPreferences.getBoolean("md5", true));
@@ -478,6 +481,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                     case 3:
                         lang = "de";
+                        break;
+                    case 4:
+                        lang = "it";
                         break;
                 }
 

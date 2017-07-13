@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_generate">Generieren</string>
+    <string name="button_generate">Berechnen</string>
     <string name="button_reset">Zurücksetzen</string>
     <string name="button_save">Sparen</string>
     <string name="button_support">Unterstützung</string>

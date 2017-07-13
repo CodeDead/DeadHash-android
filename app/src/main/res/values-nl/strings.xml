@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_generate">Genereer</string>
+    <string name="button_generate">Bereken</string>
     <string name="button_reset">Reset</string>
     <string name="button_save">Opslaan</string>
     <string name="button_support">Ondersteuning</string>
