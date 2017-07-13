@@ -166,7 +166,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
 
                 AlertDialog alert11 = builder1.create();
-                alert11.show();
+                if (!isFinishing()) {
+                    alert11.show();
+                }
             }
         }.start();
     }
