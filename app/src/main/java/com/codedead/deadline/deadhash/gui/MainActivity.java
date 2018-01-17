@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean fileLoading;
     private boolean textLoading;
 
+    private boolean paused;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,18 +90,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        viewFlipper = (ViewFlipper) findViewById(R.id.vf);
+        viewFlipper = findViewById(R.id.vf);
 
         if (savedInstanceState != null) {
             int flipperPosition = savedInstanceState.getInt("TAB_NUMBER");
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
 
                 AlertDialog alert11 = builder1.create();
-                if (!isFinishing()) {
+                if (!isFinishing() && !paused) {
                     alert11.show();
                 }
             }
@@ -185,21 +187,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
     }
 
+    @Override
+    protected void onResume() {
+        paused = false;
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        paused = true;
+        super.onPause();
+    }
+
     private void content_file(Bundle savedInstance) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
-        pgbFile = (ProgressBar) findViewById(R.id.PgbFile);
-        mRecyclerViewFile = (RecyclerView) findViewById(R.id.file_recycler);
+        pgbFile = findViewById(R.id.PgbFile);
+        mRecyclerViewFile = findViewById(R.id.file_recycler);
         mRecyclerViewFile.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
 
-        ImageButton btnOpenFile = (ImageButton) findViewById(R.id.ImgBtnFileData);
-        edtFilePath = (EditText) findViewById(R.id.EdtFile_name);
-        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateFile);
-        edtFileCompare = (EditText) findViewById(R.id.Edit_FileCompare);
+        ImageButton btnOpenFile = findViewById(R.id.ImgBtnFileData);
+        edtFilePath = findViewById(R.id.EdtFile_name);
+        Button btnGenerate = findViewById(R.id.ButtonGenerateFile);
+        edtFileCompare = findViewById(R.id.Edit_FileCompare);
 
         if (savedInstance != null) {
             if (savedInstance.containsKey("FILE_PATH")) {
@@ -289,15 +303,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_text(Bundle savedInstance) {
-        pgbText = (ProgressBar) findViewById(R.id.PgbText);
-        mRecyclerViewText = (RecyclerView) findViewById(R.id.text_recycler);
+        pgbText = findViewById(R.id.PgbText);
+        mRecyclerViewText = findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
 
-        edtTextData = (EditText) findViewById(R.id.EdtText_Content);
-        Button btnGenerate = (Button) findViewById(R.id.ButtonGenerateText);
-        edtTextCompare = (EditText) findViewById(R.id.Edit_TextCompare);
+        edtTextData = findViewById(R.id.EdtText_Content);
+        Button btnGenerate = findViewById(R.id.ButtonGenerateText);
+        edtTextCompare = findViewById(R.id.Edit_TextCompare);
 
         if (savedInstance != null) {
             if (savedInstance.containsKey("TEXT_DATA")) {
@@ -362,8 +376,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_help() {
-        Button btnWebsite = (Button) findViewById(R.id.ButtonWebsite);
-        Button btnSupport = (Button) findViewById(R.id.ButtonSupport);
+        Button btnWebsite = findViewById(R.id.ButtonWebsite);
+        Button btnSupport = findViewById(R.id.ButtonSupport);
 
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -387,9 +401,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_about() {
-        ImageButton btnFacebook = (ImageButton) findViewById(R.id.BtnFacebook);
-        ImageButton btnTwitter = (ImageButton) findViewById(R.id.BtnTwitter);
-        Button btnWebsite = (Button) findViewById(R.id.BtnWebsiteAbout);
+        ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
+        ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
+        Button btnWebsite = findViewById(R.id.BtnWebsiteAbout);
 
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -414,17 +428,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_settings() {
-        final Spinner spnLanguages = (Spinner) findViewById(R.id.SpnLanguages);
-        final CheckBox ChbMD5 = (CheckBox) findViewById(R.id.ChbMD5);
-        final CheckBox ChbSHA1 = (CheckBox) findViewById(R.id.ChbSHA1);
-        final CheckBox ChbSHA224 = (CheckBox) findViewById(R.id.ChbSHA224);
-        final CheckBox ChbSHA256 = (CheckBox) findViewById(R.id.ChbSHA256);
-        final CheckBox ChbSHA384 = (CheckBox) findViewById(R.id.ChbSHA384);
-        final CheckBox ChbSHA512 = (CheckBox) findViewById(R.id.ChbSHA512);
-        final CheckBox ChbCRC32 = (CheckBox) findViewById(R.id.ChbCRC32);
+        final Spinner spnLanguages = findViewById(R.id.SpnLanguages);
+        final CheckBox ChbMD5 = findViewById(R.id.ChbMD5);
+        final CheckBox ChbSHA1 = findViewById(R.id.ChbSHA1);
+        final CheckBox ChbSHA224 = findViewById(R.id.ChbSHA224);
+        final CheckBox ChbSHA256 = findViewById(R.id.ChbSHA256);
+        final CheckBox ChbSHA384 = findViewById(R.id.ChbSHA384);
+        final CheckBox ChbSHA512 = findViewById(R.id.ChbSHA512);
+        final CheckBox ChbCRC32 = findViewById(R.id.ChbCRC32);
 
-        Button btnReset = (Button) findViewById(R.id.BtnResetSettings);
-        Button btnSave = (Button) findViewById(R.id.BtnSaveSettings);
+        Button btnReset = findViewById(R.id.BtnResetSettings);
+        Button btnSave = findViewById(R.id.BtnSaveSettings);
 
         String l = sharedPreferences.getString("language", "en");
 
@@ -533,14 +547,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt("TAB_NUMBER", viewFlipper.getDisplayedChild());
-
         savedInstanceState.putString("FILE_PATH", edtFilePath.getText().toString());
         savedInstanceState.putString("FILE_COMPARE", edtFileCompare.getText().toString());
         savedInstanceState.putParcelableArrayList("FILE_KEY", fileDataArrayList);
-
         savedInstanceState.putString("TEXT_DATA", edtTextData.getText().toString());
         savedInstanceState.putString("TEXT_COMPARE", edtTextCompare.getText().toString());
         savedInstanceState.putParcelableArrayList("TEXT_KEY", textDataArrayList);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -556,7 +569,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -594,7 +607,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         viewFlipper.setDisplayedChild(page);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -18,7 +18,7 @@
     <string name="nav_tools">Gereedschap</string>
     <string name="navigation_drawer_close">Sluit navigatie lade</string>
     <string name="navigation_drawer_open">Open navigatie lade</string>
-    <string name="text_about">DeadHash werd gemaakt door DeadLine. Deze app kan gebruikt worden om hashes te genereren van bestanden en tekst.\n\nAdvertenties of trackers werden niet toegevoegd in deze release. Alle aangevraagde permissies zijn nodig om de app correct te laten functioneren.\n\nAlle gebruikte afbeeldingen waren gemaakt door Google.\n\nCopyright © CodeDead 2017</string>
+    <string name="text_about">DeadHash werd gemaakt door DeadLine. Deze app kan gebruikt worden om hashes te genereren van bestanden en tekst.\n\nAdvertenties of trackers werden niet toegevoegd in deze release. Alle aangevraagde permissies zijn nodig om de app correct te laten functioneren.\n\nAlle gebruikte afbeeldingen waren gemaakt door Google.\n\nCopyright © CodeDead 2018</string>
     <string name="text_compare">Vergelijk:</string>
     <string name="text_compare_hash">Vergelijk hash</string>
     <string name="text_compare_hint">Plaats uw hash hier</string>
@@ -40,4 +40,5 @@
     <string name="alert_review_text">Overweeg om een beoordeling te schrijven als je deze app leuk vindt!</string>
     <string name="text_information">Informatie</string>
     <string name="alert_review_never">Nooit</string>
+    <string name="string_no_clipboard_access">Kon geen toegang tot het klembord krijgen!</string>
 </resources>

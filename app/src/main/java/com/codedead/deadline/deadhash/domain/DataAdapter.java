@@ -51,11 +51,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
         DataHolder(View v) {
             super(v);
 
-            encryptionName = (TextView) v.findViewById(R.id.Encryption_title);
-            encryptionData = (TextView) v.findViewById(R.id.Encryption_data);
-            compareData = (ImageButton) v.findViewById(R.id.Compare_check_image);
+            encryptionName = v.findViewById(R.id.Encryption_title);
+            encryptionData = v.findViewById(R.id.Encryption_data);
+            compareData = v.findViewById(R.id.Compare_check_image);
 
-            copyData = (ImageButton) v.findViewById(R.id.Copy_Data);
+            copyData = v.findViewById(R.id.Copy_Data);
 
             copyData.setOnClickListener(this);
             compareData.setOnClickListener(new View.OnClickListener() {
@@ -74,10 +74,13 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
         @Override
         public void onClick(View v) {
             ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText(encryptionName.getText(), encryptionData.getText());
-            clipboard.setPrimaryClip(clip);
-
-            Toast.makeText(v.getContext(), R.string.toast_data_copied, Toast.LENGTH_SHORT).show();
+            if (clipboard != null) {
+                ClipData clip = ClipData.newPlainText(encryptionName.getText(), encryptionData.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(v.getContext(), R.string.toast_data_copied, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(v.getContext(), R.string.string_no_clipboard_access, Toast.LENGTH_SHORT).show();
+            }
         }
 
         void bindData(EncryptionData data) {

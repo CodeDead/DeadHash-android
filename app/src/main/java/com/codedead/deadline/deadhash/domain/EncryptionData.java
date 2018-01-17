@@ -17,7 +17,7 @@ public class EncryptionData implements Parcelable {
         this.compareCheck = compareCheck;
     }
 
-    protected EncryptionData(Parcel in) {
+    private EncryptionData(Parcel in) {
         encryption_name = in.readString();
         encryption_data = in.readString();
         compareCheck = in.readString();

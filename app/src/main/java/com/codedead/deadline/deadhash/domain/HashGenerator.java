@@ -113,7 +113,7 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<Encryptio
         return encryptionData;
     }
 
-    public byte[] getData() {
+    private byte[] getData() {
         return data;
     }
 }
