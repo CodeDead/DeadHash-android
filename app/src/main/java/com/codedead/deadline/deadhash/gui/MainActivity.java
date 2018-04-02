@@ -595,14 +595,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         int page = 0;
 
-        if (id == R.id.nav_text) {
-            page = 1;
-        } else if (id == R.id.nav_help) {
-            page = 2;
-        } else if (id == R.id.nav_about) {
-            page = 3;
-        } else if (id == R.id.nav_manage) {
-            page = 4;
+        switch (id) {
+            case R.id.nav_text:
+                page = 1;
+                break;
+            case R.id.nav_help:
+                page = 2;
+                break;
+            case R.id.nav_about:
+                page = 3;
+                break;
+            case R.id.nav_manage:
+                page = 4;
+                break;
         }
 
         viewFlipper.setDisplayedChild(page);

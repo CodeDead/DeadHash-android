@@ -5,10 +5,10 @@ import android.os.Parcelable;
 
 public class EncryptionData implements Parcelable {
 
-    private String encryption_name;
-    private String encryption_data;
+    private final String encryption_name;
+    private final String encryption_data;
 
-    private String compareCheck;
+    private final String compareCheck;
 
     EncryptionData(String encryption_name, String encryption_data, String compareCheck) {
         this.encryption_name = encryption_name;

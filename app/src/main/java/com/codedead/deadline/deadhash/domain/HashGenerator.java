@@ -21,7 +21,7 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<Encryptio
     private boolean crc32;
 
     private String compare;
-    private List<EncryptionData> encryptionData;
+    private final List<EncryptionData> encryptionData;
 
     public HashResponse delegate = null;
 

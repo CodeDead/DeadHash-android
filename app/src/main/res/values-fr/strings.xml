@@ -40,5 +40,5 @@
     <string name="alert_review_title">Revue</string>
     <string name="text_information">Information</string>
     <string name="alert_review_never">Jamais</string>
-    <string name="string_no_clipboard_access">Impossible d'accéder à votre presse-papiers!</string>
+    <string name="string_no_clipboard_access">Impossible d\'accéder à votre presse-papiers!</string>
 </resources>

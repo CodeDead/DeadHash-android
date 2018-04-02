@@ -22,7 +22,7 @@ public class FileDialog {
         void fileSelected(File file);
     }
 
-    private ListenerList<FileSelectedListener> fileListenerList = new ListenerList<>();
+    private final ListenerList<FileSelectedListener> fileListenerList = new ListenerList<>();
     private final Activity activity;
     private String fileEndsWith;
 
@@ -113,7 +113,7 @@ public class FileDialog {
 }
 
 class ListenerList<L> {
-    private List<L> listenerList = new ArrayList<>();
+    private final List<L> listenerList = new ArrayList<>();
 
     interface FireHandler<L> {
         void fireEvent(L listener);

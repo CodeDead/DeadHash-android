@@ -3,6 +3,7 @@ package com.codedead.deadline.deadhash.domain;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +17,22 @@ import com.codedead.deadline.deadhash.R;
 import java.util.ArrayList;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
-    private ArrayList<EncryptionData> encryptionDataList;
+
+    private final ArrayList<EncryptionData> encryptionDataList;
 
     public DataAdapter(ArrayList<EncryptionData> encryptionDataList) {
         this.encryptionDataList = encryptionDataList;
     }
 
+    @NonNull
     @Override
-    public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.filerecycler_item_row, parent, false);
         return new DataHolder(inflatedView);
     }
 
     @Override
-    public void onBindViewHolder(DataHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DataHolder holder, int position) {
         EncryptionData file = encryptionDataList.get(position);
         holder.bindData(file);
     }
@@ -40,11 +43,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
     }
 
     static class DataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView encryptionName;
-        private TextView encryptionData;
+        private final TextView encryptionName;
+        private final TextView encryptionData;
 
-        private ImageButton compareData;
-        private ImageButton copyData;
+        private final ImageButton compareData;
+        private final ImageButton copyData;
 
         private String originalCompare;
 
