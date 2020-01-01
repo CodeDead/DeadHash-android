@@ -471,6 +471,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "it":
                 spnLanguages.setSelection(4);
                 break;
+            case "pt":
+                spnLanguages.setSelection(5);
         }
 
         ChbMD5.setChecked(sharedPreferences.getBoolean("md5", true));
@@ -518,6 +520,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case 4:
                         lang = "it";
                         break;
+                    case 5:
+                        lang = "pt";
                 }
 
                 saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
