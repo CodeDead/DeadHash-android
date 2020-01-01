@@ -3,8 +3,10 @@ package com.codedead.deadline.deadhash.domain;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +49,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
         private final TextView encryptionData;
 
         private final ImageButton compareData;
-        private final ImageButton copyData;
 
         private String originalCompare;
 
@@ -58,7 +59,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
             encryptionData = v.findViewById(R.id.Encryption_data);
             compareData = v.findViewById(R.id.Compare_check_image);
 
-            copyData = v.findViewById(R.id.Copy_Data);
+            final ImageButton copyData = v.findViewById(R.id.Copy_Data);
 
             copyData.setOnClickListener(this);
             compareData.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +77,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
 
         @Override
         public void onClick(View v) {
-            ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            final ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             if (clipboard != null) {
-                ClipData clip = ClipData.newPlainText(encryptionName.getText(), encryptionData.getText());
+                final ClipData clip = ClipData.newPlainText(encryptionName.getText(), encryptionData.getText());
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(v.getContext(), R.string.toast_data_copied, Toast.LENGTH_SHORT).show();
             } else {

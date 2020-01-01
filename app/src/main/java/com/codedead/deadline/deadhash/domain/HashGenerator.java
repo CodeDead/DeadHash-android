@@ -54,10 +54,10 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<Encryptio
     }
 
     private byte[] fullyReadFileToBytes(File f) throws IOException {
-        int size = (int) f.length();
-        byte bytes[] = new byte[size];
-        byte tmpBuff[] = new byte[size];
-        try (FileInputStream fis = new FileInputStream(f)) {
+        final int size = (int) f.length();
+        final byte[] bytes = new byte[size];
+        final byte[] tmpBuff = new byte[size];
+        try (final FileInputStream fis = new FileInputStream(f)) {
             int read = fis.read(bytes, 0, size);
             if (read < size) {
                 int remain = size - read;
@@ -74,39 +74,38 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<Encryptio
 
     @Override
     protected List<EncryptionData> doInBackground(Void... params) {
-
         if (md5) {
-            String md5 = HashService.calculateHash(getData(), "MD5");
+            final String md5 = HashService.calculateHash(getData(), "MD5");
             encryptionData.add(new EncryptionData("MD5", md5, compare));
         }
 
         if (sha1) {
-            String sha1 = HashService.calculateHash(getData(), "SHA-1");
+            final String sha1 = HashService.calculateHash(getData(), "SHA-1");
             encryptionData.add(new EncryptionData("SHA-1", sha1, compare));
         }
 
         if (sha224) {
-            String sha224 = HashService.calculateHash(getData(), "SHA-224");
+            final String sha224 = HashService.calculateHash(getData(), "SHA-224");
             encryptionData.add(new EncryptionData("SHA-224", sha224, compare));
         }
 
         if (sha256) {
-            String sha256 = HashService.calculateHash(getData(), "SHA-256");
+            final String sha256 = HashService.calculateHash(getData(), "SHA-256");
             encryptionData.add(new EncryptionData("SHA-256", sha256, compare));
         }
 
         if (sha384) {
-            String sha384 = HashService.calculateHash(getData(), "SHA-384");
+            final String sha384 = HashService.calculateHash(getData(), "SHA-384");
             encryptionData.add(new EncryptionData("SHA-384", sha384, compare));
         }
 
         if (sha512) {
-            String sha512 = HashService.calculateHash(getData(), "SHA-512");
+            final String sha512 = HashService.calculateHash(getData(), "SHA-512");
             encryptionData.add(new EncryptionData("SHA-512", sha512, compare));
         }
 
         if (crc32) {
-            String crc32 = HashService.calculateCRC32(getData());
+            final String crc32 = HashService.calculateCRC32(getData());
             encryptionData.add(new EncryptionData("CRC32", crc32, compare));
         }
 

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -37,8 +37,7 @@ public class FileDialog {
      * @return file dialog
      */
     private Dialog createFileDialog() {
-        Dialog dialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         builder.setTitle(currentPath.getPath());
 
@@ -55,8 +54,7 @@ public class FileDialog {
             }
         });
 
-        dialog = builder.show();
-        return dialog;
+        return builder.show();
     }
 
 
@@ -81,12 +79,12 @@ public class FileDialog {
 
     private void loadFileList(File path) {
         this.currentPath = path;
-        List<String> r = new ArrayList<>();
+        final List<String> r = new ArrayList<>();
         if (path.exists()) {
             if (path.getParentFile() != null) r.add(PARENT_DIR);
-            FilenameFilter filter = new FilenameFilter() {
+            final FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
-                    File sel = new File(dir, filename);
+                    final File sel = new File(dir, filename);
                     if (!sel.canRead()) return false;
                     else {
                         boolean endsWith = fileEndsWith == null || filename.toLowerCase().endsWith(fileEndsWith);
@@ -94,7 +92,7 @@ public class FileDialog {
                     }
                 }
             };
-            String[] fileList1 = path.list(filter);
+            final String[] fileList1 = path.list(filter);
             if (fileList1 != null) {
                 Collections.addAll(r, fileList1);
             }
@@ -124,8 +122,8 @@ class ListenerList<L> {
     }
 
     void fireEvent(FireHandler<L> fireHandler) {
-        List<L> copy = new ArrayList<>(listenerList);
-        for (L l : copy) {
+        final List<L> copy = new ArrayList<>(listenerList);
+        for (final L l : copy) {
             fireHandler.fireEvent(l);
         }
     }

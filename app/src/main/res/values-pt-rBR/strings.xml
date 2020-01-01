@@ -26,7 +26,7 @@
     <string name="button_support">Suporte</string>
     <string name="text_help">A geração de hashes para arquivos só pode ser feita se o DeadHash tiver permissão para ler o seu armazenamento. A geração de hashes para arquivos grandes poderá demorar um pouco. Isso dependerá exclusivamente do poder de processamento do seu dispositivo.\n\nA geração de hashes para textos não necessita que nenhuma permissão seja concedida. A geração de hashes para textos grandes poderá demorar um pouco. Isso dependerá exclusivamente do poder de processamento do seu dispositivo.\n\nSe chegar à encontrar algum bug ou precisar de suporte, você sempre poderá em contato conosco!</string>
     <string name="nav_tools">Ferramentas</string>
-    <string name="text_about">DeadHash foi criado por DeadLine. Este aplicativo pode ser utilizado para gerar hashes de arquivos e textos.\n\nNenhum anúncio ou serviço de coleta de dados está incluído nesta versão. Todas as permissões requisitadas pelo aplicativo são necessárias para que ele funcione corretamente.\n\nTodas as imagens são cortesia do Google.\n\nCopyright © CodeDead 2018.</string>
+    <string name="text_about">DeadHash foi criado por DeadLine. Este aplicativo pode ser utilizado para gerar hashes de arquivos e textos.\n\nNenhum anúncio ou serviço de coleta de dados está incluído nesta versão. Todas as permissões requisitadas pelo aplicativo são necessárias para que ele funcione corretamente.\n\nTodas as imagens são cortesia do Google.\n\nCopyright © 2020 CodeDead</string>
     <string name="toast_settings_reset">Todas as configurações foram restauradas!</string>
     <string name="toast_settings_save">Todas as configurações foram salvas!</string>
     <string name="text_interface">Interface</string>
@@ -35,10 +35,11 @@
     <string name="button_reset">Restaurar</string>
     <string name="button_save">Salvar</string>
     <string name="text_send_mail">Envie-nos um e-mail</string>
-    <string name="hint_launcher_icon" translatable="false">Launcher icon</string>
     <string name="alert_review_title">Avalie-nos</string>
     <string name="alert_review_text">Considere deixar uma avaliação se você está gostando deste aplicativo!</string>
     <string name="text_information">Informação</string>
     <string name="alert_review_never">Nunca</string>
     <string name="string_no_clipboard_access">Não foi possível obter acesso a sua área de transferência!</string>
+    <string name="error_playstore">Não foi possível abrir a Play Store!</string>
+    <string name="error_website">Não foi possível abrir o site!</string>
 </resources>

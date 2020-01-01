@@ -18,7 +18,7 @@
     <string name="nav_tools">Werkzeuge</string>
     <string name="navigation_drawer_close">Schliessschloss schließen</string>
     <string name="navigation_drawer_open">Öffnen Sie die Schublade</string>
-    <string name="text_about">DeadHash wurde von DeadLine erstellt. Diese App kann verwendet werden, um Hashes von Dateien und Strings zu erzeugen.\n\nIn dieser Version sind keine Anzeigen oder Tracking-Geräte enthalten. Alle erforderlichen Berechtigungen sind erforderlich, um diese App richtig nutzen zu können.\n\nAlle Bilder sind mit freundlicher Genehmigung von Google.\n\nCopyright © CodeDead 2018</string>
+    <string name="text_about">DeadHash wurde von DeadLine erstellt. Diese App kann verwendet werden, um Hashes von Dateien und Strings zu erzeugen.\n\nIn dieser Version sind keine Anzeigen oder Tracking-Geräte enthalten. Alle erforderlichen Berechtigungen sind erforderlich, um diese App richtig nutzen zu können.\n\nAlle Bilder sind mit freundlicher Genehmigung von Google.\n\nCopyright © 2020 CodeDead</string>
     <string name="text_compare">Vergleichen:</string>
     <string name="text_compare_hash">Hash vergleichen</string>
     <string name="text_compare_hint">Lege deinen Hash hier</string>
@@ -41,4 +41,6 @@
     <string name="text_information">Informationen</string>
     <string name="alert_review_never">Nie</string>
     <string name="string_no_clipboard_access">Zugriff auf Ihre Zwischenablage nicht möglich!</string>
+    <string name="error_playstore">Der Play Store kann nicht geöffnet werden!</string>
+    <string name="error_website">Website kann nicht geöffnet werden!</string>
 </resources>

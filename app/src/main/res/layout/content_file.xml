@@ -36,7 +36,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.85"
                     android:inputType="text"
-                    android:hint="@string/card_file_path" />
+                    android:hint="@string/card_file_path"
+                    android:importantForAutofill="no" />
 
                 <ImageButton
                     android:id="@+id/ImgBtnFileData"
@@ -61,7 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="text"
-                    android:hint="@string/text_compare_hint" />
+                    android:hint="@string/text_compare_hint"
+                    android:importantForAutofill="no" />
             </TableRow>
         </TableLayout>
 
@@ -89,11 +91,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/file_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

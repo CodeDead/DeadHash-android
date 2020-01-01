@@ -12,19 +12,19 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ShareCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ShareCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -82,6 +82,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean paused;
 
+    private Spinner spnLanguages;
+    private CheckBox ChbMD5;
+    private CheckBox ChbSHA1;
+    private CheckBox ChbSHA224;
+    private CheckBox ChbSHA256;
+    private CheckBox ChbSHA384;
+    private CheckBox ChbSHA512;
+    private CheckBox ChbCRC32;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -90,21 +99,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         viewFlipper = findViewById(R.id.vf);
 
         if (savedInstanceState != null) {
-            int flipperPosition = savedInstanceState.getInt("TAB_NUMBER");
+            final int flipperPosition = savedInstanceState.getInt("TAB_NUMBER");
             viewFlipper.setDisplayedChild(flipperPosition);
 
             if (flipperPosition > 1) {
@@ -115,6 +124,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getItemId());
         }
+
+        spnLanguages = findViewById(R.id.SpnLanguages);
+        ChbMD5 = findViewById(R.id.ChbMD5);
+        ChbSHA1 = findViewById(R.id.ChbSHA1);
+        ChbSHA224 = findViewById(R.id.ChbSHA224);
+        ChbSHA256 = findViewById(R.id.ChbSHA256);
+        ChbSHA384 = findViewById(R.id.ChbSHA384);
+        ChbSHA512 = findViewById(R.id.ChbSHA512);
+        ChbCRC32 = findViewById(R.id.ChbCRC32);
 
         content_file(savedInstanceState);
         content_text(savedInstanceState);
@@ -128,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void content_alerts() {
         if (sharedPreferences.getInt("reviewTimes", 0) >= 2) return;
 
-        Random rnd = new Random();
+        final Random rnd = new Random();
 
         new CountDownTimer(rnd.nextInt(180) * 1000, 1000) {
 
@@ -138,12 +156,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFinish() {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                builder1.setTitle(R.string.alert_review_title);
-                builder1.setMessage(R.string.alert_review_text);
-                builder1.setCancelable(true);
+                final AlertDialog.Builder reviewBuilder = new AlertDialog.Builder(MainActivity.this);
+                reviewBuilder.setTitle(R.string.alert_review_title);
+                reviewBuilder.setMessage(R.string.alert_review_text);
+                reviewBuilder.setCancelable(true);
 
-                builder1.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                reviewBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
 
@@ -152,14 +170,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-                builder1.setNegativeButton(R.string.alert_review_never, new DialogInterface.OnClickListener() {
+                reviewBuilder.setNegativeButton(R.string.alert_review_never, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                         addReview(true);
                     }
                 });
 
-                builder1.setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                reviewBuilder.setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -167,16 +185,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-                AlertDialog alert11 = builder1.create();
+                final AlertDialog alert1 = reviewBuilder.create();
                 if (!isFinishing() && !paused) {
-                    alert11.show();
+                    alert1.show();
                 }
             }
         }.start();
     }
 
     private void addReview(boolean done) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if (done) {
             editor.putInt("reviewTimes", 3);
@@ -210,9 +228,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mLayoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
 
-        ImageButton btnOpenFile = findViewById(R.id.ImgBtnFileData);
+        final ImageButton btnOpenFile = findViewById(R.id.ImgBtnFileData);
         edtFilePath = findViewById(R.id.EdtFile_name);
-        Button btnGenerate = findViewById(R.id.ButtonGenerateFile);
+        final Button btnGenerate = findViewById(R.id.ButtonGenerateFile);
         edtFileCompare = findViewById(R.id.Edit_FileCompare);
 
         if (savedInstance != null) {
@@ -239,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                 } else {
-                    File mPath = Environment.getExternalStorageDirectory();
-                    FileDialog fileDialog = new FileDialog(MainActivity.this, mPath, null);
+                    final File mPath = Environment.getExternalStorageDirectory();
+                    final FileDialog fileDialog = new FileDialog(MainActivity.this, mPath, null);
                     fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
                         public void fileSelected(File file) {
                             edtFilePath.setText(file.toString());
@@ -267,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fileDataArrayList.clear();
                 mAdapterFile.notifyDataSetChanged();
 
-                File file = new File(edtFilePath.getText().toString());
+                final File file = new File(edtFilePath.getText().toString());
                 if (!file.exists()) {
                     Toast.makeText(MainActivity.this, R.string.toast_file_not_found, Toast.LENGTH_SHORT).show();
                     return;
@@ -279,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 try {
-                    HashGenerator fileHashGenerator = new FileHashGenerator(
+                    final HashGenerator fileHashGenerator = new FileHashGenerator(
                             file,
                             sharedPreferences.getBoolean("md5", true),
                             sharedPreferences.getBoolean("sha1", true),
@@ -310,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerViewText.setLayoutManager(mLayoutManagerFile);
 
         edtTextData = findViewById(R.id.EdtText_Content);
-        Button btnGenerate = findViewById(R.id.ButtonGenerateText);
+        final Button btnGenerate = findViewById(R.id.ButtonGenerateText);
         edtTextCompare = findViewById(R.id.Edit_TextCompare);
 
         if (savedInstance != null) {
@@ -350,14 +368,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
 
-                String data = edtTextData.getText().toString();
+                final String data = edtTextData.getText().toString();
                 String compare = "";
                 if (edtTextCompare.getText() != null) {
                     compare = edtTextCompare.getText().toString();
                 }
 
 
-                HashGenerator textHashGenerator = new TextHashGenerator(
+                final HashGenerator textHashGenerator = new TextHashGenerator(
                         data.getBytes(),
                         sharedPreferences.getBoolean("md5", true),
                         sharedPreferences.getBoolean("sha1", true),
@@ -376,8 +394,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_help() {
-        Button btnWebsite = findViewById(R.id.ButtonWebsite);
-        Button btnSupport = findViewById(R.id.ButtonSupport);
+        final Button btnWebsite = findViewById(R.id.ButtonWebsite);
+        final Button btnSupport = findViewById(R.id.ButtonSupport);
 
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -401,9 +419,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void content_about() {
-        ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
-        ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
-        Button btnWebsite = findViewById(R.id.BtnWebsiteAbout);
+        final ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
+        final ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
+        final Button btnWebsite = findViewById(R.id.BtnWebsiteAbout);
 
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -427,22 +445,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void content_settings() {
-        final Spinner spnLanguages = findViewById(R.id.SpnLanguages);
-        final CheckBox ChbMD5 = findViewById(R.id.ChbMD5);
-        final CheckBox ChbSHA1 = findViewById(R.id.ChbSHA1);
-        final CheckBox ChbSHA224 = findViewById(R.id.ChbSHA224);
-        final CheckBox ChbSHA256 = findViewById(R.id.ChbSHA256);
-        final CheckBox ChbSHA384 = findViewById(R.id.ChbSHA384);
-        final CheckBox ChbSHA512 = findViewById(R.id.ChbSHA512);
-        final CheckBox ChbCRC32 = findViewById(R.id.ChbCRC32);
-
-        Button btnReset = findViewById(R.id.BtnResetSettings);
-        Button btnSave = findViewById(R.id.BtnSaveSettings);
-
-        String l = sharedPreferences.getString("language", "en");
-
-        switch (l) {
+    private void loadSettings() {
+        switch (sharedPreferences.getString("language", "en")) {
             default:
             case "en":
                 spnLanguages.setSelection(0);
@@ -468,14 +472,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ChbSHA384.setChecked(sharedPreferences.getBoolean("sha384", true));
         ChbSHA512.setChecked(sharedPreferences.getBoolean("sha512", true));
         ChbCRC32.setChecked(sharedPreferences.getBoolean("crc32", true));
+    }
+
+    private void content_settings() {
+        final Button btnReset = findViewById(R.id.BtnResetSettings);
+        final Button btnSave = findViewById(R.id.BtnSaveSettings);
+        loadSettings();
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveSettings("en",true, true, true, true, true, true, true);
-                Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
+                final Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
                 Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
                 recreate();
+                loadSettings();
             }
         });
 
@@ -502,15 +513,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
-                Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
+                final Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
                 Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
                 recreate();
+                loadSettings();
             }
         });
     }
 
     private void saveSettings(String lang, boolean MD5, boolean SHA1, boolean SHA224, boolean SHA256, boolean SHA384, boolean SHA512, boolean CRC32) {
-        SharedPreferences.Editor edit = sharedPreferences.edit();
+        final SharedPreferences.Editor edit = sharedPreferences.edit();
 
         edit.putString("language", lang);
         edit.putBoolean("md5", MD5);
@@ -526,21 +538,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void openSite(String site) {
         try {
-            Uri uriUrl = Uri.parse(site);
-            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+            final Uri uriUrl = Uri.parse(site);
+            final Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
             startActivity(launchBrowser);
-        } catch (Exception ignored) {
-
+        } catch (Exception ex) {
+            Toast.makeText(MainActivity.this, R.string.error_website, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void openPlayStore() {
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
+            final Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=com.codedead.deadline.deadhash"));
             startActivity(intent);
         } catch (Exception ignored) {
-
+            Toast.makeText(MainActivity.this, R.string.error_playstore, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -557,7 +569,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleHelper.onAttach(getBaseContext());
     }
@@ -569,7 +581,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -592,10 +604,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
         int page = 0;
 
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.nav_text:
                 page = 1;
                 break;
@@ -612,7 +623,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         viewFlipper.setDisplayedChild(page);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -622,7 +633,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fileLoading = false;
         pgbFile.setVisibility(View.GONE);
 
-        for (EncryptionData d : data) {
+        for (final EncryptionData d : data) {
             fileDataArrayList.add(d);
             mAdapterFile.notifyItemInserted(fileDataArrayList.size());
         }
@@ -633,7 +644,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textLoading = false;
         pgbText.setVisibility(View.GONE);
 
-        for (EncryptionData d : data) {
+        for (final EncryptionData d : data) {
             textDataArrayList.add(d);
             mAdapterText.notifyItemInserted(textDataArrayList.size());
         }

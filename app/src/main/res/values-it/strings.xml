@@ -27,7 +27,7 @@
     <string name="button_support">Supporto</string>
     <string name="text_help">La generazione di hash di file può essere eseguita solo quando DeadHash è stato autorizzato a leggere la propria memoria. La generazione di hash per file più grandi può richiedere un po \'di tempo. Questo dipende interamente dalla potenza di elaborazione del dispositivo.\n\nLa generazione di hash di testo non richiede autorizzazioni aggiuntive. La generazione di hash per stringhe più grandi può richiedere un po \'di tempo. Ciò dipende interamente dalla potenza di elaborazione del dispositivo.\n\nSe si verifica un errore o se hai bisogno di supporto, puoi sempre contattarci!</string>
     <string name="nav_tools">Strumenti</string>
-    <string name="text_about">DeadHash è stato creato da DeadLine. Questa applicazione può essere utilizzata per generare hash di file e stringhe.\n\nNon sono inclusi dispositivi di pubblicità o di rilevamento in questa versione. Tutte le autorizzazioni richieste sono necessarie per utilizzare correttamente questa applicazione.\n\nTutte le immagini sono a cura di Google.\n\nCopyright © CodeDead 2018.</string>
+    <string name="text_about">DeadHash è stato creato da DeadLine. Questa applicazione può essere utilizzata per generare hash di file e stringhe.\n\nNon sono inclusi dispositivi di pubblicità o di rilevamento in questa versione. Tutte le autorizzazioni richieste sono necessarie per utilizzare correttamente questa applicazione.\n\nTutte le immagini sono a cura di Google.\n\nCopyright © 2020 CodeDead</string>
     <string name="toast_settings_reset">Tutte le impostazioni sono state ripristinate!</string>
     <string name="toast_settings_save">Tutte le impostazioni sono state salvate!</string>
     <string name="text_interface">Interfaccia</string>
@@ -41,4 +41,6 @@
     <string name="text_information">Informazioni</string>
     <string name="alert_review_never">Mai</string>
     <string name="string_no_clipboard_access">Impossibile accedere ai tuoi appunti!</string>
+    <string name="error_playstore">Impossibile aprire il Play Store!</string>
+    <string name="error_website">Impossibile aprire il sito Web!</string>
 </resources>

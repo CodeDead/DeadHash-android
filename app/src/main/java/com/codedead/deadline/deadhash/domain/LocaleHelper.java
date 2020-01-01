@@ -13,12 +13,12 @@ import java.util.Locale;
 public class LocaleHelper {
 
     public static Context onAttach(Context context) {
-        String lang = getPersistedData(context, Locale.getDefault().getLanguage());
+        final String lang = getPersistedData(context, Locale.getDefault().getLanguage());
         return setLocale(context, lang);
     }
 
     public static Context onAttach(Context context, String defaultLanguage) {
-        String lang = getPersistedData(context, defaultLanguage);
+        final String lang = getPersistedData(context, defaultLanguage);
         return setLocale(context, lang);
     }
 
@@ -33,12 +33,12 @@ public class LocaleHelper {
     }
 
     private static String getPersistedData(Context context, String defaultLanguage) {
-        SharedPreferences preferences = context.getSharedPreferences("deadhashsettings", Context.MODE_PRIVATE);
+        final SharedPreferences preferences = context.getSharedPreferences("deadhashsettings", Context.MODE_PRIVATE);
         return preferences.getString("language", defaultLanguage);
     }
 
     private static void persist(Context context, String language) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
 
         editor.putString("language", language);
@@ -47,23 +47,22 @@ public class LocaleHelper {
 
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
+        final Locale locale = new Locale(language);
         Locale.setDefault(locale);
 
-        Configuration configuration = context.getResources().getConfiguration();
+        final Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(locale);
 
         return context.createConfigurationContext(configuration);
     }
 
-    @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
-        Locale locale = new Locale(language);
+        final Locale locale = new Locale(language);
         Locale.setDefault(locale);
 
-        Resources resources = context.getResources();
+        final Resources resources = context.getResources();
 
-        Configuration configuration = resources.getConfiguration();
+        final Configuration configuration = resources.getConfiguration();
         configuration.locale = locale;
 
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
