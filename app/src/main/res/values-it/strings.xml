@@ -17,7 +17,6 @@
     <string name="text_compare">Confronta:</string>
     <string name="text_compare_hint">Inserisci il tuo hash qui</string>
     <string name="text_compare_hash">Confronta hash</string>
-    <string name="toast_file_not_found">​​Il file non esiste!</string>
     <string name="toast_back_again">Premere nuovamente \'BACK\' per uscire.</string>
     <string name="toast_hash_match">Hash corrisponde al tuo input!</string>
     <string name="toast_hash_mismatch">Hash non corrisponde al tuo input!</string>
@@ -43,4 +42,7 @@
     <string name="string_no_clipboard_access">Impossibile accedere ai tuoi appunti!</string>
     <string name="error_playstore">Impossibile aprire il Play Store!</string>
     <string name="error_website">Impossibile aprire il sito Web!</string>
+    <string name="dialog_select_file">Seleziona un file</string>
+    <string name="error_copy_file">Impossibile creare una copia del file selezionato!</string>
+    <string name="error_open_file">Impossibile aprire il file selezionato!</string>
 </resources>

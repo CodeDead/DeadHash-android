@@ -16,7 +16,6 @@
     <string name="text_compare">Compare:</string>
     <string name="text_compare_hint">Insira seu hash aqui</string>
     <string name="text_compare_hash">Comparar hash</string>
-    <string name="toast_file_not_found">O arquivo não existe!</string>
     <string name="toast_back_again">Pressione \'VOLTAR\' novamente para sair.</string>
     <string name="toast_hash_match">Este hash corresponde ao que você inseriu!</string>
     <string name="toast_hash_mismatch">Este hash não corresponde ao que você inseriu!</string>
@@ -42,4 +41,7 @@
     <string name="string_no_clipboard_access">Não foi possível obter acesso a sua área de transferência!</string>
     <string name="error_playstore">Não foi possível abrir a Play Store!</string>
     <string name="error_website">Não foi possível abrir o site!</string>
+    <string name="dialog_select_file">Selecione um arquivo</string>
+    <string name="error_copy_file">Não foi possível criar uma cópia do arquivo selecionado!</string>
+    <string name="error_open_file">Não foi possível abrir o arquivo selecionado!</string>
 </resources>

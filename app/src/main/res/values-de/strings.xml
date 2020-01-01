@@ -30,7 +30,6 @@
     <string name="toast_back_again">Drücken Sie erneut \'ZURÜCK\', um zu beenden.</string>
     <string name="toast_data_copied">Daten in die Zwischenablage kopiert!</string>
     <string name="toast_error_notext">Bitte zuerst einen Text eingeben!</string>
-    <string name="toast_file_not_found">Die Datei existiert nicht!</string>
     <string name="toast_hash_match">Hash passt zu Ihrer Eingabe!</string>
     <string name="toast_hash_mismatch">Hash stimmt nicht mit deinem Eingang überein!</string>
     <string name="toast_settings_reset">Alle Einstellungen wurden zurückgesetzt!</string>
@@ -43,4 +42,7 @@
     <string name="string_no_clipboard_access">Zugriff auf Ihre Zwischenablage nicht möglich!</string>
     <string name="error_playstore">Der Play Store kann nicht geöffnet werden!</string>
     <string name="error_website">Website kann nicht geöffnet werden!</string>
+    <string name="dialog_select_file">Wählen Sie eine Datei aus</string>
+    <string name="error_copy_file">Es kann keine Kopie der ausgewählten Datei erstellt werden!</string>
+    <string name="error_open_file">Die ausgewählte Datei kann nicht geöffnet werden!</string>
 </resources>

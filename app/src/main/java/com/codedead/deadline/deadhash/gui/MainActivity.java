@@ -10,10 +10,10 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codedead.deadline.deadhash.domain.StreamUtility;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -43,7 +44,6 @@ import android.widget.ViewFlipper;
 import com.codedead.deadline.deadhash.R;
 import com.codedead.deadline.deadhash.domain.DataAdapter;
 import com.codedead.deadline.deadhash.domain.EncryptionData;
-import com.codedead.deadline.deadhash.domain.FileDialog;
 import com.codedead.deadline.deadhash.domain.FileHashGenerator;
 import com.codedead.deadline.deadhash.domain.HashGenerator;
 import com.codedead.deadline.deadhash.domain.HashResponse;
@@ -51,7 +51,9 @@ import com.codedead.deadline.deadhash.domain.LocaleHelper;
 import com.codedead.deadline.deadhash.domain.TextHashGenerator;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CheckBox ChbSHA384;
     private CheckBox ChbSHA512;
     private CheckBox ChbCRC32;
+
+    private final String tmpFile = "tmpFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +149,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         content_settings();
 
         content_alerts();
+
+        // Cleanup of previous runs, if applicable
+        final File f = new File(getApplicationContext().getCacheDir(), tmpFile);
+        if (f.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            f.delete();
+        }
     }
 
     private void content_alerts() {
@@ -261,14 +272,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                 } else {
-                    final File mPath = Environment.getExternalStorageDirectory();
-                    final FileDialog fileDialog = new FileDialog(MainActivity.this, mPath, null);
-                    fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
-                        public void fileSelected(File file) {
-                            edtFilePath.setText(file.toString());
-                        }
-                    });
-                    fileDialog.showDialog();
+                    final Intent intent = new Intent()
+                            .setType("*/*")
+                            .setAction(Intent.ACTION_GET_CONTENT)
+                            .addCategory(Intent.CATEGORY_OPENABLE);
+
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.dialog_select_file)), 123);
                 }
             }
         });
@@ -278,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 if (fileLoading) return;
+                if (!new File(getApplicationContext().getCacheDir(), tmpFile).exists()) return;
 
                 mRecyclerViewFile.setAdapter(null);
 
@@ -289,12 +299,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fileDataArrayList.clear();
                 mAdapterFile.notifyDataSetChanged();
 
-                final File file = new File(edtFilePath.getText().toString());
-                if (!file.exists()) {
-                    Toast.makeText(MainActivity.this, R.string.toast_file_not_found, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                 String compare = "";
                 if (edtFileCompare.getText() != null) {
                     compare = edtFileCompare.getText().toString();
@@ -302,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 try {
                     final HashGenerator fileHashGenerator = new FileHashGenerator(
-                            file,
+                            new File(getApplicationContext().getCacheDir(), tmpFile),
                             sharedPreferences.getBoolean("md5", true),
                             sharedPreferences.getBoolean("sha1", true),
                             sharedPreferences.getBoolean("sha224", true),
@@ -651,6 +655,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (final EncryptionData d : data) {
             textDataArrayList.add(d);
             mAdapterText.notifyItemInserted(textDataArrayList.size());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            if (data != null) {
+                final Uri selectedFileUri = data.getData();
+                if (selectedFileUri != null) {
+                    try (final InputStream selectedFileStream = getContentResolver().openInputStream(selectedFileUri)) {
+                        final File outputFile = new File(getApplicationContext().getCacheDir(), tmpFile);
+
+                        try (final FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+                            if (selectedFileStream != null) {
+                                StreamUtility.copyStream(selectedFileStream, outputStream);
+                                edtFilePath.setText(selectedFileUri.getPath());
+                            } else {
+                                Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException ex) {
+                            Toast.makeText(this, R.string.error_copy_file, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException ex) {
+                        Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 }

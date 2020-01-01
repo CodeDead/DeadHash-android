@@ -36,9 +36,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.85"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
                     android:hint="@string/card_file_path"
-                    android:importantForAutofill="no"
-                    android:inputType="text" />
+                    android:importantForAutofill="no" />
 
                 <ImageButton
                     android:id="@+id/ImgBtnFileData"
@@ -71,7 +75,7 @@
 
         <Button
             android:id="@+id/ButtonGenerateFile"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_file"

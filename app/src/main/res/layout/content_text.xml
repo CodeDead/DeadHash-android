@@ -27,7 +27,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/text_content_hint"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
             </TableRow>
 
             <TableRow>
@@ -46,13 +47,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/text_compare_hint"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
             </TableRow>
         </TableLayout>
 
         <Button
             android:id="@+id/ButtonGenerateText"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_text"

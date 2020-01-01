@@ -20,7 +20,6 @@
     <string name="toast_settings_reset">Tous les réglages ont été réinitialisés!</string>
     <string name="toast_hash_mismatch">Hash ne correspond pas à votre saisie!</string>
     <string name="toast_hash_match">Le hash correspond à votre saisie!</string>
-    <string name="toast_file_not_found">Fichier ne existe pas!</string>
     <string name="toast_error_notext">Entrez d\'abord un texte!</string>
     <string name="toast_data_copied">Les données sont copiées dans le presse-papiers.</string>
     <string name="toast_back_again">Appuyez de nouveau sur \'RETOURNER\' pour quitter.</string>
@@ -43,4 +42,7 @@
     <string name="string_no_clipboard_access">Impossible d\'accéder à votre presse-papiers!</string>
     <string name="error_playstore">Impossible d\'ouvrir le Play Store!</string>
     <string name="error_website">Impossible d\'ouvrir le site Web!</string>
+    <string name="dialog_select_file">Sélectionner un fichier</string>
+    <string name="error_copy_file">Impossible de créer une copie du fichier sélectionné!</string>
+    <string name="error_open_file">Impossible d\'ouvrir le fichier sélectionné!</string>
 </resources>

@@ -30,7 +30,6 @@
     <string name="toast_back_again">Druk nogmaals op \'TERUG\' om de app te sluiten.</string>
     <string name="toast_data_copied">Data gekopieerd naar het klembord.</string>
     <string name="toast_error_notext">Gelieve eerst tekst op te geven!</string>
-    <string name="toast_file_not_found">Bestand bestaat niet!</string>
     <string name="toast_hash_match">Hash is gelijk aan uw input!</string>
     <string name="toast_hash_mismatch">Hash is niet gelijk aan uw input!</string>
     <string name="toast_settings_reset">Alle instellingen zijn hersteld!</string>
@@ -43,4 +42,7 @@
     <string name="string_no_clipboard_access">Kon geen toegang tot het klembord krijgen!</string>
     <string name="error_playstore">Kon de Play Store niet openen!</string>
     <string name="error_website">Kon de website niet openen!</string>
+    <string name="dialog_select_file">Selecteer een bestand</string>
+    <string name="error_copy_file">Kon geen kopie van het bestand maken!</string>
+    <string name="error_open_file">Kon het geselecteerde bestand niet openen!</string>
 </resources>

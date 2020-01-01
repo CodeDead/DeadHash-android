@@ -33,7 +33,6 @@ final class HashService {
         try {
             final CRC32 crc = new CRC32();
             crc.update(bytes);
-
             return Long.toHexString(crc.getValue());
         } catch (Exception ex) {
             return null;
