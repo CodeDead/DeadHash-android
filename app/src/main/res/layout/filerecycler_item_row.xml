@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,16 +24,15 @@
             android:layout_alignParentTop="true"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:ignore="RelativeOverlap">
-        </TextView>
+            tools:ignore="RelativeOverlap" />
 
         <ImageButton
             android:id="@+id/Compare_check_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/Copy_Data"
-            android:src="@drawable/ic_compare_uncheck"
-            android:contentDescription="@string/text_compare_hash">
+            android:contentDescription="@string/text_compare_hash"
+            android:src="@drawable/ic_compare_uncheck">
 
         </ImageButton>
 
@@ -42,8 +40,8 @@
             android:id="@+id/Copy_Data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:contentDescription="@string/copy_data"
             android:src="@drawable/ic_content_copy" />
 

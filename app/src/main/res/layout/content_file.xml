@@ -20,6 +20,7 @@
             android:layout_height="wrap_content">
 
             <TableRow>
+
                 <TextView
                     android:id="@+id/TxtFile_text"
                     android:layout_width="wrap_content"
@@ -35,9 +36,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.85"
-                    android:inputType="text"
                     android:hint="@string/card_file_path"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
 
                 <ImageButton
                     android:id="@+id/ImgBtnFileData"
@@ -48,6 +49,7 @@
             </TableRow>
 
             <TableRow>
+
                 <TextView
                     android:id="@+id/Text_FileCompare"
                     android:layout_width="wrap_content"
@@ -61,9 +63,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text"
                     android:hint="@string/text_compare_hint"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
             </TableRow>
         </TableLayout>
 
@@ -72,8 +74,8 @@
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/layout_file"
+            android:layout_alignParentEnd="true"
             android:text="@string/button_generate">
 
         </Button>
@@ -83,13 +85,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <ProgressBar
         android:id="@+id/PgbFile"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/file_recycler"

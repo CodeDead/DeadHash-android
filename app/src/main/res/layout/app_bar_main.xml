@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codedead.deadline.deadhash.gui.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.codedead.deadline.deadhash.gui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -22,15 +21,19 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    <ViewFlipper
         android:id="@+id/vf"
         android:layout_width="fill_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/content_file" />
+
         <include layout="@layout/content_text" />
+
         <include layout="@layout/content_help" />
+
         <include layout="@layout/content_about" />
+
         <include layout="@layout/content_settings" />
     </ViewFlipper>
 

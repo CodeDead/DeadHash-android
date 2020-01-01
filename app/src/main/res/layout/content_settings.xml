@@ -90,6 +90,7 @@
         </TableRow>
 
         <TableRow android:gravity="center">
+
             <CheckBox
                 android:id="@+id/ChbCRC32"
                 android:text="@string/crc32"

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.codedead.deadline.deadhash.gui.MainActivity">
 
@@ -21,16 +20,18 @@
             android:layout_height="wrap_content">
 
             <TableRow>
+
                 <EditText
                     android:id="@+id/EdtText_Content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text"
-                    android:hint="@string/text_content_hint" />
+                    android:hint="@string/text_content_hint"
+                    android:inputType="text" />
             </TableRow>
 
             <TableRow>
+
                 <TextView
                     android:id="@+id/Text_FileCompare"
                     android:layout_width="wrap_content"
@@ -44,8 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text"
-                    android:hint="@string/text_compare_hint" />
+                    android:hint="@string/text_compare_hint"
+                    android:inputType="text" />
             </TableRow>
         </TableLayout>
 
@@ -54,8 +55,8 @@
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/layout_text"
+            android:layout_alignParentEnd="true"
             android:text="@string/button_generate">
 
         </Button>
@@ -65,13 +66,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <ProgressBar
         android:id="@+id/PgbText"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/text_recycler"
