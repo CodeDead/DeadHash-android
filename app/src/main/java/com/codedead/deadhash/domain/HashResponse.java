@@ -1,4 +1,4 @@
-package com.codedead.deadline.deadhash.domain;
+package com.codedead.deadhash.domain;
 
 import java.util.List;
 

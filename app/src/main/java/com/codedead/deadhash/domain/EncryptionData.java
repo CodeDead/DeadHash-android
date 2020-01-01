@@ -1,4 +1,4 @@
-package com.codedead.deadline.deadhash.domain;
+package com.codedead.deadhash.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;

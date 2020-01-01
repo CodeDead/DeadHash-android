@@ -1,4 +1,4 @@
-package com.codedead.deadline.deadhash.domain;
+package com.codedead.deadhash.domain;
 
 import android.annotation.TargetApi;
 import android.content.Context;

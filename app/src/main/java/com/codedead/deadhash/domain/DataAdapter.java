@@ -1,4 +1,4 @@
-package com.codedead.deadline.deadhash.domain;
+package com.codedead.deadhash.domain;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codedead.deadline.deadhash.R;
+import com.codedead.deadhash.R;
 
 import java.util.ArrayList;
 

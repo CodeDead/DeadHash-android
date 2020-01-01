@@ -1,10 +1,10 @@
-package com.codedead.deadline.deadhash.main;
+package com.codedead.deadhash.main;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.codedead.deadline.deadhash.domain.LocaleHelper;
+import com.codedead.deadhash.domain.LocaleHelper;
 
 public class Runner extends Application {
 

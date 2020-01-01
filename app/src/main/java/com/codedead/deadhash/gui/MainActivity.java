@@ -1,4 +1,4 @@
-package com.codedead.deadline.deadhash.gui;
+package com.codedead.deadhash.gui;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,7 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codedead.deadline.deadhash.domain.StreamUtility;
+import com.codedead.deadhash.domain.StreamUtility;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -41,14 +41,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.codedead.deadline.deadhash.R;
-import com.codedead.deadline.deadhash.domain.DataAdapter;
-import com.codedead.deadline.deadhash.domain.EncryptionData;
-import com.codedead.deadline.deadhash.domain.FileHashGenerator;
-import com.codedead.deadline.deadhash.domain.HashGenerator;
-import com.codedead.deadline.deadhash.domain.HashResponse;
-import com.codedead.deadline.deadhash.domain.LocaleHelper;
-import com.codedead.deadline.deadhash.domain.TextHashGenerator;
+import com.codedead.deadhash.R;
+import com.codedead.deadhash.domain.DataAdapter;
+import com.codedead.deadhash.domain.EncryptionData;
+import com.codedead.deadhash.domain.FileHashGenerator;
+import com.codedead.deadhash.domain.HashGenerator;
+import com.codedead.deadhash.domain.HashResponse;
+import com.codedead.deadhash.domain.LocaleHelper;
+import com.codedead.deadhash.domain.TextHashGenerator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -557,7 +557,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void openPlayStore() {
         try {
             final Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=com.codedead.deadline.deadhash"));
+            intent.setData(Uri.parse("market://details?id=com.codedead.deadhash"));
             startActivity(intent);
         } catch (Exception ignored) {
             Toast.makeText(MainActivity.this, R.string.error_playstore, Toast.LENGTH_SHORT).show();

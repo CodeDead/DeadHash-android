@@ -1,4 +1,4 @@
-package com.codedead.deadline.deadhash.domain;
+package com.codedead.deadhash.domain;
 
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
