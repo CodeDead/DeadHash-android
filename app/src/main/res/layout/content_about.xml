@@ -41,12 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:weightSum="3">
 
             <ImageButton
                 android:id="@+id/BtnFacebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:contentDescription="@string/hint_facebook_logo"
                 app:srcCompat="@drawable/ic_facebook_icon" />
 
@@ -54,18 +56,19 @@
                 android:id="@+id/BtnTwitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:contentDescription="@string/hint_twitter_logo"
                 app:srcCompat="@drawable/ic_twitter_icon" />
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/BtnWebsiteAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/hint_website_logo"
+                app:srcCompat="@drawable/ic_website_icon" />
 
-        <Button
-            android:id="@+id/BtnWebsiteAbout"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/button_website" />
+        </LinearLayout>
 
     </LinearLayout>
 

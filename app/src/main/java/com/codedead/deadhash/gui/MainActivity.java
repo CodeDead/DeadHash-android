@@ -21,7 +21,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codedead.deadhash.domain.StreamUtility;
+import com.codedead.deadhash.domain.objects.hashgenerator.HashAlgorithm;
+import com.codedead.deadhash.domain.utils.IntentUtils;
+import com.codedead.deadhash.domain.utils.StreamUtility;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -42,13 +44,13 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.codedead.deadhash.R;
-import com.codedead.deadhash.domain.DataAdapter;
-import com.codedead.deadhash.domain.EncryptionData;
-import com.codedead.deadhash.domain.FileHashGenerator;
-import com.codedead.deadhash.domain.HashGenerator;
-import com.codedead.deadhash.domain.HashResponse;
-import com.codedead.deadhash.domain.LocaleHelper;
-import com.codedead.deadhash.domain.TextHashGenerator;
+import com.codedead.deadhash.domain.utils.DataAdapter;
+import com.codedead.deadhash.domain.objects.hashgenerator.EncryptionData;
+import com.codedead.deadhash.domain.objects.hashgenerator.FileHashGenerator;
+import com.codedead.deadhash.domain.objects.hashgenerator.HashGenerator;
+import com.codedead.deadhash.domain.interfaces.hashgenerator.IHashResponse;
+import com.codedead.deadhash.domain.utils.LocaleHelper;
+import com.codedead.deadhash.domain.objects.hashgenerator.TextHashGenerator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,7 +60,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, HashResponse {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IHashResponse {
     private boolean doubleBackToExitPressedOnce;
 
     private ViewFlipper viewFlipper;
@@ -141,13 +143,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ChbSHA512 = findViewById(R.id.ChbSHA512);
         ChbCRC32 = findViewById(R.id.ChbCRC32);
 
-        content_file(savedInstanceState);
-        content_text(savedInstanceState);
-        content_help();
-        content_about();
-        content_settings();
+        loadFileHashContent(savedInstanceState);
+        loadTextHashContent(savedInstanceState);
+        loadHelpContent();
+        loadAboutContent();
+        loadSettingsContent();
 
-        content_alerts();
+        loadAlertContent();
 
         // Cleanup of previous runs, if applicable
         final File f = new File(getApplicationContext().getCacheDir(), tmpFile);
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void content_alerts() {
+    private void loadAlertContent() {
         if (sharedPreferences.getInt("reviewTimes", 0) >= 2) return;
 
         final Random rnd = new Random();
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         dialog.cancel();
 
                         addReview(true);
-                        openPlayStore();
+                        IntentUtils.openPlayStore(MainActivity.this.getApplicationContext());
                     }
                 });
 
@@ -231,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPause();
     }
 
-    private void content_file(Bundle savedInstance) {
+    private void loadFileHashContent(final Bundle savedInstance) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
@@ -281,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,18 +305,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 try {
-                    final HashGenerator fileHashGenerator = new FileHashGenerator(
-                            new File(getApplicationContext().getCacheDir(), tmpFile),
-                            sharedPreferences.getBoolean("md5", true),
-                            sharedPreferences.getBoolean("sha1", true),
-                            sharedPreferences.getBoolean("sha224", true),
-                            sharedPreferences.getBoolean("sha256", true),
-                            sharedPreferences.getBoolean("sha384", true),
-                            sharedPreferences.getBoolean("sha512", true),
-                            sharedPreferences.getBoolean("crc32", true),
-                            compare);
+                    final HashGenerator fileHashGenerator = new FileHashGenerator(new File(getApplicationContext().getCacheDir(), tmpFile), getHashAlgorithms(), compare);
                     fileLoading = true;
-                    fileHashGenerator.delegate = MainActivity.this;
+                    fileHashGenerator.hashResponse = MainActivity.this;
                     fileHashGenerator.execute();
 
                     pgbFile.setVisibility(View.VISIBLE);
@@ -327,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void content_text(Bundle savedInstance) {
+    private void loadTextHashContent(Bundle savedInstance) {
         pgbText = findViewById(R.id.PgbText);
         mRecyclerViewText = findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
@@ -382,38 +374,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
 
-                final HashGenerator textHashGenerator = new TextHashGenerator(
-                        data.getBytes(),
-                        sharedPreferences.getBoolean("md5", true),
-                        sharedPreferences.getBoolean("sha1", true),
-                        sharedPreferences.getBoolean("sha224", true),
-                        sharedPreferences.getBoolean("sha256", true),
-                        sharedPreferences.getBoolean("sha384", true),
-                        sharedPreferences.getBoolean("sha512", true),
-                        sharedPreferences.getBoolean("crc32", true),
-                        compare);
+                final HashGenerator textHashGenerator = new TextHashGenerator(data.getBytes(), getHashAlgorithms(), compare);
                 textLoading = true;
-                textHashGenerator.delegate = MainActivity.this;
+                textHashGenerator.hashResponse = MainActivity.this;
                 textHashGenerator.execute();
                 pgbText.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    private void content_help() {
+    private List<HashAlgorithm> getHashAlgorithms() {
+        final List<HashAlgorithm> hashAlgorithms = new ArrayList<>();
+        if (sharedPreferences.getBoolean("md5", true))
+            hashAlgorithms.add(HashAlgorithm.md5);
+        if (sharedPreferences.getBoolean("sha1", true))
+            hashAlgorithms.add(HashAlgorithm.sha1);
+        if (sharedPreferences.getBoolean("sha224", true))
+            hashAlgorithms.add(HashAlgorithm.sha224);
+        if (sharedPreferences.getBoolean("sha256", true))
+            hashAlgorithms.add(HashAlgorithm.sha256);
+        if (sharedPreferences.getBoolean("sha384", true))
+            hashAlgorithms.add(HashAlgorithm.sha384);
+        if (sharedPreferences.getBoolean("sha512", true))
+            hashAlgorithms.add(HashAlgorithm.sha512);
+        if (sharedPreferences.getBoolean("crc32", true))
+            hashAlgorithms.add(HashAlgorithm.crc32);
+        return hashAlgorithms;
+    }
+
+    private void loadHelpContent() {
         final Button btnWebsite = findViewById(R.id.ButtonWebsite);
         final Button btnSupport = findViewById(R.id.ButtonSupport);
 
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openSite("http://codedead.com/");
+            public void onClick(final View v) {
+                IntentUtils.openSite(v.getContext(),"http://codedead.com/");
             }
         });
 
         btnSupport.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 ShareCompat.IntentBuilder.from(MainActivity.this)
                         .setType("message/rfc822")
                         .addEmailTo("admin@codedead.com")
@@ -425,29 +427,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void content_about() {
+    private void loadAboutContent() {
         final ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
         final ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
-        final Button btnWebsite = findViewById(R.id.BtnWebsiteAbout);
+        final ImageButton btnWebsite = findViewById(R.id.BtnWebsiteAbout);
 
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openSite("http://codedead.com/");
+            public void onClick(final View v) {
+                IntentUtils.openSite(v.getContext(), "http://codedead.com/");
             }
         });
 
         btnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openSite("https://facebook.com/deadlinecodedead");
+            public void onClick(final View v) {
+                IntentUtils.openSite(v.getContext(), "https://facebook.com/deadlinecodedead");
             }
         });
 
         btnTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openSite("https://twitter.com/C0DEDEAD");
+            public void onClick(final View v) {
+                IntentUtils.openSite(v.getContext(), "https://twitter.com/C0DEDEAD");
             }
         });
     }
@@ -483,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ChbCRC32.setChecked(sharedPreferences.getBoolean("crc32", true));
     }
 
-    private void content_settings() {
+    private void loadSettingsContent() {
         final Button btnReset = findViewById(R.id.BtnResetSettings);
         final Button btnSave = findViewById(R.id.BtnSaveSettings);
         loadSettings();
@@ -545,26 +547,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         edit.putBoolean("crc32", CRC32);
 
         edit.apply();
-    }
-
-    private void openSite(String site) {
-        try {
-            final Uri uriUrl = Uri.parse(site);
-            final Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-            startActivity(launchBrowser);
-        } catch (Exception ex) {
-            Toast.makeText(MainActivity.this, R.string.error_website, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void openPlayStore() {
-        try {
-            final Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=com.codedead.deadhash"));
-            startActivity(intent);
-        } catch (Exception ignored) {
-            Toast.makeText(MainActivity.this, R.string.error_playstore, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -651,7 +633,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void hashDataText(List<EncryptionData> data) {
+    public void hashDataText(final List<EncryptionData> data) {
         textLoading = false;
         pgbText.setVisibility(View.GONE);
 
@@ -662,7 +644,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 123 && resultCode == RESULT_OK) {
             if (data != null) {

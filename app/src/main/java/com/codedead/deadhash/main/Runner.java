@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.codedead.deadhash.domain.LocaleHelper;
+import com.codedead.deadhash.domain.utils.LocaleHelper;
 
 public class Runner extends Application {
 

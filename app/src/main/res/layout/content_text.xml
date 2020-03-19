@@ -27,8 +27,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/text_content_hint"
-                    android:inputType="text"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
             </TableRow>
 
             <TableRow>
@@ -47,8 +47,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/text_compare_hint"
-                    android:inputType="text"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
             </TableRow>
         </TableLayout>
 

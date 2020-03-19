@@ -49,6 +49,7 @@
     <string name="text_information">Information</string>
     <string name="hint_facebook_logo" translatable="false">Facebook logo</string>
     <string name="hint_twitter_logo" translatable="false">Twitter logo</string>
+    <string name="hint_website_logo" translatable="false">Website logo</string>
     <string name="alert_review_never">Never</string>
     <string name="string_no_clipboard_access">Unable to get access to your clipboard!</string>
     <string name="error_playstore">Unable to open the Play Store!</string>

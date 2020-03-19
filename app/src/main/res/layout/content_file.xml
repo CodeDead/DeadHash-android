@@ -40,9 +40,9 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:inputType="none"
                     android:hint="@string/card_file_path"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="none" />
 
                 <ImageButton
                     android:id="@+id/ImgBtnFileData"
