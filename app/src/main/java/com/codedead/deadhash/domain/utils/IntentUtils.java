@@ -9,10 +9,19 @@ import com.codedead.deadhash.R;
 
 public final class IntentUtils {
 
+    /**
+     * Initialize a new IntentUtils
+     */
     private IntentUtils() {
         // Empty constructor
     }
 
+    /**
+     * Open a specific website using an Intent
+     *
+     * @param context The Context that can be used to open an Intent
+     * @param site    The website that should be opened
+     */
     public static void openSite(final Context context, final String site) {
         if (context == null) throw new NullPointerException("Context cannot be null!");
         if (site == null) throw new NullPointerException("Site cannot be null!");
@@ -27,16 +36,20 @@ public final class IntentUtils {
         }
     }
 
+    /**
+     * Open the Play Store using an Intent
+     *
+     * @param context The Context that can be used to open the Play Store
+     */
     public static void openPlayStore(final Context context) {
         if (context == null) throw new NullPointerException("Context cannot be null!");
 
+        final Intent intent = new Intent(Intent.ACTION_VIEW);
         try {
-            final Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=com.codedead.deadhash"));
             context.startActivity(intent);
         } catch (Exception ignored) {
             Toast.makeText(context, context.getString(R.string.error_playstore), Toast.LENGTH_SHORT).show();
         }
     }
-
 }

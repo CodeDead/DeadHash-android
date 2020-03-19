@@ -6,23 +6,44 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+
 import androidx.preference.PreferenceManager;
 
 import java.util.Locale;
 
-public class LocaleHelper {
+public final class LocaleHelper {
 
-    public static Context onAttach(Context context) {
+    /**
+     * Method that should be called when a Context is attached
+     *
+     * @param context The Context that is attached
+     * @return The Context that contains the correct locale
+     */
+    public static Context onAttach(final Context context) {
         final String lang = getPersistedData(context, Locale.getDefault().getLanguage());
         return setLocale(context, lang);
     }
 
-    public static Context onAttach(Context context, String defaultLanguage) {
+    /**
+     * Method that should be called when a Context is attached
+     *
+     * @param context         The Context that is attached
+     * @param defaultLanguage The default language
+     * @return THe Context that contains the correct locale
+     */
+    public static Context onAttach(final Context context, final String defaultLanguage) {
         final String lang = getPersistedData(context, defaultLanguage);
         return setLocale(context, lang);
     }
 
-    public static Context setLocale(Context context, String language) {
+    /**
+     * Set the locale of a Context
+     *
+     * @param context  The Context for which the locale should be set
+     * @param language The Language of the new locale
+     * @return The Context that contains the correct locale
+     */
+    public static Context setLocale(final Context context, final String language) {
         persist(context, language);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -32,12 +53,25 @@ public class LocaleHelper {
         return updateResourcesLegacy(context, language);
     }
 
-    private static String getPersistedData(Context context, String defaultLanguage) {
+    /**
+     * Get the persisted language code
+     *
+     * @param context         The Context for which the persisted language could should be retrieved
+     * @param defaultLanguage The default language code
+     * @return The String that contains the persisted language code
+     */
+    private static String getPersistedData(final Context context, final String defaultLanguage) {
         final SharedPreferences preferences = context.getSharedPreferences("deadhashsettings", Context.MODE_PRIVATE);
         return preferences.getString("language", defaultLanguage);
     }
 
-    private static void persist(Context context, String language) {
+    /**
+     * Persist the language code
+     *
+     * @param context  The Context that can be used to persist the data
+     * @param language The language code that should be persisted
+     */
+    private static void persist(final Context context, final String language) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -45,8 +79,15 @@ public class LocaleHelper {
         editor.apply();
     }
 
+    /**
+     * Update the resources of a specific Context
+     *
+     * @param context  The Context that should be updated to contain the proper resources
+     * @param language The language code that should be set
+     * @return The Context that contains the correct resources and locale
+     */
     @TargetApi(Build.VERSION_CODES.N)
-    private static Context updateResources(Context context, String language) {
+    private static Context updateResources(final Context context, final String language) {
         final Locale locale = new Locale(language);
         Locale.setDefault(locale);
 
@@ -56,7 +97,14 @@ public class LocaleHelper {
         return context.createConfigurationContext(configuration);
     }
 
-    private static Context updateResourcesLegacy(Context context, String language) {
+    /**
+     * Update the resources of a specific Context
+     *
+     * @param context  The Context that should be updated to contain the proper resources
+     * @param language The language code that should be set
+     * @return The Context that contains the correct resources and locale
+     */
+    private static Context updateResourcesLegacy(final Context context, final String language) {
         final Locale locale = new Locale(language);
         Locale.setDefault(locale);
 

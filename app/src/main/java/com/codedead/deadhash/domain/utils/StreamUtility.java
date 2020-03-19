@@ -8,7 +8,21 @@ public final class StreamUtility {
 
     private static final int BASE_BUFFER_SIZE = 1024;
 
-    public static void copyStream(InputStream inputStream, OutputStream outputStream) throws IOException {
+    /**
+     * Initialize a new StreamUtility
+     */
+    private StreamUtility() {
+        // Empty constructor
+    }
+
+    /**
+     * Copy a stream
+     *
+     * @param inputStream  The InputStream that should be copied
+     * @param outputStream The OutputSteam that should contain the copied data
+     * @throws IOException When the Stream could not be copied
+     */
+    public static void copyStream(final InputStream inputStream, final OutputStream outputStream) throws IOException {
         final byte[] bytes = new byte[BASE_BUFFER_SIZE];
         int count;
 
