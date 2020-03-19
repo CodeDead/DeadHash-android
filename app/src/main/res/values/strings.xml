@@ -57,6 +57,7 @@
     <string name="dialog_select_file">Select a file</string>
     <string name="error_open_file">Unable to open the selected file!</string>
     <string name="error_copy_file">Unable to create a copy of the selected file!</string>
+    <string name="error_no_file">No file was selected!</string>
 
     <string-array name="array_languages" translatable="false">
         <item>English</item>

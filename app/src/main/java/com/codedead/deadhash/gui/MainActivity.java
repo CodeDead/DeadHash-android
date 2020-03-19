@@ -130,8 +130,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(flipperPosition).getItemId());
             }
+
+            if (!savedInstanceState.getBoolean("KEEP_FILE")) {
+                deleteTempFile();
+            }
         } else {
             navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getItemId());
+            deleteTempFile();
         }
 
         spnLanguages = findViewById(R.id.SpnLanguages);
@@ -150,8 +155,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadSettingsContent();
 
         loadAlertContent();
+    }
 
-        // Cleanup of previous runs, if applicable
+    /**
+     * Delete the temporary file to save storage
+     */
+    private void deleteTempFile() {
         final File f = new File(getApplicationContext().getCacheDir(), tmpFile);
         if (f.exists()) {
             //noinspection ResultOfMethodCallIgnored
@@ -296,9 +305,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (fileLoading) return;
-                if (!new File(getApplicationContext().getCacheDir(), tmpFile).exists()) return;
+                if (!new File(getBaseContext().getCacheDir(), tmpFile).exists()) {
+                    Toast.makeText(getApplicationContext(), R.string.error_no_file, Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 mRecyclerViewFile.setAdapter(null);
 
@@ -593,7 +605,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         savedInstanceState.putInt("TAB_NUMBER", viewFlipper.getDisplayedChild());
         savedInstanceState.putString("FILE_PATH", edtFilePath.getText().toString());
         savedInstanceState.putString("FILE_COMPARE", edtFileCompare.getText().toString());
@@ -601,17 +613,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         savedInstanceState.putString("TEXT_DATA", edtTextData.getText().toString());
         savedInstanceState.putString("TEXT_COMPARE", edtTextCompare.getText().toString());
         savedInstanceState.putParcelableArrayList("TEXT_KEY", textDataArrayList);
+        savedInstanceState.putBoolean("KEEP_FILE", true);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleHelper.onAttach(getBaseContext());
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
+    protected void attachBaseContext(final Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
@@ -639,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         int page = 0;
 
         switch (item.getItemId()) {
@@ -665,7 +678,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void hashDataFile(List<HashData> data) {
+    public void hashDataFile(final List<HashData> data) {
         fileLoading = false;
         pgbFile.setVisibility(View.GONE);
 
@@ -696,7 +709,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     try (final InputStream selectedFileStream = getContentResolver().openInputStream(selectedFileUri)) {
                         final File outputFile = new File(getApplicationContext().getCacheDir(), tmpFile);
 
-                        try (final FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+                        try (final FileOutputStream outputStream = new FileOutputStream(outputFile, false)) {
                             if (selectedFileStream != null) {
                                 StreamUtility.copyStream(selectedFileStream, outputStream);
                                 edtFilePath.setText(selectedFileUri.getPath());

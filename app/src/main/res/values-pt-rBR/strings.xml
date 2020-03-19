@@ -45,4 +45,5 @@
     <string name="dialog_select_file">Selecione um arquivo</string>
     <string name="error_copy_file">Não foi possível criar uma cópia do arquivo selecionado!</string>
     <string name="error_open_file">Não foi possível abrir o arquivo selecionado!</string>
+    <string name="error_no_file">Nenhum arquivo foi selecionado!</string>
 </resources>
