@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -22,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codedead.deadhash.domain.objects.hashgenerator.HashAlgorithm;
+import com.codedead.deadhash.domain.objects.settings.SettingsContainer;
 import com.codedead.deadhash.domain.utils.IntentUtils;
 import com.codedead.deadhash.domain.utils.StreamUtility;
 import com.google.android.material.navigation.NavigationView;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DataAdapter mAdapterFile = new DataAdapter(fileDataArrayList);
     private DataAdapter mAdapterText = new DataAdapter(textDataArrayList);
 
-    private SharedPreferences sharedPreferences;
+    private final SettingsContainer settingsContainer = new SettingsContainer();
 
     private boolean fileLoading;
     private boolean textLoading;
@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final String tmpFile = "tmpFile";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE);
-        LocaleHelper.setLocale(this, sharedPreferences.getString("language", "en"));
+    protected void onCreate(final Bundle savedInstanceState) {
+        settingsContainer.loadSettings(getApplicationContext());
+        LocaleHelper.setLocale(this, settingsContainer.getLanguageCode());
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -159,8 +159,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Load the content and logic for AlertDialog objects
+     */
     private void loadAlertContent() {
-        if (sharedPreferences.getInt("reviewTimes", 0) >= 2) return;
+        if (settingsContainer.getReviewTimes() >= 2) return;
 
         final Random rnd = new Random();
 
@@ -209,16 +212,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }.start();
     }
 
-    private void addReview(boolean done) {
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-
+    /**
+     * Add a review to the review counter
+     *
+     * @param done True if a review is done, otherwise false
+     */
+    private void addReview(final boolean done) {
         if (done) {
-            editor.putInt("reviewTimes", 3);
+            settingsContainer.setReviewTimes(3);
         } else {
-            editor.putInt("reviewTimes", sharedPreferences.getInt("reviewTimes", 0) + 1);
+            settingsContainer.setReviewTimes(settingsContainer.getReviewTimes() + 1);
         }
 
-        editor.apply();
+        settingsContainer.saveSettings(getApplicationContext());
     }
 
     @Override
@@ -233,6 +239,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPause();
     }
 
+    /**
+     * Load the content and logic for the file hashing view
+     *
+     * @param savedInstance The Bundle that contains saved information
+     */
     private void loadFileHashContent(final Bundle savedInstance) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
@@ -319,7 +330,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void loadTextHashContent(Bundle savedInstance) {
+    /**
+     * Load the content and logic for the text hashing view
+     *
+     * @param savedInstance The Bundle that contains saved information
+     */
+    private void loadTextHashContent(final Bundle savedInstance) {
         pgbText = findViewById(R.id.PgbText);
         mRecyclerViewText = findViewById(R.id.text_recycler);
         mRecyclerViewText.setHasFixedSize(true);
@@ -383,25 +399,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    /**
+     * Get the List of HashAlgorithm enums that can be used, according to user preferences
+     *
+     * @return The List of HashingAlgorithm enums that can be used, according to user preferences
+     */
     private List<HashAlgorithm> getHashAlgorithms() {
         final List<HashAlgorithm> hashAlgorithms = new ArrayList<>();
-        if (sharedPreferences.getBoolean("md5", true))
+        if (settingsContainer.isCalculateMd5())
             hashAlgorithms.add(HashAlgorithm.md5);
-        if (sharedPreferences.getBoolean("sha1", true))
+        if (settingsContainer.isCalculateSha1())
             hashAlgorithms.add(HashAlgorithm.sha1);
-        if (sharedPreferences.getBoolean("sha224", true))
+        if (settingsContainer.isCalculateSha224())
             hashAlgorithms.add(HashAlgorithm.sha224);
-        if (sharedPreferences.getBoolean("sha256", true))
+        if (settingsContainer.isCalculateSha256())
             hashAlgorithms.add(HashAlgorithm.sha256);
-        if (sharedPreferences.getBoolean("sha384", true))
+        if (settingsContainer.isCalculateSha384())
             hashAlgorithms.add(HashAlgorithm.sha384);
-        if (sharedPreferences.getBoolean("sha512", true))
+        if (settingsContainer.isCalculateSha512())
             hashAlgorithms.add(HashAlgorithm.sha512);
-        if (sharedPreferences.getBoolean("crc32", true))
+        if (settingsContainer.isCalculateCrc32())
             hashAlgorithms.add(HashAlgorithm.crc32);
         return hashAlgorithms;
     }
 
+    /**
+     * Load the content and logic for the help view
+     */
     private void loadHelpContent() {
         final Button btnWebsite = findViewById(R.id.ButtonWebsite);
         final Button btnSupport = findViewById(R.id.ButtonSupport);
@@ -409,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                IntentUtils.openSite(v.getContext(),"http://codedead.com/");
+                IntentUtils.openSite(v.getContext(), "http://codedead.com/");
             }
         });
 
@@ -427,6 +451,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    /**
+     * Load the content and logic for the about view
+     */
     private void loadAboutContent() {
         final ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
         final ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
@@ -454,8 +481,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    /**
+     * Load the settings into the view
+     */
     private void loadSettings() {
-        switch (sharedPreferences.getString("language", "en")) {
+        switch (settingsContainer.getLanguageCode()) {
             default:
             case "en":
                 spnLanguages.setSelection(0);
@@ -476,15 +506,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spnLanguages.setSelection(5);
         }
 
-        ChbMD5.setChecked(sharedPreferences.getBoolean("md5", true));
-        ChbSHA1.setChecked(sharedPreferences.getBoolean("sha1", true));
-        ChbSHA224.setChecked(sharedPreferences.getBoolean("sha224", true));
-        ChbSHA256.setChecked(sharedPreferences.getBoolean("sha256", true));
-        ChbSHA384.setChecked(sharedPreferences.getBoolean("sha384", true));
-        ChbSHA512.setChecked(sharedPreferences.getBoolean("sha512", true));
-        ChbCRC32.setChecked(sharedPreferences.getBoolean("crc32", true));
+        ChbMD5.setChecked(settingsContainer.isCalculateMd5());
+        ChbSHA1.setChecked(settingsContainer.isCalculateSha1());
+        ChbSHA224.setChecked(settingsContainer.isCalculateSha224());
+        ChbSHA256.setChecked(settingsContainer.isCalculateSha256());
+        ChbSHA384.setChecked(settingsContainer.isCalculateSha384());
+        ChbSHA512.setChecked(settingsContainer.isCalculateSha512());
+        ChbCRC32.setChecked(settingsContainer.isCalculateCrc32());
     }
 
+    /**
+     * Load the content and logic for the settings view
+     */
     private void loadSettingsContent() {
         final Button btnReset = findViewById(R.id.BtnResetSettings);
         final Button btnSave = findViewById(R.id.BtnSaveSettings);
@@ -494,7 +527,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 saveSettings("en", true, true, true, true, true, true, true);
-                final Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
+                final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
                 Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
                 recreate();
                 loadSettings();
@@ -526,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
-                final Context c = LocaleHelper.setLocale(getApplicationContext(), sharedPreferences.getString("language", "en"));
+                final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
                 Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
                 recreate();
                 loadSettings();
@@ -534,19 +567,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void saveSettings(String lang, boolean MD5, boolean SHA1, boolean SHA224, boolean SHA256, boolean SHA384, boolean SHA512, boolean CRC32) {
-        final SharedPreferences.Editor edit = sharedPreferences.edit();
+    /**
+     * Save the user preferences
+     *
+     * @param lang   The language code
+     * @param md5    Whether or not MD5 hashes should be calculated
+     * @param sha1   Whether or not SHA1 hashes should be calculated
+     * @param sha224 Whether or not SHA224 hashes should be calculated
+     * @param sha256 Whether or not SHA256 hashes should be calculated
+     * @param sha384 Whether or not SHA384 hashes should be calculated
+     * @param sha512 Whether or not SHA512 hashes should be calculated
+     * @param crc32  Whether or not CRC32 values should be calculated
+     */
+    private void saveSettings(final String lang, final boolean md5, final boolean sha1, final boolean sha224, final boolean sha256, final boolean sha384, final boolean sha512, final boolean crc32) {
+        settingsContainer.setLanguageCode(lang);
+        settingsContainer.setCalculateMd5(md5);
+        settingsContainer.setCalculateSha1(sha1);
+        settingsContainer.setCalculateSha224(sha224);
+        settingsContainer.setCalculateSha256(sha256);
+        settingsContainer.setCalculateSha384(sha384);
+        settingsContainer.setCalculateSha512(sha512);
+        settingsContainer.setCalculateCrc32(crc32);
 
-        edit.putString("language", lang);
-        edit.putBoolean("md5", MD5);
-        edit.putBoolean("sha1", SHA1);
-        edit.putBoolean("sha224", SHA224);
-        edit.putBoolean("sha256", SHA256);
-        edit.putBoolean("sha384", SHA384);
-        edit.putBoolean("sha512", SHA512);
-        edit.putBoolean("crc32", CRC32);
-
-        edit.apply();
+        settingsContainer.saveSettings(getApplicationContext());
     }
 
     @Override
