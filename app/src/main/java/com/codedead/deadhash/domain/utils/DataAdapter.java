@@ -15,17 +15,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codedead.deadhash.R;
-import com.codedead.deadhash.domain.objects.hashgenerator.EncryptionData;
+import com.codedead.deadhash.domain.objects.hashgenerator.HashData;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHolder> {
 
-    private final ArrayList<EncryptionData> encryptionDataList;
+    private final List<HashData> hashDataList;
 
-    public DataAdapter(final ArrayList<EncryptionData> encryptionDataList) {
-        this.encryptionDataList = encryptionDataList;
+    /**
+     * Initialize a new DataAdapter
+     *
+     * @param hashDataList The List of EncryptionData objects
+     */
+    public DataAdapter(final List<HashData> hashDataList) {
+        this.hashDataList = hashDataList;
     }
+
 
     @NonNull
     @Override
@@ -36,13 +42,13 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
 
     @Override
     public void onBindViewHolder(@NonNull final DataHolder holder, final int position) {
-        final EncryptionData file = encryptionDataList.get(position);
+        final HashData file = hashDataList.get(position);
         holder.bindData(file);
     }
 
     @Override
     public int getItemCount() {
-        return encryptionDataList.size();
+        return hashDataList.size();
     }
 
     static class DataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -53,6 +59,11 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
 
         private String originalCompare;
 
+        /**
+         * Initialize a new DataHolder
+         *
+         * @param v The View that holds certain information
+         */
         DataHolder(final View v) {
             super(v);
 
@@ -65,7 +76,7 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
             copyData.setOnClickListener(this);
             compareData.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     if (originalCompare == null || originalCompare.length() == 0) return;
                     if (originalCompare.equals(encryptionData.getText().toString())) {
                         Toast.makeText(v.getContext(), R.string.toast_hash_match, Toast.LENGTH_SHORT).show();
@@ -88,13 +99,18 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
             }
         }
 
-        void bindData(final EncryptionData data) {
-            encryptionName.setText(data.getEncryptionName());
-            encryptionData.setText(data.getEncryptionData());
+        /**
+         * Bind an EncryptionData object to the view
+         *
+         * @param data The EncryptionData that should be bound to the view
+         */
+        void bindData(final HashData data) {
+            encryptionName.setText(data.getHashName());
+            encryptionData.setText(data.getHashData());
 
             if (data.getCompareCheck() != null && data.getCompareCheck().length() != 0) {
                 originalCompare = data.getCompareCheck();
-                if (data.getEncryptionData().equals(data.getCompareCheck())) {
+                if (data.getHashData().toLowerCase().equals(data.getCompareCheck().toLowerCase())) {
                     compareData.setImageResource(R.drawable.ic_compare_check);
                 } else {
                     compareData.setImageResource(R.drawable.ic_compare_uncheck);

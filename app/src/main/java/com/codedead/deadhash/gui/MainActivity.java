@@ -45,7 +45,7 @@ import android.widget.ViewFlipper;
 
 import com.codedead.deadhash.R;
 import com.codedead.deadhash.domain.utils.DataAdapter;
-import com.codedead.deadhash.domain.objects.hashgenerator.EncryptionData;
+import com.codedead.deadhash.domain.objects.hashgenerator.HashData;
 import com.codedead.deadhash.domain.objects.hashgenerator.FileHashGenerator;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashGenerator;
 import com.codedead.deadhash.domain.interfaces.hashgenerator.IHashResponse;
@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RecyclerView.LayoutManager mLayoutManagerFile;
 
-    private ArrayList<EncryptionData> fileDataArrayList = new ArrayList<>();
-    private ArrayList<EncryptionData> textDataArrayList = new ArrayList<>();
+    private ArrayList<HashData> fileDataArrayList = new ArrayList<>();
+    private ArrayList<HashData> textDataArrayList = new ArrayList<>();
 
     private DataAdapter mAdapterFile = new DataAdapter(fileDataArrayList);
     private DataAdapter mAdapterText = new DataAdapter(textDataArrayList);
@@ -622,22 +622,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void hashDataFile(List<EncryptionData> data) {
+    public void hashDataFile(List<HashData> data) {
         fileLoading = false;
         pgbFile.setVisibility(View.GONE);
 
-        for (final EncryptionData d : data) {
+        for (final HashData d : data) {
             fileDataArrayList.add(d);
             mAdapterFile.notifyItemInserted(fileDataArrayList.size());
         }
     }
 
     @Override
-    public void hashDataText(final List<EncryptionData> data) {
+    public void hashDataText(final List<HashData> data) {
         textLoading = false;
         pgbText.setVisibility(View.GONE);
 
-        for (final EncryptionData d : data) {
+        for (final HashData d : data) {
             textDataArrayList.add(d);
             mAdapterText.notifyItemInserted(textDataArrayList.size());
         }
