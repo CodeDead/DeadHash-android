@@ -5,7 +5,7 @@ android {
     buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.codedead.deadhash"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 30
         versionName '1.7.3'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -19,17 +19,21 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.preference:preference:1.1.1"
 }

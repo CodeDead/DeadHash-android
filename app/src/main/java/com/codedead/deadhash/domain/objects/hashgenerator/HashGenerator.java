@@ -1,8 +1,5 @@
 package com.codedead.deadhash.domain.objects.hashgenerator;
 
-import android.os.AsyncTask;
-
-import com.codedead.deadhash.domain.interfaces.hashgenerator.IHashResponse;
 import com.codedead.deadhash.domain.utils.HashUtil;
 
 import java.io.File;
@@ -11,14 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class HashGenerator extends AsyncTask<Void, Void, List<HashData>> {
+public final class HashGenerator {
 
     private final byte[] data;
     private final List<HashAlgorithm> hashAlgorithms;
     private final List<HashData> hashData;
     private final String compare;
-
-    public IHashResponse hashResponse = null;
 
     /**
      * Initialize a new HashGenerator
@@ -27,7 +22,7 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<HashData>
      * @param hashAlgorithms The List of HashingAlgorithm enums that should be used to calculate hashes
      * @param compare        The compare String for the calculated hashes
      */
-    HashGenerator(final byte[] data, final List<HashAlgorithm> hashAlgorithms, final String compare) {
+    public HashGenerator(final byte[] data, final List<HashAlgorithm> hashAlgorithms, final String compare) {
         hashData = new ArrayList<>();
         this.data = data;
 
@@ -43,7 +38,7 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<HashData>
      * @param compare        The compare String for the calculated hashes
      * @throws IOException When the File could not be read
      */
-    HashGenerator(final File data, final List<HashAlgorithm> hashAlgorithms, final String compare) throws IOException {
+    public HashGenerator(final File data, final List<HashAlgorithm> hashAlgorithms, final String compare) throws IOException {
         hashData = new ArrayList<>();
         this.data = readFileToBytes(data);
         this.hashAlgorithms = hashAlgorithms;
@@ -76,8 +71,11 @@ public abstract class HashGenerator extends AsyncTask<Void, Void, List<HashData>
         return bytes;
     }
 
-    @Override
-    protected List<HashData> doInBackground(Void... params) {
+    /**
+     * Generate the List of HashData for the given input data
+     * @return The List of HashData for the given input data
+     */
+    public final List<HashData> generateHashes() {
         for (final HashAlgorithm algorithm : hashAlgorithms) {
             switch (algorithm) {
                 case md5:

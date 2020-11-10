@@ -2,7 +2,6 @@ package com.codedead.deadhash.gui;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -32,6 +31,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -46,11 +46,8 @@ import android.widget.ViewFlipper;
 import com.codedead.deadhash.R;
 import com.codedead.deadhash.domain.utils.DataAdapter;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashData;
-import com.codedead.deadhash.domain.objects.hashgenerator.FileHashGenerator;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashGenerator;
-import com.codedead.deadhash.domain.interfaces.hashgenerator.IHashResponse;
 import com.codedead.deadhash.domain.utils.LocaleHelper;
-import com.codedead.deadhash.domain.objects.hashgenerator.TextHashGenerator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,8 +56,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IHashResponse {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private boolean doubleBackToExitPressedOnce;
 
     private ViewFlipper viewFlipper;
@@ -189,28 +187,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 reviewBuilder.setMessage(R.string.alert_review_text);
                 reviewBuilder.setCancelable(true);
 
-                reviewBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                reviewBuilder.setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                    dialog.cancel();
 
-                        addReview(true);
-                        IntentUtils.openPlayStore(MainActivity.this.getApplicationContext());
-                    }
+                    addReview(true);
+                    IntentUtils.openPlayStore(MainActivity.this.getApplicationContext());
                 });
 
-                reviewBuilder.setNegativeButton(R.string.alert_review_never, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        addReview(true);
-                    }
+                reviewBuilder.setNegativeButton(R.string.alert_review_never, (dialog, id) -> {
+                    dialog.cancel();
+                    addReview(true);
                 });
 
-                reviewBuilder.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        addReview(false);
-                    }
+                reviewBuilder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+                    dialog.cancel();
+                    addReview(false);
                 });
 
                 final AlertDialog alert1 = reviewBuilder.create();
@@ -287,57 +278,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mRecyclerViewFile.setAdapter(mAdapterFile);
 
-        btnOpenFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-                } else {
-                    final Intent intent = new Intent()
-                            .setType("*/*")
-                            .setAction(Intent.ACTION_GET_CONTENT)
-                            .addCategory(Intent.CATEGORY_OPENABLE);
+        btnOpenFile.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            } else {
+                final Intent intent = new Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_GET_CONTENT)
+                        .addCategory(Intent.CATEGORY_OPENABLE);
 
-                    startActivityForResult(Intent.createChooser(intent, getString(R.string.dialog_select_file)), 123);
-                }
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.dialog_select_file)), 123);
             }
         });
 
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (fileLoading) return;
-                if (!new File(getBaseContext().getCacheDir(), tmpFile).exists()) {
-                    Toast.makeText(getApplicationContext(), R.string.error_no_file, Toast.LENGTH_LONG).show();
-                    return;
-                }
+        btnGenerate.setOnClickListener(v -> {
+            if (fileLoading) return;
+            if (!new File(getBaseContext().getCacheDir(), tmpFile).exists()) {
+                Toast.makeText(getApplicationContext(), R.string.error_no_file, Toast.LENGTH_LONG).show();
+                return;
+            }
 
-                mRecyclerViewFile.setAdapter(null);
+            mRecyclerViewFile.setAdapter(null);
 
-                fileDataArrayList = new ArrayList<>();
-                mAdapterFile = new DataAdapter(fileDataArrayList);
+            fileDataArrayList = new ArrayList<>();
+            mAdapterFile = new DataAdapter(fileDataArrayList);
 
-                mRecyclerViewFile.setAdapter(mAdapterFile);
+            mRecyclerViewFile.setAdapter(mAdapterFile);
 
-                fileDataArrayList.clear();
-                mAdapterFile.notifyDataSetChanged();
+            fileDataArrayList.clear();
+            mAdapterFile.notifyDataSetChanged();
 
-                String compare = "";
-                if (edtFileCompare.getText() != null) {
-                    compare = edtFileCompare.getText().toString();
-                }
+            String compare = "";
+            if (edtFileCompare.getText() != null) {
+                compare = edtFileCompare.getText().toString();
+            }
 
-                try {
-                    final HashGenerator fileHashGenerator = new FileHashGenerator(new File(getApplicationContext().getCacheDir(), tmpFile), getHashAlgorithms(), compare);
-                    fileLoading = true;
-                    fileHashGenerator.hashResponse = MainActivity.this;
-                    fileHashGenerator.execute();
+            try {
+                final HashGenerator fileHashGenerator = new HashGenerator(new File(getApplicationContext().getCacheDir(), tmpFile), getHashAlgorithms(), compare);
+                fileLoading = true;
 
-                    pgbFile.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    pgbFile.setVisibility(View.GONE);
-                }
+                CompletableFuture.supplyAsync(fileHashGenerator::generateHashes)
+                        .thenAccept(s -> runOnUiThread(() -> {
+                            fileLoading = false;
+                            pgbFile.setVisibility(View.GONE);
+
+                            for (final HashData d : s) {
+                                fileDataArrayList.add(d);
+                                mAdapterFile.notifyItemInserted(fileDataArrayList.size());
+                            }
+                        }));
+
+                pgbFile.setVisibility(View.VISIBLE);
+            } catch (IOException e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                pgbFile.setVisibility(View.GONE);
             }
         });
     }
@@ -376,38 +370,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mRecyclerViewText.setAdapter(mAdapterText);
 
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (textLoading) return;
-                mRecyclerViewText.setAdapter(null);
+        btnGenerate.setOnClickListener(v -> {
+            if (textLoading) return;
+            mRecyclerViewText.setAdapter(null);
 
-                textDataArrayList = new ArrayList<>();
-                mAdapterText = new DataAdapter(textDataArrayList);
+            textDataArrayList = new ArrayList<>();
+            mAdapterText = new DataAdapter(textDataArrayList);
 
-                mRecyclerViewText.setAdapter(mAdapterText);
+            mRecyclerViewText.setAdapter(mAdapterText);
 
-                fileDataArrayList.clear();
-                mAdapterText.notifyDataSetChanged();
+            fileDataArrayList.clear();
+            mAdapterText.notifyDataSetChanged();
 
-                if (edtTextData.getText() == null || edtTextData.getText().toString().length() == 0) {
-                    Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                final String data = edtTextData.getText().toString();
-                String compare = "";
-                if (edtTextCompare.getText() != null) {
-                    compare = edtTextCompare.getText().toString();
-                }
-
-
-                final HashGenerator textHashGenerator = new TextHashGenerator(data.getBytes(), getHashAlgorithms(), compare);
-                textLoading = true;
-                textHashGenerator.hashResponse = MainActivity.this;
-                textHashGenerator.execute();
-                pgbText.setVisibility(View.VISIBLE);
+            if (edtTextData.getText() == null || edtTextData.getText().toString().length() == 0) {
+                Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            final String data = edtTextData.getText().toString();
+            String compare = "";
+            if (edtTextCompare.getText() != null) {
+                compare = edtTextCompare.getText().toString();
+            }
+
+
+            final HashGenerator textHashGenerator = new HashGenerator(data.getBytes(), getHashAlgorithms(), compare);
+            textLoading = true;
+
+            CompletableFuture.supplyAsync(textHashGenerator::generateHashes)
+                    .thenAccept(s -> runOnUiThread(() -> {
+                        textLoading = false;
+                        pgbText.setVisibility(View.GONE);
+
+                        for (final HashData d : s) {
+                            textDataArrayList.add(d);
+                            mAdapterText.notifyItemInserted(textDataArrayList.size());
+                        }
+                    }));
+
+            pgbText.setVisibility(View.VISIBLE);
         });
     }
 
@@ -442,25 +443,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Button btnWebsite = findViewById(R.id.ButtonWebsite);
         final Button btnSupport = findViewById(R.id.ButtonSupport);
 
-        btnWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                IntentUtils.openSite(v.getContext(), "http://codedead.com/");
-            }
-        });
+        btnWebsite.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "http://codedead.com/"));
 
-        btnSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                ShareCompat.IntentBuilder.from(MainActivity.this)
-                        .setType("message/rfc822")
-                        .addEmailTo("admin@codedead.com")
-                        .setSubject("DeadHash - Android")
-                        .setText("")
-                        .setChooserTitle(R.string.text_send_mail)
-                        .startChooser();
-            }
-        });
+        btnSupport.setOnClickListener(v -> ShareCompat.IntentBuilder.from(MainActivity.this)
+                .setType("message/rfc822")
+                .addEmailTo("admin@codedead.com")
+                .setSubject("DeadHash - Android")
+                .setText("")
+                .setChooserTitle(R.string.text_send_mail)
+                .startChooser());
     }
 
     /**
@@ -471,26 +462,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
         final ImageButton btnWebsite = findViewById(R.id.BtnWebsiteAbout);
 
-        btnWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                IntentUtils.openSite(v.getContext(), "http://codedead.com/");
-            }
-        });
-
-        btnFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                IntentUtils.openSite(v.getContext(), "https://facebook.com/deadlinecodedead");
-            }
-        });
-
-        btnTwitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                IntentUtils.openSite(v.getContext(), "https://twitter.com/C0DEDEAD");
-            }
-        });
+        btnWebsite.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "http://codedead.com/"));
+        btnFacebook.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://facebook.com/deadlinecodedead"));
+        btnTwitter.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://twitter.com/C0DEDEAD"));
     }
 
     /**
@@ -535,47 +509,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Button btnSave = findViewById(R.id.BtnSaveSettings);
         loadSettings();
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveSettings("en", true, true, true, true, true, true, true);
-                final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
-                Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
-                recreate();
-                loadSettings();
-            }
+        btnReset.setOnClickListener(v -> {
+            saveSettings("en", true, true, true, true, true, true, true);
+            final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
+            Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
+            recreate();
+            loadSettings();
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String lang;
-                switch (spnLanguages.getSelectedItemPosition()) {
-                    default:
-                        lang = "en";
-                        break;
-                    case 1:
-                        lang = "nl";
-                        break;
-                    case 2:
-                        lang = "fr";
-                        break;
-                    case 3:
-                        lang = "de";
-                        break;
-                    case 4:
-                        lang = "it";
-                        break;
-                    case 5:
-                        lang = "pt";
-                }
-
-                saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
-                final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
-                Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
-                recreate();
-                loadSettings();
+        btnSave.setOnClickListener(v -> {
+            String lang;
+            switch (spnLanguages.getSelectedItemPosition()) {
+                default:
+                    lang = "en";
+                    break;
+                case 1:
+                    lang = "nl";
+                    break;
+                case 2:
+                    lang = "fr";
+                    break;
+                case 3:
+                    lang = "de";
+                    break;
+                case 4:
+                    lang = "it";
+                    break;
+                case 5:
+                    lang = "pt";
             }
+
+            saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
+            final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
+            Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
+            recreate();
+            loadSettings();
         });
     }
 
@@ -642,12 +610,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, R.string.toast_back_again, Toast.LENGTH_SHORT).show();
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 2000);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         }
     }
 
@@ -671,28 +634,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void hashDataFile(final List<HashData> data) {
-        fileLoading = false;
-        pgbFile.setVisibility(View.GONE);
-
-        for (final HashData d : data) {
-            fileDataArrayList.add(d);
-            mAdapterFile.notifyItemInserted(fileDataArrayList.size());
-        }
-    }
-
-    @Override
-    public void hashDataText(final List<HashData> data) {
-        textLoading = false;
-        pgbText.setVisibility(View.GONE);
-
-        for (final HashData d : data) {
-            textDataArrayList.add(d);
-            mAdapterText.notifyItemInserted(textDataArrayList.size());
-        }
     }
 
     @Override
