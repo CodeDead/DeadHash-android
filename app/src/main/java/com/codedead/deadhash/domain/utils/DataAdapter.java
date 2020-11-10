@@ -74,15 +74,12 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
             final ImageButton copyData = v.findViewById(R.id.Copy_Data);
 
             copyData.setOnClickListener(this);
-            compareData.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    if (originalCompare == null || originalCompare.length() == 0) return;
-                    if (originalCompare.equals(encryptionData.getText().toString())) {
-                        Toast.makeText(v.getContext(), R.string.toast_hash_match, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(v.getContext(), R.string.toast_hash_mismatch, Toast.LENGTH_SHORT).show();
-                    }
+            compareData.setOnClickListener(v1 -> {
+                if (originalCompare == null || originalCompare.length() == 0) return;
+                if (originalCompare.equals(encryptionData.getText().toString())) {
+                    Toast.makeText(v1.getContext(), R.string.toast_hash_match, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(v1.getContext(), R.string.toast_hash_mismatch, Toast.LENGTH_SHORT).show();
                 }
             });
         }
