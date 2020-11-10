@@ -13,10 +13,10 @@ import java.util.List;
 
 public abstract class HashGenerator extends AsyncTask<Void, Void, List<HashData>> {
 
-    private byte[] data;
+    private final byte[] data;
     private final List<HashAlgorithm> hashAlgorithms;
     private final List<HashData> hashData;
-    private String compare;
+    private final String compare;
 
     public IHashResponse hashResponse = null;
 

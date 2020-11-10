@@ -655,19 +655,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         int page = 0;
 
-        switch (item.getItemId()) {
-            case R.id.nav_text:
-                page = 1;
-                break;
-            case R.id.nav_help:
-                page = 2;
-                break;
-            case R.id.nav_about:
-                page = 3;
-                break;
-            case R.id.nav_manage:
-                page = 4;
-                break;
+        final int itemId = item.getItemId();
+        if (itemId == R.id.nav_text) {
+            page = 1;
+        } else if (itemId == R.id.nav_help) {
+            page = 2;
+        } else if (itemId == R.id.nav_about) {
+            page = 3;
+        } else if (itemId == R.id.nav_manage) {
+            page = 4;
         }
 
         viewFlipper.setDisplayedChild(page);
