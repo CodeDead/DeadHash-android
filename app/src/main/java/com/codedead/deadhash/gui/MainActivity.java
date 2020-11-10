@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 reviewBuilder.setMessage(R.string.alert_review_text);
                 reviewBuilder.setCancelable(true);
 
-                reviewBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                reviewBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
 
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-                reviewBuilder.setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                reviewBuilder.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
