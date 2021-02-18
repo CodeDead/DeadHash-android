@@ -32,7 +32,7 @@
     <string name="text_compare">Comparer:</string>
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
-    <string name="text_about">DeadHash a été créé par DeadLine. Cette application peut être utilisée pour générer des hachages de fichiers et de chaînes.\n\nAucune publicité ou périphérique de suivi n\'est inclus dans cette version. Toutes les autorisations requises sont nécessaires pour utiliser correctement cette application.\n\nToutes les images sont gracieusement fournies par Google.\n\nCopyright © 2020 CodeDead</string>
+    <string name="text_about">DeadHash a été créé par DeadLine. Cette application peut être utilisée pour générer des hachages de fichiers et de chaînes.\n\nAucune publicité ou périphérique de suivi n\'est inclus dans cette version. Toutes les autorisations requises sont nécessaires pour utiliser correctement cette application.\n\nToutes les images sont gracieusement fournies par Google.\n\nCopyright © 2021 CodeDead</string>
     <string name="text_help">La génération de hachages de fichiers ne peut être effectuée que lorsque DeadHash a été autorisé à lire votre stockage. Génération hash pour des fichiers plus volumineux peut prendre un certain temps. Cela dépend entièrement du pouvoir de traitement de votre appareil.\n\nLa génération de hachages de texte ne nécessite aucune autorisation supplémentaire. La génération de hachis pour un texte plus grand peut prendre un certain temps. Cela dépend entièrement du pouvoir de traitement de votre appareil.\n\nSi vous rencontrez un bug ou si vous avez besoin de soutien, vous pouvez toujours nous contacter!</string>
     <string name="text_send_mail">Envoyez-nous un e-mail</string>
     <string name="alert_review_text">Envisagez de laisser un commentaire si vous aimez cette application!</string>
@@ -46,4 +46,8 @@
     <string name="error_copy_file">Impossible de créer une copie du fichier sélectionné!</string>
     <string name="error_open_file">Impossible d\'ouvrir le fichier sélectionné!</string>
     <string name="error_no_file">Aucun fichier n\'a été sélectionné!</string>
+    <string name="theme">Thème</string>
+    <string name="light">Lumière</string>
+    <string name="dark">Foncé</string>
+    <string name="defaultTheme">Défaut</string>
 </resources>
