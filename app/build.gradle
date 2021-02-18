@@ -7,9 +7,9 @@ android {
         applicationId "com.codedead.deadhash"
         minSdkVersion 24
         targetSdkVersion 30
-        versionName '1.7.3'
+        versionName '1.7.4'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 4
+        versionCode 5
     }
     buildTypes {
         release {
