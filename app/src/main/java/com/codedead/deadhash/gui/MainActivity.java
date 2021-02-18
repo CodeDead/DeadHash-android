@@ -12,6 +12,7 @@ import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
@@ -39,6 +40,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -89,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean paused;
 
     private Spinner spnLanguages;
+    private RadioButton rdbLightTheme;
+    private RadioButton rdbDarkTheme;
+    private RadioButton rdbDefaultTheme;
     private CheckBox ChbMD5;
     private CheckBox ChbSHA1;
     private CheckBox ChbSHA224;
@@ -136,8 +142,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getItemId());
             deleteTempFile();
         }
-
         spnLanguages = findViewById(R.id.SpnLanguages);
+        rdbLightTheme = findViewById(R.id.RdbLightTheme);
+        rdbDarkTheme = findViewById(R.id.RdbDarkTheme);
+        rdbDefaultTheme = findViewById(R.id.RdbDefaultTheme);
         ChbMD5 = findViewById(R.id.ChbMD5);
         ChbSHA1 = findViewById(R.id.ChbSHA1);
         ChbSHA224 = findViewById(R.id.ChbSHA224);
@@ -492,6 +500,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spnLanguages.setSelection(5);
         }
 
+        getDelegate().applyDayNight();
+
+        switch (settingsContainer.getTheme()) {
+            case 0:
+                rdbDefaultTheme.setChecked(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 1:
+                rdbLightTheme.setChecked(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 2:
+                rdbDarkTheme.setChecked(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
+
         ChbMD5.setChecked(settingsContainer.isCalculateMd5());
         ChbSHA1.setChecked(settingsContainer.isCalculateSha1());
         ChbSHA224.setChecked(settingsContainer.isCalculateSha224());
@@ -509,8 +534,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Button btnSave = findViewById(R.id.BtnSaveSettings);
         loadSettings();
 
+        final RadioGroup group = findViewById(R.id.RgrThemes);
+
         btnReset.setOnClickListener(v -> {
-            saveSettings("en", true, true, true, true, true, true, true);
+            saveSettings("en", true, true, true, true, true, true, true, 0);
             final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
             Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
             recreate();
@@ -539,7 +566,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     lang = "pt";
             }
 
-            saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked());
+
+            final int checkedRadioButtonId = group.getCheckedRadioButtonId();
+            int themeIndex = 0;
+            if (checkedRadioButtonId == R.id.RdbLightTheme) {
+                themeIndex = 1;
+            } else if (checkedRadioButtonId == R.id.RdbDarkTheme) {
+                themeIndex = 2;
+            }
+
+            saveSettings(lang, ChbMD5.isChecked(), ChbSHA1.isChecked(), ChbSHA224.isChecked(), ChbSHA256.isChecked(), ChbSHA384.isChecked(), ChbSHA512.isChecked(), ChbCRC32.isChecked(), themeIndex);
             final Context c = LocaleHelper.setLocale(getApplicationContext(), settingsContainer.getLanguageCode());
             Toast.makeText(MainActivity.this, c.getString(R.string.toast_settings_save), Toast.LENGTH_SHORT).show();
             recreate();
@@ -559,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param sha512 Whether or not SHA512 hashes should be calculated
      * @param crc32  Whether or not CRC32 values should be calculated
      */
-    private void saveSettings(final String lang, final boolean md5, final boolean sha1, final boolean sha224, final boolean sha256, final boolean sha384, final boolean sha512, final boolean crc32) {
+    private void saveSettings(final String lang, final boolean md5, final boolean sha1, final boolean sha224, final boolean sha256, final boolean sha384, final boolean sha512, final boolean crc32, final int theme) {
         settingsContainer.setLanguageCode(lang);
         settingsContainer.setCalculateMd5(md5);
         settingsContainer.setCalculateSha1(sha1);
@@ -568,6 +604,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         settingsContainer.setCalculateSha384(sha384);
         settingsContainer.setCalculateSha512(sha512);
         settingsContainer.setCalculateCrc32(crc32);
+        settingsContainer.setTheme(theme);
 
         settingsContainer.saveSettings(getApplicationContext());
     }

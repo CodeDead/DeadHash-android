@@ -16,6 +16,7 @@ public class SettingsContainer {
     private boolean calculateSha512;
     private boolean calculateCrc32;
     private int reviewTimes;
+    private int theme;
 
     /**
      * Initialize a new SettingsContainer
@@ -190,6 +191,24 @@ public class SettingsContainer {
     }
 
     /**
+     * Get the theme index
+     *
+     * @return The theme index
+     */
+    public int getTheme() {
+        return theme;
+    }
+
+    /**
+     * Set the theme index
+     *
+     * @param theme The theme index
+     */
+    public void setTheme(final int theme) {
+        this.theme = theme;
+    }
+
+    /**
      * Load the settings
      *
      * @param context The Context that can be used to load the settings
@@ -208,6 +227,7 @@ public class SettingsContainer {
         calculateSha512 = sharedPreferences.getBoolean("sha512", true);
         calculateCrc32 = sharedPreferences.getBoolean("crc32", true);
         reviewTimes = sharedPreferences.getInt("reviewTimes", 0);
+        theme = sharedPreferences.getInt("theme", 0);
     }
 
     /**
@@ -230,6 +250,7 @@ public class SettingsContainer {
         edit.putBoolean("sha512", isCalculateSha512());
         edit.putBoolean("crc32", isCalculateCrc32());
         edit.putInt("reviewTimes", getReviewTimes());
+        edit.putInt("theme", getTheme());
 
         edit.apply();
     }
