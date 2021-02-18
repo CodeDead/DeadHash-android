@@ -14,25 +14,61 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_language"
-            android:textSize="16sp" />
+        <TableRow android:gravity="center">
 
-        <Spinner
-            android:id="@+id/SpnLanguages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/array_languages" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_language"
+                android:textSize="16sp" />
 
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/SpnLanguages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/array_languages" />
+        </TableRow>
+
+        <TableRow android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/theme"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/RgrThemes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/RdbDarkTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/dark" />
+                <RadioButton
+                    android:id="@+id/RdbLightTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/light" />
+                <RadioButton
+                    android:id="@+id/RdbDefaultTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/defaultTheme" />
+            </RadioGroup>
+        </TableRow>
+
+    </TableLayout>
 
     <TextView
         android:layout_width="match_parent"
