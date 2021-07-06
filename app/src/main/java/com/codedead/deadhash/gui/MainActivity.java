@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }));
 
                 pgbFile.setVisibility(View.VISIBLE);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 pgbFile.setVisibility(View.GONE);
             }
@@ -690,10 +690,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else {
                                 Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
                             }
-                        } catch (IOException ex) {
+                        } catch (final IOException ex) {
                             Toast.makeText(this, R.string.error_copy_file, Toast.LENGTH_SHORT).show();
                         }
-                    } catch (IOException ex) {
+                    } catch (final IOException ex) {
                         Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
                     }
                 } else {
