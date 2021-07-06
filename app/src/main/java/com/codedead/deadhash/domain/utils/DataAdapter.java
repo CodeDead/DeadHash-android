@@ -32,7 +32,6 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
         this.hashDataList = hashDataList;
     }
 
-
     @NonNull
     @Override
     public DataHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
