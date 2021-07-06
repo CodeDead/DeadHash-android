@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -106,10 +107,12 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
 
             if (data.getCompareCheck() != null && data.getCompareCheck().length() != 0) {
                 originalCompare = data.getCompareCheck();
-                if (data.getHashData().toLowerCase().equals(data.getCompareCheck().toLowerCase())) {
+                if (data.getHashData().equalsIgnoreCase(data.getCompareCheck())) {
                     compareData.setImageResource(R.drawable.ic_compare_check);
+                    compareData.setBackgroundTintList(ContextCompat.getColorStateList(compareData.getContext(), R.color.green));
                 } else {
                     compareData.setImageResource(R.drawable.ic_compare_uncheck);
+                    compareData.setBackgroundTintList(ContextCompat.getColorStateList(compareData.getContext(), R.color.red));
                 }
             } else {
                 compareData.setVisibility(View.INVISIBLE);
