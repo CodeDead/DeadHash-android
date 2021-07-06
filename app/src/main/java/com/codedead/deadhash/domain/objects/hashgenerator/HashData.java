@@ -46,7 +46,8 @@ public class HashData implements Parcelable {
     }
 
     private HashData(final Parcel in) {
-        if (in == null) throw new NullPointerException("Parcel cannot be null!");
+        if (in == null)
+            throw new NullPointerException("Parcel cannot be null!");
 
         hashName = in.readString();
         hashData = in.readString();
