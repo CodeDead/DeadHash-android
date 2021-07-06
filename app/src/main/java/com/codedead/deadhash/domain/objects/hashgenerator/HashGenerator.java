@@ -53,6 +53,9 @@ public final class HashGenerator {
      * @throws IOException When the File could not be read
      */
     private byte[] readFileToBytes(final File file) throws IOException {
+        if (file == null)
+            throw new NullPointerException("File cannot be null!");
+
         final int size = (int) file.length();
         final byte[] bytes = new byte[size];
         final byte[] tmpBuff = new byte[size];

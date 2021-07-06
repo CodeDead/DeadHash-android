@@ -9,7 +9,7 @@ public final class HashUtil {
      * Initialize a new HashUtil
      */
     private HashUtil() {
-        // Empty constructor
+        // Default constructor
     }
 
     /**
@@ -44,7 +44,7 @@ public final class HashUtil {
             md.update(bytes, 0, bytes.length);
             final byte[] hash = md.digest();
             return convertToHex(hash);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return null;
         }
     }
@@ -60,7 +60,7 @@ public final class HashUtil {
             final CRC32 crc = new CRC32();
             crc.update(bytes);
             return Long.toHexString(crc.getValue());
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return null;
         }
     }

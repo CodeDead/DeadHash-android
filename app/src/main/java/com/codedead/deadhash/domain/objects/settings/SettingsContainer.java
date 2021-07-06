@@ -22,7 +22,7 @@ public class SettingsContainer {
      * Initialize a new SettingsContainer
      */
     public SettingsContainer() {
-
+        // Default constructor
     }
 
     /**
