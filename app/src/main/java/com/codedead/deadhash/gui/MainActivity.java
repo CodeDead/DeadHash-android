@@ -498,6 +498,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "pt":
                 spnLanguages.setSelection(5);
+                break;
+            case "ru":
+                spnLanguages.setSelection(6);
+                break;
         }
 
         getDelegate().applyDayNight();
@@ -564,6 +568,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case 5:
                     lang = "pt";
+                    break;
+                case 6:
+                    lang = "ru";
             }
 
 
