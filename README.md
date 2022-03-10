@@ -24,3 +24,5 @@ This library is maintained by CodeDead. You can find more about us using the fol
 * [Twitter](https://twitter.com/C0DEDEAD)
 * [Facebook](https://facebook.com/deadlinecodedead)
 * [Reddit](https://reddit.com/r/CodeDead/)
+
+Copyright © 2022 CodeDead
