@@ -46,7 +46,7 @@
     <string name="error_copy_file">Не могу копировать выбранный файл!</string>
     <string name="error_open_file">Не могу открыть выбранный файл!</string>
     <string name="error_no_file">Не был выбран ни один файл!</string>
-    <string name="theme">Тема</string>
+    <string name="theme">Тема:</string>
     <string name="dark">Тёмная</string>
     <string name="light">Светлая</string>
     <string name="defaultTheme">По умолчанию</string>

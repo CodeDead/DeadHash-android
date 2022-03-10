@@ -46,7 +46,7 @@
     <string name="error_copy_file">Não foi possível criar uma cópia do arquivo selecionado!</string>
     <string name="error_open_file">Não foi possível abrir o arquivo selecionado!</string>
     <string name="error_no_file">Nenhum arquivo foi selecionado!</string>
-    <string name="theme">Tema</string>
+    <string name="theme">Tema:</string>
     <string name="light">Claro</string>
     <string name="dark">Escuro</string>
     <string name="defaultTheme">Predefinição</string>
