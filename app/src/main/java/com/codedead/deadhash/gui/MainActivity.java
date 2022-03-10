@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Looper;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -469,10 +471,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
         final ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
         final ImageButton btnWebsite = findViewById(R.id.BtnWebsiteAbout);
+        final TextView txtAbout = findViewById(R.id.TxtAbout);
 
         btnWebsite.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "http://codedead.com/"));
         btnFacebook.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://facebook.com/deadlinecodedead"));
         btnTwitter.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://twitter.com/C0DEDEAD"));
+        txtAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /**
@@ -498,6 +502,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "pt":
                 spnLanguages.setSelection(5);
+                break;
+            case "ru":
+                spnLanguages.setSelection(6);
+                break;
         }
 
         getDelegate().applyDayNight();
@@ -564,6 +572,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case 5:
                     lang = "pt";
+                    break;
+                case 6:
+                    lang = "ru";
             }
 
 
