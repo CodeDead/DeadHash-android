@@ -9,7 +9,7 @@ android {
         targetSdkVersion 31
         versionName '1.7.6'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 6
+        versionCode 7
     }
     buildTypes {
         release {
