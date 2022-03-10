@@ -51,7 +51,7 @@
     <string name="hint_twitter_logo" translatable="false">Twitter logo</string>
     <string name="hint_website_logo" translatable="false">Website logo</string>
     <string name="alert_review_never">Никогда</string>
-    <string name="string_no_clipboard_access">Не могу получить доступ к вашему буферу!</string>
+    <string name="string_no_clipboard_access">Не могу получить доступ к вашему буферу обмена!</string>
     <string name="error_playstore">Не могу открыть Play Store!</string>
     <string name="error_website">Не могу открыть веб-сайт!</string>
     <string name="dialog_select_file">Выберите файл</string>
