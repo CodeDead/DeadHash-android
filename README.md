@@ -1,5 +1,9 @@
 # DeadHash
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/DeadHash-android)
+![GitHub](https://img.shields.io/badge/language-Java-green)
+![GitHub](https://img.shields.io/github/license/CodeDead/DeadHash-android)
+
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
 height="80">](https://f-droid.org/packages/com.codedead.deadhash/)
