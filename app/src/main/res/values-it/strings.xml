@@ -27,13 +27,7 @@
     <string name="text_help">La generazione di hash di file può essere eseguita solo quando DeadHash è stato autorizzato a leggere la propria memoria. La generazione di hash per file più grandi può richiedere un po \'di tempo. Questo dipende interamente dalla potenza di elaborazione del dispositivo.\n\nLa generazione di hash di testo non richiede autorizzazioni aggiuntive. La generazione di hash per stringhe più grandi può richiedere un po \'di tempo. Ciò dipende interamente dalla potenza di elaborazione del dispositivo.\n\nSe si verifica un errore o se hai bisogno di supporto, puoi sempre contattarci!</string>
     <string name="nav_tools">Strumenti</string>
     <string name="text_about">DeadHash è stato creato da DeadLine. Questa applicazione può essere utilizzata per generare hash di file e stringhe.\n\nNon sono inclusi dispositivi di pubblicità o di rilevamento in questa versione. Tutte le autorizzazioni richieste sono necessarie per utilizzare correttamente questa applicazione.\n\nTutte le immagini sono a cura di Google.\n\nCopyright © 2022 CodeDead</string>
-    <string name="toast_settings_reset">Tutte le impostazioni sono state ripristinate!</string>
-    <string name="toast_settings_save">Tutte le impostazioni sono state salvate!</string>
-    <string name="text_interface">Interfaccia</string>
-    <string name="text_language">Lingua:</string>
-    <string name="text_hash_generator">Generatore di hash</string>
-    <string name="button_reset">Reset</string>
-    <string name="button_save">Salva</string>
+    <string name="text_language">Lingua</string>
     <string name="text_send_mail">Inviaci una e-mail</string>
     <string name="alert_review_title">Recensione</string>
     <string name="alert_review_text">Considera di lasciare una recensione se ti piace questa applicazione!</string>
@@ -46,8 +40,12 @@
     <string name="error_copy_file">Impossibile creare una copia del file selezionato!</string>
     <string name="error_open_file">Impossibile aprire il file selezionato!</string>
     <string name="error_no_file">Nessun file è stato selezionato!</string>
-    <string name="theme">Tema:</string>
-    <string name="light">Luce</string>
-    <string name="dark">Buio</string>
-    <string name="defaultTheme">Predefinito</string>
+    <string name="theme">Tema</string>
+    <string name="ui_header">Interfaccia utente</string>
+    <string name="hashing">Hashing</string>
+    <string-array name="deadhash_theme_values">
+        <item>Leggero</item>
+        <item>Buio</item>
+        <item>Default del sistema</item>
+    </string-array>
 </resources>

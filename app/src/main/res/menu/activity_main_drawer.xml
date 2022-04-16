@@ -5,11 +5,8 @@
         android:checkable="false"
         android:title="@string/nav_tools">
         <menu>
-            <group
-                android:id="@+id/icon_group_nav"
-                android:checkableBehavior="single">
+            <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_file"
                     android:icon="@drawable/ic_menu_file"
                     android:title="@string/nav_file" />
                 <item
@@ -24,9 +21,7 @@
         android:checkable="false"
         android:title="@string/nav_info">
         <menu>
-            <group
-                android:id="@+id/icon_group_info"
-                android:checkableBehavior="single">
+            <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_help"
                     android:icon="@drawable/ic_menu_help"
@@ -35,10 +30,6 @@
                     android:id="@+id/nav_about"
                     android:icon="@drawable/ic_menu_about"
                     android:title="@string/nav_about" />
-                <item
-                    android:id="@+id/nav_manage"
-                    android:icon="@drawable/ic_menu_manage"
-                    android:title="@string/nav_settings" />
             </group>
         </menu>
     </item>
