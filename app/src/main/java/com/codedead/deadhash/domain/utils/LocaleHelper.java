@@ -1,11 +1,9 @@
 package com.codedead.deadhash.domain.utils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 
 import androidx.preference.PreferenceManager;
 
@@ -45,11 +43,6 @@ public final class LocaleHelper {
      */
     public static Context setLocale(final Context context, final String language) {
         persist(context, language);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return updateResources(context, language);
-        }
-
         return updateResourcesLegacy(context, language);
     }
 
@@ -77,24 +70,6 @@ public final class LocaleHelper {
 
         editor.putString("language", language);
         editor.apply();
-    }
-
-    /**
-     * Update the resources of a specific Context
-     *
-     * @param context  The Context that should be updated to contain the proper resources
-     * @param language The language code that should be set
-     * @return The Context that contains the correct resources and locale
-     */
-    @TargetApi(Build.VERSION_CODES.N)
-    private static Context updateResources(final Context context, final String language) {
-        final Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-
-        final Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-
-        return context.createConfigurationContext(configuration);
     }
 
     /**

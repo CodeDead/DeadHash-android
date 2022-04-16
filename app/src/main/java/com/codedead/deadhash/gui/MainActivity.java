@@ -10,8 +10,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CheckBox ChbCRC32;
 
     private final String tmpFile = "tmpFile";
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -163,6 +165,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadSettingsContent();
 
         loadAlertContent();
+
+        this.activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getData() != null) {
+                        final Uri selectedFileUri = result.getData().getData();
+                        if (selectedFileUri != null) {
+                            try (final InputStream selectedFileStream = getContentResolver().openInputStream(selectedFileUri)) {
+                                final File outputFile = new File(getApplicationContext().getCacheDir(), tmpFile);
+
+                                try (final FileOutputStream outputStream = new FileOutputStream(outputFile, false)) {
+                                    if (selectedFileStream != null) {
+                                        StreamUtility.copyStream(selectedFileStream, outputStream);
+                                        edtFilePath.setText(selectedFileUri.getPath());
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (final IOException ex) {
+                                    Toast.makeText(getApplicationContext()
+                                            , R.string.error_copy_file, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (final IOException ex) {
+                                Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     /**
@@ -297,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction(Intent.ACTION_GET_CONTENT)
                         .addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.dialog_select_file)), 123);
+                activityResultLauncher.launch(Intent.createChooser(intent, getString(R.string.dialog_select_file)));
             }
         });
 
@@ -455,7 +486,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btnWebsite.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "http://codedead.com/"));
 
-        btnSupport.setOnClickListener(v -> ShareCompat.IntentBuilder.from(MainActivity.this)
+        btnSupport.setOnClickListener(v -> new ShareCompat.IntentBuilder(MainActivity.this)
                 .setType("message/rfc822")
                 .addEmailTo("admin@codedead.com")
                 .setSubject("DeadHash - Android")
@@ -577,7 +608,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     lang = "ru";
             }
 
-
             final int checkedRadioButtonId = group.getCheckedRadioButtonId();
             int themeIndex = 0;
             if (checkedRadioButtonId == R.id.RdbLightTheme) {
@@ -682,35 +712,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == RESULT_OK) {
-            if (data != null) {
-                final Uri selectedFileUri = data.getData();
-                if (selectedFileUri != null) {
-                    try (final InputStream selectedFileStream = getContentResolver().openInputStream(selectedFileUri)) {
-                        final File outputFile = new File(getApplicationContext().getCacheDir(), tmpFile);
-
-                        try (final FileOutputStream outputStream = new FileOutputStream(outputFile, false)) {
-                            if (selectedFileStream != null) {
-                                StreamUtility.copyStream(selectedFileStream, outputStream);
-                                edtFilePath.setText(selectedFileUri.getPath());
-                            } else {
-                                Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (final IOException ex) {
-                            Toast.makeText(this, R.string.error_copy_file, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (final IOException ex) {
-                        Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, R.string.error_open_file, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
     }
 }
