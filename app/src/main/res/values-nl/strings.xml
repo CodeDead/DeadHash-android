@@ -46,7 +46,7 @@
     <string name="error_copy_file">Kon geen kopie van het bestand maken!</string>
     <string name="error_open_file">Kon het geselecteerde bestand niet openen!</string>
     <string name="error_no_file">Geen bestand geselecteerd!</string>
-    <string name="theme">Thema</string>
+    <string name="theme">Thema:</string>
     <string name="dark">Donker</string>
     <string name="light">Licht</string>
     <string name="defaultTheme">Standaard</string>

@@ -30,9 +30,15 @@
                     android:importantForAutofill="no"
                     android:inputType="text" />
             </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/layout_compare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_text">
 
             <TableRow>
-
                 <TextView
                     android:id="@+id/Text_FileCompare"
                     android:layout_width="wrap_content"
@@ -57,7 +63,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_text"
+            android:layout_below="@+id/layout_compare"
             android:layout_alignParentEnd="true"
             android:text="@string/button_generate">
 
