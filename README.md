@@ -20,7 +20,6 @@ The following hash calculations are supported:
 * SHA-1
 * SHA-224
 * SHA-256
-* SHA-3
 * SHA-384
 * SHA-512
 * CRC32
