@@ -27,13 +27,7 @@
     <string name="text_help">A geração de hashes para arquivos só pode ser feita se o DeadHash tiver permissão para ler o seu armazenamento. A geração de hashes para arquivos grandes poderá demorar um pouco. Isso dependerá exclusivamente do poder de processamento do seu dispositivo.\n\nA geração de hashes para textos não necessita que nenhuma permissão seja concedida. A geração de hashes para textos grandes poderá demorar um pouco. Isso dependerá exclusivamente do poder de processamento do seu dispositivo.\n\nSe chegar à encontrar algum bug ou precisar de suporte, você sempre poderá em contato conosco!</string>
     <string name="nav_tools">Ferramentas</string>
     <string name="text_about">DeadHash foi criado por DeadLine. Este aplicativo pode ser utilizado para gerar hashes de arquivos e textos.\n\nNenhum anúncio ou serviço de coleta de dados está incluído nesta versão. Todas as permissões requisitadas pelo aplicativo são necessárias para que ele funcione corretamente.\n\nTodas as imagens são cortesia do Google.\nTraduções fornecidas por <a href="https://github.com/SnwMds">SnwMds</a>\n\nCopyright © 2022 CodeDead</string>
-    <string name="toast_settings_reset">Todas as configurações foram restauradas!</string>
-    <string name="toast_settings_save">Todas as configurações foram salvas!</string>
-    <string name="text_interface">Interface</string>
-    <string name="text_language">Idioma:</string>
-    <string name="text_hash_generator">Gerador de Hash</string>
-    <string name="button_reset">Restaurar</string>
-    <string name="button_save">Salvar</string>
+    <string name="text_language">Idioma</string>
     <string name="text_send_mail">Envie-nos um e-mail</string>
     <string name="alert_review_title">Avalie-nos</string>
     <string name="alert_review_text">Considere deixar uma avaliação se você está gostando deste aplicativo!</string>
@@ -46,8 +40,12 @@
     <string name="error_copy_file">Não foi possível criar uma cópia do arquivo selecionado!</string>
     <string name="error_open_file">Não foi possível abrir o arquivo selecionado!</string>
     <string name="error_no_file">Nenhum arquivo foi selecionado!</string>
-    <string name="theme">Tema:</string>
-    <string name="light">Claro</string>
-    <string name="dark">Escuro</string>
-    <string name="defaultTheme">Predefinição</string>
+    <string name="theme">Tema</string>
+    <string name="ui_header">Interface de usuário</string>
+    <string name="hashing">Hashing</string>
+    <string-array name="deadhash_theme_values">
+        <item>Leve</item>
+        <item>Escuro</item>
+        <item>Sistema padrão</item>
+    </string-array>
 </resources>

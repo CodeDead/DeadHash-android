@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_generate">Calculer</string>
-    <string name="button_reset">Réinitialiser</string>
-    <string name="button_save">Sauvegarder</string>
     <string name="button_support">Soutien</string>
     <string name="button_website">Site internet</string>
     <string name="card_file">Fichier:</string>
@@ -16,16 +14,12 @@
     <string name="nav_settings">Paramètres</string>
     <string name="nav_text">Texte</string>
     <string name="nav_tools">Outils</string>
-    <string name="toast_settings_save">Tous les réglages ont été sauvegardés!</string>
-    <string name="toast_settings_reset">Tous les réglages ont été réinitialisés!</string>
     <string name="toast_hash_mismatch">Hash ne correspond pas à votre saisie!</string>
     <string name="toast_hash_match">Le hash correspond à votre saisie!</string>
     <string name="toast_error_notext">Entrez d\'abord un texte!</string>
     <string name="toast_data_copied">Les données sont copiées dans le presse-papiers.</string>
     <string name="toast_back_again">Appuyez de nouveau sur \'RETOURNER\' pour quitter.</string>
-    <string name="text_language">Langue:</string>
-    <string name="text_interface">Interface</string>
-    <string name="text_hash_generator">Générateur hash</string>
+    <string name="text_language">Langue</string>
     <string name="text_content_hint">Entrez votre texte ici</string>
     <string name="text_compare_hint">Placez votre hash ici</string>
     <string name="text_compare_hash">Comparer hash</string>
@@ -46,8 +40,12 @@
     <string name="error_copy_file">Impossible de créer une copie du fichier sélectionné!</string>
     <string name="error_open_file">Impossible d\'ouvrir le fichier sélectionné!</string>
     <string name="error_no_file">Aucun fichier n\'a été sélectionné!</string>
-    <string name="theme">Thème:</string>
-    <string name="light">Lumière</string>
-    <string name="dark">Foncé</string>
-    <string name="defaultTheme">Défaut</string>
+    <string name="theme">Thème</string>
+    <string name="ui_header">Interface utilisateur</string>
+    <string name="hashing">Hachage</string>
+    <string-array name="deadhash_theme_values">
+        <item>Léger</item>
+        <item>Foncé</item>
+        <item>Défaillance du système</item>
+    </string-array>
 </resources>

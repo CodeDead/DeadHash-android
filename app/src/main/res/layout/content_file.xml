@@ -22,7 +22,6 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/TxtFile_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/card_file"
@@ -45,6 +44,7 @@
                     android:inputType="none" />
 
                 <ImageButton
+                    android:layout_weight="1"
                     android:id="@+id/ImgBtnFileData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,10 +52,9 @@
                     android:src="@drawable/ic_open_folder" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:paddingTop="5dp">
 
                 <TextView
-                    android:id="@+id/Text_FileCompare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_compare"

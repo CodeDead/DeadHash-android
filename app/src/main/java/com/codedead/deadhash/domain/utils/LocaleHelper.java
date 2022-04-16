@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import androidx.preference.PreferenceManager;
-
 import java.util.Locale;
 
 public final class LocaleHelper {
@@ -42,7 +40,6 @@ public final class LocaleHelper {
      * @return The Context that contains the correct locale
      */
     public static Context setLocale(final Context context, final String language) {
-        persist(context, language);
         return updateResourcesLegacy(context, language);
     }
 
@@ -59,20 +56,6 @@ public final class LocaleHelper {
     }
 
     /**
-     * Persist the language code
-     *
-     * @param context  The Context that can be used to persist the data
-     * @param language The language code that should be persisted
-     */
-    private static void persist(final Context context, final String language) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        editor.putString("language", language);
-        editor.apply();
-    }
-
-    /**
      * Update the resources of a specific Context
      *
      * @param context  The Context that should be updated to contain the proper resources
@@ -86,7 +69,7 @@ public final class LocaleHelper {
         final Resources resources = context.getResources();
 
         final Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
+        configuration.setLocale(locale);
 
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 

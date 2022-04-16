@@ -18,6 +18,11 @@
         android:theme="@style/Theme.DeadHash"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".gui.SettingsActivity"
+            android:exported="false"
+            android:label="@string/nav_settings"
+            android:theme="@style/Theme.DeadHash.NoActionBar" />
+        <activity
             android:name=".gui.MainActivity"
             android:exported="true"
             android:launchMode="singleInstance"
