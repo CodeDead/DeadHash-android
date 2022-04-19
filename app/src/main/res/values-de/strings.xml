@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_generate">Berechnen</string>
-    <string name="button_reset">Zurücksetzen</string>
-    <string name="button_save">Sparen</string>
     <string name="button_support">Unterstützung</string>
     <string name="button_website">Webseite</string>
     <string name="card_file">Datei:</string>
@@ -23,17 +21,13 @@
     <string name="text_compare_hash">Hash vergleichen</string>
     <string name="text_compare_hint">Lege deinen Hash hier</string>
     <string name="text_content_hint">Geben Sie hier Ihren Text ein</string>
-    <string name="text_hash_generator">Hash Generator</string>
     <string name="text_help">Das Erstellen von Aktenhacken kann nur durchgeführt werden, wenn DeadHash die Berechtigung zum Lesen deines Speichers erhalten hat. Das Erzeugen von Hashes für größere Dateien kann eine Weile dauern. Dies hängt ganz von der Rechenleistung Ihres Gerätes ab.\n\nBei der Erstellung von Text-Hashes sind keine zusätzlichen Berechtigungen erforderlich. Das Erzeugen von Hashes für größere Saiten kann eine Weile dauern. Dies hängt ganz von der Rechenleistung Ihres Gerätes ab.\n\nWenn du zufällig über einen Bug kommst oder wenn du Unterstützung brauchst, kannst du uns jederzeit kontaktieren!</string>
-    <string name="text_interface">Schnittstelle</string>
-    <string name="text_language">Sprache:</string>
+    <string name="text_language">Sprache</string>
     <string name="toast_back_again">Drücken Sie erneut \'ZURÜCK\', um zu beenden.</string>
     <string name="toast_data_copied">Daten in die Zwischenablage kopiert!</string>
     <string name="toast_error_notext">Bitte zuerst einen Text eingeben!</string>
     <string name="toast_hash_match">Hash passt zu Ihrer Eingabe!</string>
     <string name="toast_hash_mismatch">Hash stimmt nicht mit deinem Eingang überein!</string>
-    <string name="toast_settings_reset">Alle Einstellungen wurden zurückgesetzt!</string>
-    <string name="toast_settings_save">Alle Einstellungen wurden gespeichert!</string>
     <string name="text_send_mail">Senden Sie uns eine Email</string>
     <string name="alert_review_title">Rezension</string>
     <string name="alert_review_text">Betrachten Sie eine Rezension zu verlassen, wenn Sie diese App gefällt!</string>
@@ -46,8 +40,12 @@
     <string name="error_copy_file">Es kann keine Kopie der ausgewählten Datei erstellt werden!</string>
     <string name="error_open_file">Die ausgewählte Datei kann nicht geöffnet werden!</string>
     <string name="error_no_file">Es wurde keine Datei ausgewählt!</string>
-    <string name="theme">Thema:</string>
-    <string name="light">Licht</string>
-    <string name="dark">Dunkel</string>
-    <string name="defaultTheme">Standard</string>
+    <string name="theme">Thema</string>
+    <string name="ui_header">Benutzeroberfläche</string>
+    <string name="hashing">Hashing</string>
+    <string-array name="deadhash_theme_values">
+        <item>Licht</item>
+        <item>Dunkel</item>
+        <item>Systemfehler</item>
+    </string-array>
 </resources>

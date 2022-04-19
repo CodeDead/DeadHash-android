@@ -1,7 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<full-backup-content>
-    <!-- Exclude the shared preferences file that contains the GCM registrationId -->
-    <exclude
-        domain="sharedpref"
-        path="deadhashsettings.xml" />
-</full-backup-content>
+<full-backup-content />

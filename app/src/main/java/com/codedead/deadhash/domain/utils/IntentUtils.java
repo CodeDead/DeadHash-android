@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.codedead.deadhash.R;
 
 public final class IntentUtils {
@@ -55,5 +57,24 @@ public final class IntentUtils {
         } catch (final Exception ignored) {
             Toast.makeText(context, context.getString(R.string.error_playstore), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Display an alert to the user
+     *
+     * @param context The context that can be used to display the alert
+     * @param message The message that needs to be displayed to the user
+     */
+    public static void showAlert(final Context context, final String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message);
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(
+                android.R.string.ok,
+                (dialog, id) -> dialog.cancel());
+
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

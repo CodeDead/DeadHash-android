@@ -1,0 +1,61 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/ui_header">
+
+        <ListPreference
+            app:defaultValue="en"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="language"
+            app:title="@string/text_language"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="2"
+            app:entries="@array/deadhash_theme_values"
+            app:entryValues="@array/deadhash_theme_entries"
+            app:key="theme"
+            app:title="@string/theme"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/hashing">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="md5"
+            app:title="@string/md5" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="sha1"
+            app:title="@string/sha_1" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="sha224"
+            app:title="@string/sha_224" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="sha256"
+            app:title="@string/sha_256" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="sha384"
+            app:title="@string/sha_384" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="sha512"
+            app:title="@string/sha_512" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="crc32"
+            app:title="@string/crc32" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

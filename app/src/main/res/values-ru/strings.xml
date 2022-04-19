@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_generate">Вычислить</string>
-    <string name="button_reset">Сброс</string>
-    <string name="button_save">Сохран.</string>
     <string name="button_support">Поддержка</string>
     <string name="button_website">Веб-сайт</string>
     <string name="card_file">Файл:</string>
@@ -16,16 +14,12 @@
     <string name="nav_settings">Параметры</string>
     <string name="nav_text">Текст</string>
     <string name="nav_tools">Инструменты</string>
-    <string name="toast_settings_save">Все настройки были сохранены!</string>
-    <string name="toast_settings_reset">Все настройки были сброшены!</string>
     <string name="toast_hash_mismatch">Хеш не совпадает с введённым вами хешем!</string>
     <string name="toast_hash_match">Хеш совпадает с введённым вами хешем!</string>
     <string name="toast_error_notext">Пожалуйста, сначала введите текст!</string>
     <string name="toast_data_copied">Данные скопированы в буфер обмена!</string>
     <string name="toast_back_again">Нажмите \'НАЗАД\' ещё раз, чтобы выйти из приложения.</string>
-    <string name="text_language">Язык:</string>
-    <string name="text_interface">Интерфейс</string>
-    <string name="text_hash_generator">Генератор хешей</string>
+    <string name="text_language">Язык</string>
     <string name="text_content_hint">Введите ваш текст сюда</string>
     <string name="text_compare_hint">Вставьте ваш хеш сюда</string>
     <string name="text_compare_hash">Сравнить хеши</string>
@@ -46,8 +40,12 @@
     <string name="error_copy_file">Не могу копировать выбранный файл!</string>
     <string name="error_open_file">Не могу открыть выбранный файл!</string>
     <string name="error_no_file">Не был выбран ни один файл!</string>
-    <string name="theme">Тема:</string>
-    <string name="dark">Тёмная</string>
-    <string name="light">Светлая</string>
-    <string name="defaultTheme">По умолчанию</string>
+    <string name="theme">Тема</string>
+    <string name="ui_header">Пользовательский интерфейс</string>
+    <string name="hashing">Хеширование</string>
+    <string-array name="deadhash_theme_values">
+        <item>Светлый</item>
+        <item>Темный</item>
+        <item>Системные установки по умолчанию</item>
+    </string-array>
 </resources>

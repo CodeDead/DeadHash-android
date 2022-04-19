@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".gui.MainActivity">
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -14,25 +11,15 @@
         android:theme="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_settings"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/Theme.DeadHash.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ViewFlipper
-        android:id="@+id/vf"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/content_file" />
-
-        <include layout="@layout/content_text" />
-
-        <include layout="@layout/content_help" />
-
-        <include layout="@layout/content_about" />
-    </ViewFlipper>
-
+    <FrameLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
