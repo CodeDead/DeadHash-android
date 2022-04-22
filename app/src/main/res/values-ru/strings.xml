@@ -14,20 +14,20 @@
     <string name="nav_settings">Параметры</string>
     <string name="nav_text">Текст</string>
     <string name="nav_tools">Инструменты</string>
-    <string name="toast_hash_mismatch">Хеш не совпадает с введённым вами хешем!</string>
-    <string name="toast_hash_match">Хеш совпадает с введённым вами хешем!</string>
+    <string name="toast_hash_mismatch">Введённый хеш не совпадает с хешем ваших данных!</string>
+    <string name="toast_hash_match">Введённый хеш совпадает с хешем ваших данных!</string>
     <string name="toast_error_notext">Пожалуйста, сначала введите текст!</string>
     <string name="toast_data_copied">Данные скопированы в буфер обмена!</string>
     <string name="toast_back_again">Нажмите \'НАЗАД\' ещё раз, чтобы выйти из приложения.</string>
     <string name="text_language">Язык</string>
     <string name="text_content_hint">Введите ваш текст сюда</string>
-    <string name="text_compare_hint">Вставьте ваш хеш сюда</string>
+    <string name="text_compare_hint">Введите ваш хеш сюда</string>
     <string name="text_compare_hash">Сравнить хеши</string>
     <string name="text_compare">Сравнить:</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
-    <string name="text_about">Приложение DeadHash было создано DeadLine. Это приложение может генерировать хеши для файлов и текста.\n\nЗдесь отсутствуют реклама и отслеживание. Все требуемые разрешения нужны только для правильной работы приложения.\n\nВсе изображения предоставлены Google.\nПереводы:\n- Русский - <a href="https://github.com/Nickoriginal">Nickoriginal</a>\n\nВсе права защищены © 2022 CodeDead</string>
-    <string name="text_help">DeadHash может генерировать хеши файлов только после получения доступа к чтению вашего хранилища. Генерирование хешей для больших файлов может занять больше времени. Это полностью зависит от вычислительной мощности вашего устройства.\n\nГенерирование хешей для текста не требует дополнительных разрешений. Генерирование хешей для длинных строк текста может занять больше времени. Это полностью зависит от вычислительной мощности вашего устройства.\n\nЕсли вы столкнулись с ошибкой или если вам нужна помощь, вы всегда можете связаться с нами!</string>
+    <string name="text_about">Приложение DeadHash было создано DeadLine. Это приложение может генерировать хеши для файлов и текста.\n\nЗдесь отсутствуют реклама и отслеживание. Все требуемые разрешения нужны только для правильной работы приложения.\n\nВсе изображения предоставлены Google.\nПереводы:\nРусский язык - <a href="https://github.com/Nickoriginal">Nickoriginal</a>\n\nВсе права защищены © 2022 CodeDead</string>
+    <string name="text_help">DeadHash может генерировать хеши файлов только после получения разрешения на чтение памяти. Генерирование хешей для больших файлов может занять больше времени. Это полностью зависит от вычислительной мощности вашего устройства.\n\nГенерирование хешей для текста не требует дополнительных разрешений. Генерирование хешей для больших строк текста может занять больше времени. Это полностью зависит от вычислительной мощности вашего устройства.\n\nЕсли вы столкнулись с ошибкой или если вам нужна помощь, вы всегда можете связаться с нами!</string>
     <string name="text_send_mail">Отправьте нам электронное письмо</string>
     <string name="alert_review_text">Если вам понравилось приложение, вы можете оставить отзыв!</string>
     <string name="alert_review_title">Отзыв</string>
@@ -41,11 +41,11 @@
     <string name="error_open_file">Не могу открыть выбранный файл!</string>
     <string name="error_no_file">Не был выбран ни один файл!</string>
     <string name="theme">Тема</string>
-    <string name="ui_header">Пользовательский интерфейс</string>
-    <string name="hashing">Хеширование</string>
+    <string name="ui_header">Оформление</string>
+    <string name="hashing">Хеш-функции</string>
     <string-array name="deadhash_theme_values">
-        <item>Светлый</item>
-        <item>Темный</item>
-        <item>Системные установки по умолчанию</item>
+        <item>Светлая</item>
+        <item>Тёмная</item>
+        <item>Системная</item>
     </string-array>
 </resources>
