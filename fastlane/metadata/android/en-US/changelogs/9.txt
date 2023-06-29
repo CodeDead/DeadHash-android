@@ -1,0 +1,4 @@
+- Added a settings activity
+- Removed deprecated code
+- Refactoring
+- Improved UI
