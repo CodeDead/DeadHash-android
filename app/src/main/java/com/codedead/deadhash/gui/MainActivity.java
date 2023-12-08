@@ -157,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if (cursor != null && cursor.moveToFirst()) {
                                     @SuppressLint("Range") String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                                     edtFilePath.setText(displayName);
+
+                                    fileDataArrayList.clear();
+                                    mAdapterFile.notifyDataSetChanged();
                                 }
                             }
                         } else {
