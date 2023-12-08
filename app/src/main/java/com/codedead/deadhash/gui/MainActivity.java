@@ -1,10 +1,12 @@
 package com.codedead.deadhash.gui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,10 +23,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codedead.deadhash.domain.objects.hashgenerator.FileHashGenerator;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashAlgorithm;
+import com.codedead.deadhash.domain.objects.hashgenerator.TextHashGenerator;
 import com.codedead.deadhash.domain.objects.settings.SettingsContainer;
 import com.codedead.deadhash.domain.utils.IntentUtils;
-import com.codedead.deadhash.domain.utils.StreamUtility;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -33,6 +36,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.OpenableColumns;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,13 +54,8 @@ import android.widget.ViewFlipper;
 import com.codedead.deadhash.R;
 import com.codedead.deadhash.domain.utils.DataAdapter;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashData;
-import com.codedead.deadhash.domain.objects.hashgenerator.HashGenerator;
 import com.codedead.deadhash.domain.utils.LocaleHelper;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -90,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean textLoading;
 
     private boolean paused;
-
-    private final String tmpFile = "tmpFile";
     private String lastLanguage;
-
+    private Uri fileUri;
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
@@ -134,18 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(menu.getItem(flipperPosition).getItemId());
                 }
             }
-
-            if (!savedInstanceState.getBoolean("KEEP_FILE")) {
-                deleteTempFile();
-            }
         } else {
             final SubMenu menu = navigationView.getMenu().getItem(0).getSubMenu();
 
             if (menu != null) {
                 navigationView.setCheckedItem(menu.getItem(0).getItemId());
             }
-
-            deleteTempFile();
         }
 
         loadFileHashContent(savedInstanceState);
@@ -159,24 +150,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getData() != null) {
-                        final Uri selectedFileUri = result.getData().getData();
-                        if (selectedFileUri != null) {
-                            try (final InputStream selectedFileStream = getContentResolver().openInputStream(selectedFileUri)) {
-                                final File outputFile = new File(getApplicationContext().getCacheDir(), tmpFile);
-
-                                try (final FileOutputStream outputStream = new FileOutputStream(outputFile, false)) {
-                                    if (selectedFileStream != null) {
-                                        StreamUtility.copyStream(selectedFileStream, outputStream);
-                                        edtFilePath.setText(selectedFileUri.getPath());
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (final IOException ex) {
-                                    Toast.makeText(getApplicationContext()
-                                            , R.string.error_copy_file, Toast.LENGTH_SHORT).show();
+                        fileUri = result.getData().getData();
+                        if (fileUri != null) {
+                            try (Cursor cursor = this.getContentResolver()
+                                    .query(fileUri, null, null, null, null, null)) {
+                                if (cursor != null && cursor.moveToFirst()) {
+                                    @SuppressLint("Range") String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                                    edtFilePath.setText(displayName);
                                 }
-                            } catch (final IOException ex) {
-                                Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
@@ -211,17 +192,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Delete the temporary file to save storage
-     */
-    private void deleteTempFile() {
-        final File f = new File(getApplicationContext().getCacheDir(), tmpFile);
-        if (f.exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            f.delete();
-        }
     }
 
     /**
@@ -347,8 +317,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         edtFilePath.setOnClickListener(this::onClickSelectFile);
 
         btnGenerate.setOnClickListener(v -> {
-            if (fileLoading) return;
-            if (!new File(getBaseContext().getCacheDir(), tmpFile).exists()) {
+            if (fileLoading)
+                return;
+            if (fileUri == null) {
                 Toast.makeText(getApplicationContext(), R.string.error_no_file, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -368,26 +339,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 compare = edtFileCompare.getText().toString();
             }
 
-            try {
-                final HashGenerator fileHashGenerator = new HashGenerator(new File(getApplicationContext().getCacheDir(), tmpFile), getHashAlgorithms(), compare);
-                fileLoading = true;
+            final FileHashGenerator fileHashGenerator = new FileHashGenerator(fileUri, getContentResolver(), getHashAlgorithms(), compare);
+            fileLoading = true;
 
-                CompletableFuture.supplyAsync(fileHashGenerator::generateHashes)
-                        .thenAccept(s -> runOnUiThread(() -> {
-                            fileLoading = false;
-                            pgbFile.setVisibility(View.GONE);
+            CompletableFuture.supplyAsync(fileHashGenerator::generateHashes)
+                    .thenAccept(s -> runOnUiThread(() -> {
+                        fileLoading = false;
+                        pgbFile.setVisibility(View.GONE);
 
-                            for (final HashData d : s) {
-                                fileDataArrayList.add(d);
-                                mAdapterFile.notifyItemInserted(fileDataArrayList.size());
-                            }
-                        }));
+                        for (final HashData d : s) {
+                            fileDataArrayList.add(d);
+                            mAdapterFile.notifyItemInserted(fileDataArrayList.size());
+                        }
+                    }));
 
-                pgbFile.setVisibility(View.VISIBLE);
-            } catch (final IOException e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                pgbFile.setVisibility(View.GONE);
-            }
+            pgbFile.setVisibility(View.VISIBLE);
         });
     }
 
@@ -449,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-            final HashGenerator textHashGenerator = new HashGenerator(data.getBytes(), getHashAlgorithms(), compare);
+            final TextHashGenerator textHashGenerator = new TextHashGenerator(data, getHashAlgorithms(), compare);
             textLoading = true;
 
             CompletableFuture.supplyAsync(textHashGenerator::generateHashes)
