@@ -36,7 +36,6 @@
     <string name="error_playstore">Kon de Play Store niet openen!</string>
     <string name="error_website">Kon de website niet openen!</string>
     <string name="dialog_select_file">Selecteer een bestand</string>
-    <string name="error_copy_file">Kon geen kopie van het bestand maken!</string>
     <string name="error_open_file">Kon het geselecteerde bestand niet openen!</string>
     <string name="error_no_file">Geen bestand geselecteerd!</string>
     <string name="theme">Thema</string>

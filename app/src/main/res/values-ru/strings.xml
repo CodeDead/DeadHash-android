@@ -36,7 +36,6 @@
     <string name="error_playstore">Не могу открыть Play Store!</string>
     <string name="error_website">Не могу открыть веб-сайт!</string>
     <string name="dialog_select_file">Выберите файл</string>
-    <string name="error_copy_file">Не могу копировать выбранный файл!</string>
     <string name="error_open_file">Не могу открыть выбранный файл!</string>
     <string name="error_no_file">Не был выбран ни один файл!</string>
     <string name="theme">Тема</string>

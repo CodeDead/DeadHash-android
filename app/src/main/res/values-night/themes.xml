@@ -19,7 +19,5 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.DeadHash.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
-
     <style name="Theme.DeadHash.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 </resources>
