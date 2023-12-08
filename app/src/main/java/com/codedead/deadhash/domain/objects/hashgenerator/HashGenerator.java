@@ -78,37 +78,37 @@ public final class HashGenerator {
      * Generate the List of HashData for the given input data
      * @return The List of HashData for the given input data
      */
-    public final List<HashData> generateHashes() {
+    public List<HashData> generateHashes() {
         for (final HashAlgorithm algorithm : hashAlgorithms) {
             switch (algorithm) {
-                case md5:
+                case md5 -> {
                     final String md5 = HashUtil.calculateHash(data, "MD5");
                     hashData.add(new HashData("MD5", md5, compare));
-                    break;
-                case sha1:
+                }
+                case sha1 -> {
                     final String sha1 = HashUtil.calculateHash(data, "SHA-1");
                     hashData.add(new HashData("SHA-1", sha1, compare));
-                    break;
-                case sha224:
+                }
+                case sha224 -> {
                     final String sha224 = HashUtil.calculateHash(data, "SHA-224");
                     hashData.add(new HashData("SHA-224", sha224, compare));
-                    break;
-                case sha256:
+                }
+                case sha256 -> {
                     final String sha256 = HashUtil.calculateHash(data, "SHA-256");
                     hashData.add(new HashData("SHA-256", sha256, compare));
-                    break;
-                case sha384:
+                }
+                case sha384 -> {
                     final String sha384 = HashUtil.calculateHash(data, "SHA-384");
                     hashData.add(new HashData("SHA-384", sha384, compare));
-                    break;
-                case sha512:
+                }
+                case sha512 -> {
                     final String sha512 = HashUtil.calculateHash(data, "SHA-512");
                     hashData.add(new HashData("SHA-512", sha512, compare));
-                    break;
-                case crc32:
+                }
+                case crc32 -> {
                     final String crc32 = HashUtil.calculateCRC32(data);
                     hashData.add(new HashData("CRC32", crc32, compare));
-                    break;
+                }
             }
         }
 

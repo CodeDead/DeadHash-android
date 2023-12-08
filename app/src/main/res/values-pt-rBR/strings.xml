@@ -17,7 +17,6 @@
     <string name="text_compare">Compare:</string>
     <string name="text_compare_hint">Insira seu hash aqui</string>
     <string name="text_compare_hash">Comparar hash</string>
-    <string name="toast_back_again">Pressione \'VOLTAR\' novamente para sair.</string>
     <string name="toast_hash_match">Este hash corresponde ao que você inseriu!</string>
     <string name="toast_hash_mismatch">Este hash não corresponde ao que você inseriu!</string>
     <string name="text_content_hint">Insira seu texto aqui</string>
@@ -26,7 +25,7 @@
     <string name="button_support">Suporte</string>
     <string name="text_help">A geração de hashes para arquivos só pode ser feita se o DeadHash tiver permissão para ler o seu armazenamento. A geração de hashes para arquivos grandes poderá demorar um pouco. Isso dependerá exclusivamente do poder de processamento do seu dispositivo.\n\nA geração de hashes para textos não necessita que nenhuma permissão seja concedida. A geração de hashes para textos grandes poderá demorar um pouco. Isso dependerá exclusivamente do poder de processamento do seu dispositivo.\n\nSe chegar à encontrar algum bug ou precisar de suporte, você sempre poderá em contato conosco!</string>
     <string name="nav_tools">Ferramentas</string>
-    <string name="text_about">DeadHash foi criado por DeadLine. Este aplicativo pode ser utilizado para gerar hashes de arquivos e textos.\n\nNenhum anúncio ou serviço de coleta de dados está incluído nesta versão. Todas as permissões requisitadas pelo aplicativo são necessárias para que ele funcione corretamente.\n\nTodas as imagens são cortesia do Google.\nTraduções fornecidas por <a href="https://github.com/SnwMds">SnwMds</a>\n\nCopyright © 2022 CodeDead</string>
+    <string name="text_about">DeadHash foi criado por DeadLine. Este aplicativo pode ser utilizado para gerar hashes de arquivos e textos.\n\nNenhum anúncio ou serviço de coleta de dados está incluído nesta versão. Todas as permissões requisitadas pelo aplicativo são necessárias para que ele funcione corretamente.\n\nTodas as imagens são cortesia do Google.\nTraduções fornecidas por <a href="https://github.com/SnwMds">SnwMds</a>\n\nCopyright © 2023 CodeDead</string>
     <string name="text_language">Idioma</string>
     <string name="text_send_mail">Envie-nos um e-mail</string>
     <string name="alert_review_title">Avalie-nos</string>
@@ -48,4 +47,5 @@
         <item>Escuro</item>
         <item>Sistema padrão</item>
     </string-array>
+    <string name="toast_no_permissions">Permissões de armazenamento são necessárias para usar DeadHash</string>
 </resources>

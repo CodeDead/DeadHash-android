@@ -10,7 +10,7 @@ public class HashData implements Parcelable {
 
     private final String compareCheck;
 
-    public static final Creator<HashData> CREATOR = new Creator<HashData>() {
+    public static final Creator<HashData> CREATOR = new Creator<>() {
         @Override
         public HashData createFromParcel(final Parcel in) {
             return new HashData(in);
