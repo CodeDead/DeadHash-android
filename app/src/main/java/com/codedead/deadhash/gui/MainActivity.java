@@ -1,14 +1,16 @@
 package com.codedead.deadhash.gui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,10 +23,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codedead.deadhash.domain.objects.hashgenerator.FileHashGenerator;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashAlgorithm;
+import com.codedead.deadhash.domain.objects.hashgenerator.TextHashGenerator;
 import com.codedead.deadhash.domain.objects.settings.SettingsContainer;
 import com.codedead.deadhash.domain.utils.IntentUtils;
-import com.codedead.deadhash.domain.utils.StreamUtility;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -33,11 +36,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Looper;
+import android.provider.OpenableColumns;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,20 +54,14 @@ import android.widget.ViewFlipper;
 import com.codedead.deadhash.R;
 import com.codedead.deadhash.domain.utils.DataAdapter;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashData;
-import com.codedead.deadhash.domain.objects.hashgenerator.HashGenerator;
 import com.codedead.deadhash.domain.utils.LocaleHelper;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private boolean doubleBackToExitPressedOnce;
 
     private ViewFlipper viewFlipper;
     private EditText edtFileCompare;
@@ -91,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean textLoading;
 
     private boolean paused;
-
-    private final String tmpFile = "tmpFile";
     private String lastLanguage;
-
+    private Uri fileUri;
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
@@ -125,17 +121,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewFlipper.setDisplayedChild(flipperPosition);
 
             if (flipperPosition > 1) {
-                navigationView.setCheckedItem(navigationView.getMenu().getItem(1).getSubMenu().getItem(flipperPosition - 2).getItemId());
+                final SubMenu menu = navigationView.getMenu().getItem(1).getSubMenu();
+                if (menu != null) {
+                    navigationView.setCheckedItem(menu.getItem(flipperPosition - 2).getItemId());
+                }
             } else {
-                navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(flipperPosition).getItemId());
-            }
-
-            if (!savedInstanceState.getBoolean("KEEP_FILE")) {
-                deleteTempFile();
+                final SubMenu menu = navigationView.getMenu().getItem(0).getSubMenu();
+                if (menu != null) {
+                    navigationView.setCheckedItem(menu.getItem(flipperPosition).getItemId());
+                }
             }
         } else {
-            navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getItemId());
-            deleteTempFile();
+            final SubMenu menu = navigationView.getMenu().getItem(0).getSubMenu();
+
+            if (menu != null) {
+                navigationView.setCheckedItem(menu.getItem(0).getItemId());
+            }
         }
 
         loadFileHashContent(savedInstanceState);
@@ -149,24 +150,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getData() != null) {
-                        final Uri selectedFileUri = result.getData().getData();
-                        if (selectedFileUri != null) {
-                            try (final InputStream selectedFileStream = getContentResolver().openInputStream(selectedFileUri)) {
-                                final File outputFile = new File(getApplicationContext().getCacheDir(), tmpFile);
-
-                                try (final FileOutputStream outputStream = new FileOutputStream(outputFile, false)) {
-                                    if (selectedFileStream != null) {
-                                        StreamUtility.copyStream(selectedFileStream, outputStream);
-                                        edtFilePath.setText(selectedFileUri.getPath());
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (final IOException ex) {
-                                    Toast.makeText(getApplicationContext()
-                                            , R.string.error_copy_file, Toast.LENGTH_SHORT).show();
+                        fileUri = result.getData().getData();
+                        if (fileUri != null) {
+                            try (Cursor cursor = this.getContentResolver()
+                                    .query(fileUri, null, null, null, null, null)) {
+                                if (cursor != null && cursor.moveToFirst()) {
+                                    @SuppressLint("Range") String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                                    edtFilePath.setText(displayName);
                                 }
-                            } catch (final IOException ex) {
-                                Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
@@ -180,15 +171,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void loadTheme() {
         switch (settingsContainer.getTheme()) {
-            case "0":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case "1":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            case "2":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
+            case "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            case "1" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            case "2" ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }
 
@@ -206,17 +192,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Delete the temporary file to save storage
-     */
-    private void deleteTempFile() {
-        final File f = new File(getApplicationContext().getCacheDir(), tmpFile);
-        if (f.exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            f.delete();
-        }
     }
 
     /**
@@ -309,10 +284,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param savedInstance The Bundle that contains saved information
      */
     private void loadFileHashContent(final Bundle savedInstance) {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-        }
-
         pgbFile = findViewById(R.id.PgbFile);
         mRecyclerViewFile = findViewById(R.id.file_recycler);
         mRecyclerViewFile.setHasFixedSize(true);
@@ -342,22 +313,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mRecyclerViewFile.setAdapter(mAdapterFile);
 
-        btnOpenFile.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-            } else {
-                final Intent intent = new Intent()
-                        .setType("*/*")
-                        .setAction(Intent.ACTION_GET_CONTENT)
-                        .addCategory(Intent.CATEGORY_OPENABLE);
-
-                activityResultLauncher.launch(Intent.createChooser(intent, getString(R.string.dialog_select_file)));
-            }
-        });
+        btnOpenFile.setOnClickListener(this::onClickSelectFile);
+        edtFilePath.setOnClickListener(this::onClickSelectFile);
 
         btnGenerate.setOnClickListener(v -> {
-            if (fileLoading) return;
-            if (!new File(getBaseContext().getCacheDir(), tmpFile).exists()) {
+            if (fileLoading)
+                return;
+            if (fileUri == null) {
                 Toast.makeText(getApplicationContext(), R.string.error_no_file, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -377,26 +339,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 compare = edtFileCompare.getText().toString();
             }
 
-            try {
-                final HashGenerator fileHashGenerator = new HashGenerator(new File(getApplicationContext().getCacheDir(), tmpFile), getHashAlgorithms(), compare);
-                fileLoading = true;
+            final FileHashGenerator fileHashGenerator = new FileHashGenerator(fileUri, getContentResolver(), getHashAlgorithms(), compare);
+            fileLoading = true;
 
-                CompletableFuture.supplyAsync(fileHashGenerator::generateHashes)
-                        .thenAccept(s -> runOnUiThread(() -> {
-                            fileLoading = false;
-                            pgbFile.setVisibility(View.GONE);
+            CompletableFuture.supplyAsync(fileHashGenerator::generateHashes)
+                    .thenAccept(s -> runOnUiThread(() -> {
+                        fileLoading = false;
+                        pgbFile.setVisibility(View.GONE);
 
-                            for (final HashData d : s) {
-                                fileDataArrayList.add(d);
-                                mAdapterFile.notifyItemInserted(fileDataArrayList.size());
-                            }
-                        }));
+                        for (final HashData d : s) {
+                            fileDataArrayList.add(d);
+                            mAdapterFile.notifyItemInserted(fileDataArrayList.size());
+                        }
+                    }));
 
-                pgbFile.setVisibility(View.VISIBLE);
-            } catch (final IOException e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                pgbFile.setVisibility(View.GONE);
-            }
+            pgbFile.setVisibility(View.VISIBLE);
         });
     }
 
@@ -458,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-            final HashGenerator textHashGenerator = new HashGenerator(data.getBytes(), getHashAlgorithms(), compare);
+            final TextHashGenerator textHashGenerator = new TextHashGenerator(data, getHashAlgorithms(), compare);
             textLoading = true;
 
             CompletableFuture.supplyAsync(textHashGenerator::generateHashes)
@@ -511,7 +468,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btnSupport.setOnClickListener(v -> new ShareCompat.IntentBuilder(MainActivity.this)
                 .setType("message/rfc822")
-                .addEmailTo("admin@codedead.com")
+                .addEmailTo("support@codedead.com")
                 .setSubject("DeadHash - Android")
                 .setText("")
                 .setChooserTitle(R.string.text_send_mail)
@@ -558,24 +515,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed() {
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, R.string.toast_back_again, Toast.LENGTH_SHORT).show();
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-        }
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         int page = 0;
 
@@ -593,5 +532,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void onClickSelectFile(final View v) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getApplicationContext(), R.string.toast_no_permissions, Toast.LENGTH_LONG).show();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO
+                }, 0);
+            } else {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                }, 0);
+            }
+        } else {
+            final Intent intent = new Intent()
+                    .setType("*/*")
+                    .setAction(Intent.ACTION_OPEN_DOCUMENT)
+                    .addCategory(Intent.CATEGORY_OPENABLE);
+
+            activityResultLauncher.launch(Intent.createChooser(intent, getString(R.string.dialog_select_file)));
+        }
     }
 }

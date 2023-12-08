@@ -34,7 +34,8 @@
                     android:id="@+id/EdtFile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.85"
+                    android:layout_weight="0.90"
+                    android:lines="1"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
@@ -44,10 +45,10 @@
                     android:inputType="none" />
 
                 <ImageButton
-                    android:layout_weight="1"
                     android:id="@+id/ImgBtnFileData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:contentDescription="@string/card_open_folder"
                     android:src="@drawable/ic_open_folder" />
             </TableRow>

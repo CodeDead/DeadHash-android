@@ -51,21 +51,19 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private final SharedPreferences.OnSharedPreferenceChangeListener listener = (prefs, key) -> {
+        if (key == null)
+            return;
+
         if (key.equals("language")) {
             LocaleHelper.setLocale(getApplicationContext(), prefs.getString("language", "en"));
             recreate();
         } else if (key.equals("theme")) {
             final String theme = prefs.getString("theme", "0");
             switch (theme) {
-                case "0":
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    break;
-                case "1":
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    break;
-                case "2":
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                    break;
+                case "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                case "1" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                case "2" ->
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             }
         }
     };

@@ -1,6 +1,12 @@
 package com.codedead.deadhash.domain.utils;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.zip.CRC32;
 
 public final class HashUtil {
@@ -50,6 +56,36 @@ public final class HashUtil {
     }
 
     /**
+     * Calculate the hash of a specified file using the specified message digest
+     *
+     * @param uri             The Uri of the file that should be hashed
+     * @param contentResolver The ContentResolver that should be used to open the file
+     * @param kind            The message digest
+     * @return The String object that contains the hash of the file using the specified message digest
+     */
+    public static String calculateHash(final Uri uri, final ContentResolver contentResolver, final String kind) {
+        try {
+            final MessageDigest md = MessageDigest.getInstance(kind);
+            try (final InputStream fis = contentResolver.openInputStream(uri)) {
+                if (fis == null)
+                    return null;
+
+                final byte[] dataBytes = new byte[1024];
+
+                int nread;
+                while ((nread = fis.read(dataBytes)) != -1) {
+                    md.update(dataBytes, 0, nread);
+                }
+
+                final byte[] mdBytes = md.digest();
+                return convertToHex(mdBytes);
+            }
+        } catch (final NoSuchAlgorithmException | IOException ex) {
+            return null;
+        }
+    }
+
+    /**
      * Calculate the CRC32 value of a specified byte array
      *
      * @param bytes The byte array that should be used to calculate the CRC32 value
@@ -61,6 +97,34 @@ public final class HashUtil {
             crc.update(bytes);
             return Long.toHexString(crc.getValue());
         } catch (final Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Calculate the CRC32 value of a specified file
+     *
+     * @param uri             The Uri of the file that should be hashed
+     * @param contentResolver The ContentResolver that should be used to open the file
+     * @return The String object that represents the CRC32 value of the given file
+     */
+    public static String calculateCRC32(final Uri uri, final ContentResolver contentResolver) {
+        try {
+            final CRC32 crc = new CRC32();
+            try (final InputStream fis = contentResolver.openInputStream(uri)) {
+                if (fis == null)
+                    return null;
+
+                final byte[] dataBytes = new byte[1024];
+
+                int nread;
+                while ((nread = fis.read(dataBytes)) != -1) {
+                    crc.update(dataBytes, 0, nread);
+                }
+
+                return Long.toHexString(crc.getValue());
+            }
+        } catch (final IOException ex) {
             return null;
         }
     }

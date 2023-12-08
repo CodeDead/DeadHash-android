@@ -1,0 +1,18 @@
+DeadHash is an utility to calculate <i>hashes</i>.
+
+<b>Features:</b>
+<ul>
+    <li>Generate hashes for files and texts </li>
+    <li>Dark theme support</li>
+    <li>Compare your hashes</li>
+    <li>Supports multiple hashes</li>
+</ul>
+
+Supported hashes:
+* MD5
+* SHA-1
+* SHA-224
+* SHA-256
+* SHA-384
+* SHA-512
+* CRC32

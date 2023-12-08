@@ -16,14 +16,13 @@
     <string name="nav_tools">Gereedschap</string>
     <string name="navigation_drawer_close">Sluit navigatie lade</string>
     <string name="navigation_drawer_open">Open navigatie lade</string>
-    <string name="text_about">DeadHash werd gemaakt door DeadLine. Deze app kan gebruikt worden om hashes te genereren van bestanden en tekst.\n\nAdvertenties of trackers werden niet toegevoegd in deze release. Alle aangevraagde permissies zijn nodig om de app correct te laten functioneren.\n\nAlle gebruikte afbeeldingen waren gemaakt door Google.\n\nCopyright © 2022 CodeDead</string>
+    <string name="text_about">DeadHash werd gemaakt door DeadLine. Deze app kan gebruikt worden om hashes te genereren van bestanden en tekst.\n\nAdvertenties of trackers werden niet toegevoegd in deze release. Alle aangevraagde permissies zijn nodig om de app correct te laten functioneren.\n\nAlle gebruikte afbeeldingen waren gemaakt door Google.\n\nCopyright © 2023 CodeDead</string>
     <string name="text_compare">Vergelijk:</string>
     <string name="text_compare_hash">Vergelijk hash</string>
     <string name="text_compare_hint">Plaats uw hash hier</string>
     <string name="text_content_hint">Plaats uw tekst hier</string>
     <string name="text_help">Bestand hashes kunnen alleen gegenereerd worden indien DeadHash toegang heeft tot uw bestanden. Het genereren van hashes voor grotere bestanden kan enige tijd in beslag nemen. Dit is volledig afhankelijk van de kracht van uw toestel.\n\nHet genereren van tekst hashes heeft geen nood aan additionele permissies. Het genereren van tekst hashes kan enige tijd in beslag nemen. Dit is volledig afhankelijk van de kracht van uw toestel.\n\nIndien u een fout tegenkomt of indien u hulp nodig heeft kunt u ons steeds contacteren!</string>
     <string name="text_language">Taal</string>
-    <string name="toast_back_again">Druk nogmaals op \'TERUG\' om de app te sluiten.</string>
     <string name="toast_data_copied">Data gekopieerd naar het klembord.</string>
     <string name="toast_error_notext">Gelieve eerst tekst op te geven!</string>
     <string name="toast_hash_match">Hash is gelijk aan uw input!</string>
@@ -48,4 +47,5 @@
         <item>Donker</item>
         <item>Systeemstandaard</item>
     </string-array>
+    <string name="toast_no_permissions">Om DeadHash te kunnen gebruiken zijn opslagrechten vereist</string>
 </resources>
