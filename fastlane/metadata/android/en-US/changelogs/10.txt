@@ -1,0 +1,4 @@
+- Removed deprecated code
+- Refactoring
+- Improved file hash calculation
+- Improved UI
