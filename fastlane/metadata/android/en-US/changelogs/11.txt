@@ -1,0 +1,3 @@
+- Removed deprecated code
+- Refactoring
+- Improved dark UI colors

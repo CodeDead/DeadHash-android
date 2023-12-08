@@ -36,7 +36,6 @@
     <string name="error_playstore">Impossibile aprire il Play Store!</string>
     <string name="error_website">Impossibile aprire il sito Web!</string>
     <string name="dialog_select_file">Seleziona un file</string>
-    <string name="error_copy_file">Impossibile creare una copia del file selezionato!</string>
     <string name="error_open_file">Impossibile aprire il file selezionato!</string>
     <string name="error_no_file">Nessun file è stato selezionato!</string>
     <string name="theme">Tema</string>
