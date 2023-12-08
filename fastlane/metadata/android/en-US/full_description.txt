@@ -4,7 +4,7 @@ DeadHash is an utility to calculate <i>hashes</i>.
 <ul>
     <li>Generate hashes for files and texts </li>
     <li>Dark theme support</li>
-    <li>Compare your hases</li>
+    <li>Compare your hashes</li>
     <li>Supports multiple hashes</li>
 </ul>
 
