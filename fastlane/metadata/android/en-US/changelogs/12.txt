@@ -1,0 +1,1 @@
+- Fixed storage permissions for Android <= 32
