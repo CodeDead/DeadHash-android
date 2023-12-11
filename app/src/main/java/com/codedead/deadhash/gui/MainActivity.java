@@ -538,29 +538,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void onClickSelectFile(final View v) {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getApplicationContext(), R.string.toast_no_permissions, Toast.LENGTH_LONG).show();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), R.string.toast_no_permissions, Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                }, 0);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                return;
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), R.string.toast_no_permissions, Toast.LENGTH_LONG).show();
+
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{
                         Manifest.permission.READ_MEDIA_AUDIO,
                         Manifest.permission.READ_MEDIA_IMAGES,
                         Manifest.permission.READ_MEDIA_VIDEO
                 }, 0);
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                }, 0);
-            }
-        } else {
-            final Intent intent = new Intent()
-                    .setType("*/*")
-                    .setAction(Intent.ACTION_OPEN_DOCUMENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE);
 
-            activityResultLauncher.launch(Intent.createChooser(intent, getString(R.string.dialog_select_file)));
+                return;
+            }
         }
+
+        final Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_OPEN_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE);
+
+        activityResultLauncher.launch(Intent.createChooser(intent, getString(R.string.dialog_select_file)));
     }
 }
