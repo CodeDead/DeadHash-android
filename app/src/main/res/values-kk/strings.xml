@@ -1,0 +1,49 @@
+<resources>
+    <string name="navigation_drawer_open">Мәзірді ашу</string>
+    <string name="navigation_drawer_close">Мәзірді жабу</string>
+    <string name="nav_file">Файл</string>
+    <string name="nav_text">Мәтін</string>
+    <string name="nav_settings">Баптау</string>
+    <string name="nav_info">Ақпар</string>
+    <string name="nav_help">Көмек</string>
+    <string name="nav_about">Қолданба туралы</string>
+    <string name="card_file">Файл:</string>
+    <string name="card_file_path">Файл орналасуы</string>
+    <string name="button_generate">Есептеу</string>
+    <string name="card_open_folder">Бума ашу</string>
+    <string name="copy_data">Дерек көшіру</string>
+    <string name="toast_data_copied">Дерек алмасу буферіне көшірілді!</string>
+    <string name="text_compare">Салыстыру:</string>
+    <string name="text_compare_hint">Хешіңізді осында енгізіңіз</string>
+    <string name="text_compare_hash">Хештерді салыстыру</string>
+    <string name="toast_hash_match">Бұл хеш сіз енгізген жолға сәйкес келеді!</string>
+    <string name="toast_hash_mismatch">Бұл хеш сіз енгізген жолға сәйкес келмейді!</string>
+    <string name="text_content_hint">Мәтініңізді осында енгізіңіз</string>
+    <string name="toast_error_notext">Алдымен бірдеңе енгізіп жіберіңіз!</string>
+    <string name="button_website">Сайт</string>
+    <string name="button_support">Сұрақ қою</string>
+    <string name="text_help">Файл хешін есептеу үшін DeadHash құрылғы жадын оқуға рұқсат алуы керек. Үлкен файлдың хешін есептеуге біраз уақыт кетуі мүмкін. Хештеу уақыты құрылғыңыздың өнімділігіне ғана байланысты.\n\nМәтін хешін есептеу үшін еш қосымша рұқсат қажет емес. Ұзын мәтіннің хеші де құрылғыңыздың өнімділігіне қарай ұзағырақ есептелуі мүмкін.\n\nҚатеге тап болсаңыз немесе көмек керек болса, бізге хабарласа аласыз.</string>
+    <string name="nav_tools">Құралдар</string>
+    <string name="text_about">DeadHash қолданбасын DeadLine жасаған. Оның көмегімен файл не мәтіннің хешін есептеуге болады.\n\nҚолданбаның осы нұсқасында жарнама мен бақылау құралдары жоқ. Барлық сұралған рұқсат қолданба дұрыс жұмыс істеуі үшін қажет.\n\nБарлық сурет Google рұқсатымен қолданылады.\n\nCopyright © 2023 CodeDead</string>
+    <string name="text_language">Тіл</string>
+    <string name="text_send_mail">Бізге хат жіберу</string>
+    <string name="alert_review_title">Пікір қалдыру</string>
+    <string name="alert_review_text">Сізге бұл қолданба ұнаса, пікір қалдырсаңыз болады.</string>
+    <string name="text_information">Ақпарат</string>
+    <string name="alert_review_never">Қайта ұсынбау</string>
+    <string name="string_no_clipboard_access">Алмасу буфері қолжетімсіз!</string>
+    <string name="error_playstore">Play Store ашу мүмкін емес!</string>
+    <string name="error_website">Сайтты ашу мүмкін емес!</string>
+    <string name="dialog_select_file">Файл таңдау</string>
+    <string name="error_open_file">Таңдалған файлды ашу мүмкін емес!</string>
+    <string name="error_no_file">Еш файл таңдалмаған!</string>
+    <string name="theme">Кейіп</string>
+    <string name="ui_header">Сыртқы көрініс</string>
+    <string name="hashing">Хештеу функциялары</string>
+    <string-array name="deadhash_theme_values">
+        <item>Ақшыл</item>
+        <item>Қараңғы</item>
+        <item>Жүйедегідей</item>
+    </string-array>
+    <string name="toast_no_permissions">DeadHash-ті қолдану үшін құрылғы жадын оқуға рұқсат беруіңіз керек.</string>
+</resources>

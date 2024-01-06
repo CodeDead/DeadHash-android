@@ -5,6 +5,7 @@
         <item>Français</item>
         <item>Deutsch</item>
         <item>Italiano</item>
+	<item>Қазақша</item>
         <item>Português (Brasil)</item>
         <item>Русский</item>
     </string-array>
@@ -15,6 +16,7 @@
         <item>fr</item>
         <item>de</item>
         <item>it</item>
+	<item>kk</item>
         <item>pt</item>
         <item>ru</item>
     </string-array>
