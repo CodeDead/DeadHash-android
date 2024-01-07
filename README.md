@@ -26,7 +26,8 @@ The following hash calculations are supported:
 
 ## Translations
 
-Kazakh - [Fontan030](https://github.com/Fontan030)
+- Portuguese - [SnwMds](https://github.com/SnwMds)
+- Kazakh - [Fontan030](https://github.com/Fontan030)
 
 ## About
 
