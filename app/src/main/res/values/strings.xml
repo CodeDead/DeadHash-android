@@ -26,7 +26,7 @@
     <string name="button_support">Support</string>
     <string name="text_help">Generating file hashes can only be done when DeadHash has been given permission to read your storage. Generating hashes for larger files may take a while. This depends entirely on the processing power of your device.\n\nGenerating text hashes does not require any additional permissions to be granted. Generating hashes for larger strings may take a while. This depends entirely on the processing power of your device.\n\nIf you happen to come across a bug or if you need support, you can always contact us!</string>
     <string name="nav_tools">Tools</string>
-    <string name="text_about">DeadHash was created by DeadLine. This app can be used to generate hashes of files and strings.\n\nNo ads or tracking devices are included in this release. All requested permissions are required in order to properly use this app.\n\nAll images are courtesy of Google.\n\nCopyright © 2023 CodeDead</string>
+    <string name="text_about">DeadHash was created by DeadLine. This app can be used to generate hashes of files and strings.\n\nNo ads or tracking devices are included in this release. All requested permissions are required in order to properly use this app.\n\nAll images are courtesy of Google.\n\nCopyright © 2024 CodeDead</string>
     <string name="text_language">Language</string>
     <string name="md5" translatable="false">MD5</string>
     <string name="sha_1" translatable="false">SHA-1</string>

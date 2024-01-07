@@ -24,6 +24,10 @@ The following hash calculations are supported:
 * SHA-512
 * CRC32
 
+## Translations
+
+Kazakh - [Fontan030](https://github.com/Fontan030)
+
 ## About
 
 This library is maintained by CodeDead. You can find more about us using the following links:
@@ -31,4 +35,4 @@ This library is maintained by CodeDead. You can find more about us using the fol
 * [Twitter](https://twitter.com/C0DEDEAD)
 * [Facebook](https://facebook.com/deadlinecodedead)
 
-Copyright © 2023 CodeDead
+Copyright © 2024 CodeDead
