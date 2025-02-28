@@ -167,6 +167,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
+        
+        final Intent intent = getIntent();
+        final String action = intent.getAction();
+        final String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            handleSendFile(intent);
+        }
     }
 
     /**
@@ -181,11 +189,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Handle the sending of a file
+     *
+     * @param intent The {@link Intent} object
+     */
+    private void handleSendFile(final Intent intent) {
+        final Uri intentFileUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (intentFileUri != null) {
+            fileUri = intentFileUri;
+            try (final Cursor cursor = this.getContentResolver()
+                    .query(intentFileUri, null, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    @SuppressLint("Range") final String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    edtFilePath.setText(displayName);
+
+                    fileDataArrayList.clear();
+                    mAdapterFile.notifyDataSetChanged();
+                }
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.top_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        handleSendFile(intent);
     }
 
     @Override
@@ -406,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fileDataArrayList.clear();
             mAdapterText.notifyDataSetChanged();
 
-            if (edtTextData.getText() == null || edtTextData.getText().toString().length() == 0) {
+            if (edtTextData.getText() == null || edtTextData.getText().toString().isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -483,13 +521,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void loadAboutContent() {
         final ImageButton btnFacebook = findViewById(R.id.BtnFacebook);
-        final ImageButton btnTwitter = findViewById(R.id.BtnTwitter);
+        final ImageButton btnBluesky = findViewById(R.id.BtnBluesky);
         final ImageButton btnWebsite = findViewById(R.id.BtnWebsiteAbout);
         final TextView txtAbout = findViewById(R.id.TxtAbout);
 
         btnWebsite.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "http://codedead.com/"));
         btnFacebook.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://facebook.com/deadlinecodedead"));
-        btnTwitter.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://twitter.com/C0DEDEAD"));
+        btnBluesky.setOnClickListener(v -> IntentUtils.openSite(v.getContext(), "https://bsky.app/profile/codedead.com"));
         txtAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

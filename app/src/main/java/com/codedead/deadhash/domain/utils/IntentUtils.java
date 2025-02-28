@@ -29,7 +29,7 @@ public final class IntentUtils {
             throw new NullPointerException("Context cannot be null!");
         if (site == null)
             throw new NullPointerException("Site cannot be null!");
-        if (site.length() == 0)
+        if (site.isEmpty())
             throw new IllegalArgumentException("Site cannot be empty!");
 
         try {

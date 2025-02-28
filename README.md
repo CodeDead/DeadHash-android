@@ -36,4 +36,4 @@ This library is maintained by CodeDead. You can find more about us using the fol
 * [Twitter](https://twitter.com/C0DEDEAD)
 * [Facebook](https://facebook.com/deadlinecodedead)
 
-Copyright © 2024 CodeDead
+Copyright © 2025 CodeDead

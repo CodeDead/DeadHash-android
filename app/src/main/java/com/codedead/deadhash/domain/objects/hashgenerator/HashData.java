@@ -34,9 +34,9 @@ public class HashData implements Parcelable {
             throw new NullPointerException("Hash name cannot be null!");
         if (hashData == null)
             throw new NullPointerException("Hash data cannot be null!");
-        if (hashName.length() == 0)
+        if (hashName.isEmpty())
             throw new IllegalArgumentException("Hash name cannot be empty!");
-        if (hashData.length() == 0)
+        if (hashData.isEmpty())
             throw new IllegalArgumentException("Hash data cannot be empty!");
 
         this.hashName = hashName;
