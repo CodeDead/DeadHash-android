@@ -48,18 +48,18 @@
             <ImageButton
                 android:id="@+id/BtnFacebook"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/hint_facebook_logo"
                 app:srcCompat="@drawable/ic_facebook_icon" />
 
             <ImageButton
-                android:id="@+id/BtnTwitter"
+                android:id="@+id/BtnBluesky"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:contentDescription="@string/hint_twitter_logo"
-                app:srcCompat="@drawable/ic_twitter_icon" />
+                android:contentDescription="@string/hint_bluesky_logo"
+                app:srcCompat="@drawable/bluesky_logo" />
 
             <ImageButton
                 android:id="@+id/BtnWebsiteAbout"

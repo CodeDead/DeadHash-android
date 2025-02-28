@@ -75,7 +75,7 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
 
             copyData.setOnClickListener(this);
             compareData.setOnClickListener(v1 -> {
-                if (originalCompare == null || originalCompare.length() == 0) return;
+                if (originalCompare == null || originalCompare.isEmpty()) return;
                 if (originalCompare.equals(encryptionData.getText().toString())) {
                     Toast.makeText(v1.getContext(), R.string.toast_hash_match, Toast.LENGTH_SHORT).show();
                 } else {
@@ -105,7 +105,7 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
             encryptionName.setText(data.getHashName());
             encryptionData.setText(data.getHashData());
 
-            if (data.getCompareCheck() != null && data.getCompareCheck().length() != 0) {
+            if (data.getCompareCheck() != null && !data.getCompareCheck().isEmpty()) {
                 originalCompare = data.getCompareCheck();
                 if (data.getHashData().equalsIgnoreCase(data.getCompareCheck())) {
                     compareData.setImageResource(R.drawable.ic_compare_check);
