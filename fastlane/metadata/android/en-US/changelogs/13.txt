@@ -1,0 +1,3 @@
+- Added ability to share files to DeadHash
+- Dependency upgrades
+- Removed twatter link
