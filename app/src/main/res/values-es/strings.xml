@@ -40,7 +40,7 @@
     <string name="error_no_file">No se ha seleccionado ningún archivo!</string>
     <string name="theme">Tema</string>
     <string name="ui_header">Usar interfaz</string>
-    <string name="hashing">Hasheando</string>
+    <string name="hashing">Hashes</string>
     <string-array name="deadhash_theme_values">
         <item>Claro</item>
         <item>Oscuro</item>
