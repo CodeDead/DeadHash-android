@@ -377,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             String compare = "";
             if (edtFileCompare.getText() != null) {
-                compare = edtFileCompare.getText().toString();
+                compare = edtFileCompare.getText().toString().trim();
             }
 
             final FileHashGenerator fileHashGenerator = new FileHashGenerator(fileUri, getContentResolver(), getHashAlgorithms(), compare);
@@ -452,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             final String data = edtTextData.getText().toString();
             String compare = "";
             if (edtTextCompare.getText() != null) {
-                compare = edtTextCompare.getText().toString();
+                compare = edtTextCompare.getText().toString().trim();
             }
 
 
