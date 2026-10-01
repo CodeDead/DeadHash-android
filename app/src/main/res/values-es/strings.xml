@@ -25,7 +25,7 @@
     <string name="button_support">Soporte</string>
     <string name="text_help">Generar hashes de archivos sólo se puede hacer cuando DeadHash tiene permiso para acceder al almacenamiento. Generar hashes de archivos grandes podría llevar tiempo, depende por completo de la potencia de procesamiento del dispositivo.\n\nGenerar hashes de texto no requiere permisos adicionales. Generar hashes de cadenas largas podría llevar tiempo, depende por completo de la potencia de procesamiento del dispositivo.\n\nSi encuentras un error o necesitas soporte, siempre puedes contactarnos!</string>
     <string name="nav_tools">Herramientas</string>
-    <string name="text_about">Esta aplicación sirve para generar hashes de archivos y cadenas.\n\nNo incluye anuncios ni dispositivos de rastreo en esta versión. Los permisos solicitados son necesarios para el uso correcto de la aplicación.\n\nTodas las imágenes son cortesía de Google.\nTraducciones realizadas por <a href="https://github.com/CertainBot">CertainBot</a>\n\nCopyright © 2025 CodeDead</string>
+    <string name="text_about">Esta aplicación sirve para generar hashes de archivos y cadenas.\n\nNo incluye anuncios ni dispositivos de rastreo en esta versión. Los permisos solicitados son necesarios para el uso correcto de la aplicación.\n\nTodas las imágenes son cortesía de Google.\nTraducciones realizadas por <a href="https://github.com/CertainBot">CertainBot</a>\n\nCopyright © 2026 CodeDead</string>
     <string name="text_language">Idioma</string>
     <string name="text_send_mail">Envianos un e-mail</string>
     <string name="alert_review_title">Reseña</string>
