@@ -26,3 +26,8 @@ allprojects {
 tasks.register('clean', Delete) {
     delete layout.buildDirectory
 }
+
+tasks.named('updateDaemonJvm') {
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
