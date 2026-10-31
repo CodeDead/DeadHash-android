@@ -1,0 +1,3 @@
+- Dependency upgrades
+- Added export functionality (txt and csv)
+- Improved support for third party app stores
