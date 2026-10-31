@@ -208,8 +208,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mAdapterFile.notifyDataSetChanged();
                 }
             }
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
         }
     }
 
