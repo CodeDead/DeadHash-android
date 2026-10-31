@@ -47,4 +47,10 @@
         <item>Default del sistema</item>
     </string-array>
     <string name="toast_no_permissions">Per utilizzare DeadHash sono necessarie autorizzazioni di archiviazione</string>
+    <string name="export">Esporta hash</string>
+    <string name="export_dialog_title">Esporta hash</string>
+    <string name="export_txt">File TXT</string>
+    <string name="export_csv">File CSV</string>
+    <string name="export_success">Hash esportati con successo!</string>
+    <string name="export_error">Impossibile esportare gli hash!</string>
 </resources>

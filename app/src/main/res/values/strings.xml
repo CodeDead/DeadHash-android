@@ -59,4 +59,10 @@
         <item>System default</item>
     </string-array>
     <string name="toast_no_permissions">Storage permissions are required in order to use DeadHash</string>
+    <string name="export">Export hashes</string>
+    <string name="export_dialog_title">Export hashes</string>
+    <string name="export_txt">TXT file</string>
+    <string name="export_csv">CSV file</string>
+    <string name="export_success">Hashes exported successfully!</string>
+    <string name="export_error">Unable to export hashes!</string>
 </resources>

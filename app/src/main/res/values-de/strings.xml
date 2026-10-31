@@ -47,4 +47,10 @@
         <item>Systemfehler</item>
     </string-array>
     <string name="toast_no_permissions">Für die Nutzung von DeadHash sind Speicherberechtigungen erforderlich</string>
+    <string name="export">Hashes exportieren</string>
+    <string name="export_dialog_title">Hashes exportieren</string>
+    <string name="export_txt">TXT-Datei</string>
+    <string name="export_csv">CSV-Datei</string>
+    <string name="export_success">Hashes erfolgreich exportiert!</string>
+    <string name="export_error">Hashes konnten nicht exportiert werden!</string>
 </resources>
