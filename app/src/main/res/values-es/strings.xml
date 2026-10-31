@@ -47,4 +47,10 @@
         <item>Seguir sistema</item>
     </string-array>
     <string name="toast_no_permissions">El permiso de almacenamiento es necesario para usar DeadHash</string>
+    <string name="export">Exportar hashes</string>
+    <string name="export_dialog_title">Exportar hashes</string>
+    <string name="export_txt">Archivo TXT</string>
+    <string name="export_csv">Archivo CSV</string>
+    <string name="export_success">¡Hashes exportados correctamente!</string>
+    <string name="export_error">¡No se pudieron exportar los hashes!</string>
 </resources>

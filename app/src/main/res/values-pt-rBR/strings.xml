@@ -47,4 +47,10 @@
         <item>Sistema padrão</item>
     </string-array>
     <string name="toast_no_permissions">Permissões de armazenamento são necessárias para usar DeadHash</string>
+    <string name="export">Exportar hashes</string>
+    <string name="export_dialog_title">Exportar hashes</string>
+    <string name="export_txt">Arquivo TXT</string>
+    <string name="export_csv">Arquivo CSV</string>
+    <string name="export_success">Hashes exportados com sucesso!</string>
+    <string name="export_error">Não foi possível exportar os hashes!</string>
 </resources>

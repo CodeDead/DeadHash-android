@@ -28,6 +28,7 @@ import com.codedead.deadhash.domain.objects.hashgenerator.HashAlgorithm;
 import com.codedead.deadhash.domain.objects.hashgenerator.TextHashGenerator;
 import com.codedead.deadhash.domain.objects.settings.SettingsContainer;
 import com.codedead.deadhash.domain.utils.IntentUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -56,6 +57,11 @@ import com.codedead.deadhash.domain.utils.DataAdapter;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashData;
 import com.codedead.deadhash.domain.utils.LocaleHelper;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -92,6 +98,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String lastLanguage;
     private Uri fileUri;
     private ActivityResultLauncher<Intent> activityResultLauncher;
+
+    private ActivityResultLauncher<String> fileTxtExportLauncher;
+    private ActivityResultLauncher<String> fileCsvExportLauncher;
+    private ActivityResultLauncher<String> textTxtExportLauncher;
+    private ActivityResultLauncher<String> textCsvExportLauncher;
+
+    private FloatingActionButton fabExportFile;
+    private FloatingActionButton fabExportText;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -145,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadAboutContent();
 
         loadAlertContent();
+        registerExportLaunchers();
 
         this.activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -160,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                     fileDataArrayList.clear();
                                     mAdapterFile.notifyDataSetChanged();
+                                    updateExportVisibility();
                                 }
                             }
                         } else {
@@ -206,10 +222,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     fileDataArrayList.clear();
                     mAdapterFile.notifyDataSetChanged();
+                    updateExportVisibility();
                 }
             }
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.error_open_file, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -336,6 +351,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Button btnGenerate = findViewById(R.id.ButtonGenerateFile);
         edtFileCompare = findViewById(R.id.Edit_FileCompare);
 
+        fabExportFile = findViewById(R.id.FabExportFile);
+        fabExportFile.setOnClickListener(v -> showExportDialog(true));
+
         if (savedInstance != null) {
             if (savedInstance.containsKey("FILE_PATH")) {
                 edtFilePath.setText(savedInstance.getString("FILE_PATH"));
@@ -353,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         mRecyclerViewFile.setAdapter(mAdapterFile);
+        updateExportVisibility();
 
         btnOpenFile.setOnClickListener(this::onClickSelectFile);
         edtFilePath.setOnClickListener(this::onClickSelectFile);
@@ -374,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fileDataArrayList.clear();
             mAdapterFile.notifyDataSetChanged();
+            updateExportVisibility();
 
             String compare = "";
             if (edtFileCompare.getText() != null) {
@@ -392,6 +412,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             fileDataArrayList.add(d);
                             mAdapterFile.notifyItemInserted(fileDataArrayList.size());
                         }
+                        updateExportVisibility();
                     }));
 
             pgbFile.setVisibility(View.VISIBLE);
@@ -414,6 +435,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Button btnGenerate = findViewById(R.id.ButtonGenerateText);
         edtTextCompare = findViewById(R.id.Edit_TextCompare);
 
+        fabExportText = findViewById(R.id.FabExportText);
+        fabExportText.setOnClickListener(v -> showExportDialog(false));
+
         if (savedInstance != null) {
             if (savedInstance.containsKey("TEXT_DATA")) {
                 edtTextData.setText(savedInstance.getString("TEXT_DATA"));
@@ -431,6 +455,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         mRecyclerViewText.setAdapter(mAdapterText);
+        updateExportVisibility();
 
         btnGenerate.setOnClickListener(v -> {
             if (textLoading) return;
@@ -441,8 +466,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             mRecyclerViewText.setAdapter(mAdapterText);
 
-            fileDataArrayList.clear();
+            textDataArrayList.clear();
             mAdapterText.notifyDataSetChanged();
+            updateExportVisibility();
 
             if (edtTextData.getText() == null || edtTextData.getText().toString().isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
@@ -468,10 +494,179 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             textDataArrayList.add(d);
                             mAdapterText.notifyItemInserted(textDataArrayList.size());
                         }
+                        updateExportVisibility();
                     }));
 
             pgbText.setVisibility(View.VISIBLE);
         });
+    }
+
+    /**
+     * Register the ActivityResultLaunchers that are used to export hashes
+     */
+    private void registerExportLaunchers() {
+        fileTxtExportLauncher = registerForActivityResult(
+                new ActivityResultContracts.CreateDocument("text/plain"),
+                uri -> exportHashes(uri, fileDataArrayList, false));
+
+        fileCsvExportLauncher = registerForActivityResult(
+                new ActivityResultContracts.CreateDocument("text/csv"),
+                uri -> exportHashes(uri, fileDataArrayList, true));
+
+        textTxtExportLauncher = registerForActivityResult(
+                new ActivityResultContracts.CreateDocument("text/plain"),
+                uri -> exportHashes(uri, textDataArrayList, false));
+
+        textCsvExportLauncher = registerForActivityResult(
+                new ActivityResultContracts.CreateDocument("text/csv"),
+                uri -> exportHashes(uri, textDataArrayList, true));
+    }
+
+    /**
+     * Show a dialog that lets the user choose the format to export the hashes in
+     *
+     * @param fileTab True if the file hashes should be exported, false for the text hashes
+     */
+    private void showExportDialog(final boolean fileTab) {
+        final List<HashData> hashDataList = fileTab ? fileDataArrayList : textDataArrayList;
+        if (hashDataList.isEmpty()) return;
+
+        final String[] formats = {
+                getString(R.string.export_txt),
+                getString(R.string.export_csv)
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.export_dialog_title)
+                .setItems(formats, (dialog, which) -> {
+                    if (which == 0) {
+                        (fileTab ? fileTxtExportLauncher : textTxtExportLauncher)
+                                .launch(getExportFileName(fileTab, "txt"));
+                    } else {
+                        (fileTab ? fileCsvExportLauncher : textCsvExportLauncher)
+                                .launch(getExportFileName(fileTab, "csv"));
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * Show or hide the export buttons based on whether hashes are available
+     */
+    private void updateExportVisibility() {
+        if (fabExportFile != null) {
+            fabExportFile.setVisibility(fileDataArrayList.isEmpty() ? View.GONE : View.VISIBLE);
+        }
+        if (fabExportText != null) {
+            fabExportText.setVisibility(textDataArrayList.isEmpty() ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    /**
+     * Get a suggested file name for an export
+     *
+     * @param fileTab   True if the file hashes are exported, false for the text hashes
+     * @param extension The file extension, without a dot
+     * @return The suggested file name
+     */
+    private String getExportFileName(final boolean fileTab, final String extension) {
+        String source = "text";
+        if (fileTab) {
+            source = edtFilePath.getText().toString().trim();
+            if (source.isEmpty()) {
+                source = "file";
+            } else {
+                final int dotIndex = source.lastIndexOf('.');
+                if (dotIndex > 0) {
+                    source = source.substring(0, dotIndex);
+                }
+            }
+        }
+
+        source = source.replaceAll("[\\\\/:*?\"<>|]", "_");
+        if (source.length() > 60) {
+            source = source.substring(0, 60);
+        }
+
+        return "DeadHash_" + source + "_hashes." + extension;
+    }
+
+    /**
+     * Write hashes to the given Uri
+     *
+     * @param uri          The Uri to write to, or null when the user cancelled the file picker
+     * @param hashDataList The List of HashData objects that should be exported
+     * @param csv          True to export as CSV, false to export as plain text
+     */
+    private void exportHashes(final Uri uri, final List<HashData> hashDataList, final boolean csv) {
+        if (uri == null || hashDataList == null || hashDataList.isEmpty()) return;
+
+        final String content = csv ? buildCsvContent(hashDataList) : buildTxtContent(hashDataList);
+
+        CompletableFuture.runAsync(() -> {
+            try (final OutputStream outputStream = getContentResolver().openOutputStream(uri, "w")) {
+                if (outputStream == null) {
+                    throw new IOException("Unable to open the selected file");
+                }
+
+                try (final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
+                    writer.write(content);
+                }
+            } catch (final IOException ex) {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), R.string.export_error, Toast.LENGTH_SHORT).show());
+                return;
+            }
+
+            runOnUiThread(() -> Toast.makeText(getApplicationContext(), R.string.export_success, Toast.LENGTH_SHORT).show());
+        });
+    }
+
+    /**
+     * Build the plain text representation of a List of HashData objects
+     *
+     * @param hashDataList The List of HashData objects
+     * @return The plain text representation
+     */
+    private static String buildTxtContent(final List<HashData> hashDataList) {
+        final StringBuilder builder = new StringBuilder();
+        for (final HashData hashData : hashDataList) {
+            builder.append(hashData.getHashName())
+                    .append(": ")
+                    .append(hashData.getHashData())
+                    .append('\n');
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Build the CSV representation of a List of HashData objects
+     *
+     * @param hashDataList The List of HashData objects
+     * @return The CSV representation
+     */
+    private static String buildCsvContent(final List<HashData> hashDataList) {
+        final StringBuilder builder = new StringBuilder("Algorithm,Hash\r\n");
+        for (final HashData hashData : hashDataList) {
+            builder.append(escapeCsv(hashData.getHashName()))
+                    .append(',')
+                    .append(escapeCsv(hashData.getHashData()))
+                    .append("\r\n");
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Escape a value for use in a CSV file
+     *
+     * @param value The value to escape
+     * @return The escaped value
+     */
+    private static String escapeCsv(final String value) {
+        if (value == null || value.isEmpty()) return "";
+        if (value.contains(",") || value.contains("\"") || value.contains("\n") || value.contains("\r")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
     }
 
     /**
