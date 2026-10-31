@@ -46,7 +46,6 @@
         <item>Қараңғы</item>
         <item>Жүйедегідей</item>
     </string-array>
-    <string name="toast_no_permissions">DeadHash-ті қолдану үшін құрылғы жадын оқуға рұқсат беруіңіз керек.</string>
     <string name="export">Хэштерді экспорттау</string>
     <string name="export_dialog_title">Хэштерді экспорттау</string>
     <string name="export_txt">TXT файлы</string>

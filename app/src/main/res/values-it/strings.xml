@@ -46,7 +46,6 @@
         <item>Buio</item>
         <item>Default del sistema</item>
     </string-array>
-    <string name="toast_no_permissions">Per utilizzare DeadHash sono necessarie autorizzazioni di archiviazione</string>
     <string name="export">Esporta hash</string>
     <string name="export_dialog_title">Esporta hash</string>
     <string name="export_txt">File TXT</string>

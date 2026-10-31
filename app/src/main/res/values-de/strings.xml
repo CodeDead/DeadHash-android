@@ -46,7 +46,6 @@
         <item>Dunkel</item>
         <item>Systemfehler</item>
     </string-array>
-    <string name="toast_no_permissions">Für die Nutzung von DeadHash sind Speicherberechtigungen erforderlich</string>
     <string name="export">Hashes exportieren</string>
     <string name="export_dialog_title">Hashes exportieren</string>
     <string name="export_txt">TXT-Datei</string>

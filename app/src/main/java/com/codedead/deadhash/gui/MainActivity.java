@@ -1,14 +1,11 @@
 package com.codedead.deadhash.gui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
@@ -16,9 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
-import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -771,31 +766,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void onClickSelectFile(final View v) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getApplicationContext(), R.string.toast_no_permissions, Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                }, 0);
-
-                return;
-            }
-        } else {
-            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getApplicationContext(), R.string.toast_no_permissions, Toast.LENGTH_LONG).show();
-
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                        Manifest.permission.READ_MEDIA_AUDIO,
-                        Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_VIDEO
-                }, 0);
-
-                return;
-            }
-        }
-
         final Intent intent = new Intent()
                 .setType("*/*")
                 .setAction(Intent.ACTION_OPEN_DOCUMENT)

@@ -46,7 +46,6 @@
         <item>Foncé</item>
         <item>Défaillance du système</item>
     </string-array>
-    <string name="toast_no_permissions">Des autorisations de stockage sont requises pour utiliser DeadHash</string>
     <string name="export">Exporter les hachages</string>
     <string name="export_dialog_title">Exporter les hachages</string>
     <string name="export_txt">Fichier TXT</string>

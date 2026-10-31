@@ -46,7 +46,6 @@
         <item>Donker</item>
         <item>Systeemstandaard</item>
     </string-array>
-    <string name="toast_no_permissions">Om DeadHash te kunnen gebruiken zijn opslagrechten vereist</string>
     <string name="export">Hashes exporteren</string>
     <string name="export_dialog_title">Hashes exporteren</string>
     <string name="export_txt">TXT-bestand</string>

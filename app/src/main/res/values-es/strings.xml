@@ -46,7 +46,6 @@
         <item>Oscuro</item>
         <item>Seguir sistema</item>
     </string-array>
-    <string name="toast_no_permissions">El permiso de almacenamiento es necesario para usar DeadHash</string>
     <string name="export">Exportar hashes</string>
     <string name="export_dialog_title">Exportar hashes</string>
     <string name="export_txt">Archivo TXT</string>
