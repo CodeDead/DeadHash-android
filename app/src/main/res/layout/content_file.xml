@@ -74,15 +74,23 @@
         </TableLayout>
 
         <Button
+            android:id="@+id/BtnClearFileResults"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_file"
+            android:layout_alignParentStart="true"
+            android:visibility="invisible"
+            android:text="@string/clear" />
+
+        <Button
             android:id="@+id/ButtonGenerateFile"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_file"
             android:layout_alignParentEnd="true"
-            android:text="@string/button_generate">
-
-        </Button>
+            android:text="@string/button_generate" />
 
     </RelativeLayout>
 

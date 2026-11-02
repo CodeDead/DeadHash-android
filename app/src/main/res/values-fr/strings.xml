@@ -52,4 +52,5 @@
     <string name="export_csv">Fichier CSV</string>
     <string name="export_success">Hachages exportés avec succès !</string>
     <string name="export_error">Impossible d\'exporter les hachages !</string>
+    <string name="clear">Effacer</string>
 </resources>

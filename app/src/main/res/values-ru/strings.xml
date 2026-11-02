@@ -52,4 +52,5 @@
     <string name="export_csv">Файл CSV</string>
     <string name="export_success">Хеши успешно экспортированы!</string>
     <string name="export_error">Не удалось экспортировать хеши!</string>
+    <string name="clear">Очистить</string>
 </resources>

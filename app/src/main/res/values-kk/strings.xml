@@ -52,4 +52,5 @@
     <string name="export_csv">CSV файлы</string>
     <string name="export_success">Хэштер сәтті экспортталды!</string>
     <string name="export_error">Хэштерді экспорттау мүмкін болмады!</string>
+    <string name="clear">Тазалау</string>
 </resources>

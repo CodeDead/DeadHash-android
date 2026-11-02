@@ -52,4 +52,5 @@
     <string name="export_csv">CSV-Datei</string>
     <string name="export_success">Hashes erfolgreich exportiert!</string>
     <string name="export_error">Hashes konnten nicht exportiert werden!</string>
+    <string name="clear">Leeren</string>
 </resources>
