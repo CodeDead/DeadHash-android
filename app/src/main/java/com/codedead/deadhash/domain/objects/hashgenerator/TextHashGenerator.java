@@ -59,6 +59,10 @@ public final class TextHashGenerator extends HashGenerator {
                     final String sha512 = HashUtil.calculateHash(data.getBytes(), "SHA-512");
                     getHashData().add(new HashData("SHA-512", sha512, getCompare()));
                 }
+                case blake3 -> {
+                    final String blake3 = HashUtil.calculateBlake3(data.getBytes());
+                    getHashData().add(new HashData("BLAKE3", blake3, getCompare()));
+                }
                 case crc32 -> {
                     final String crc32 = HashUtil.calculateCRC32(data.getBytes());
                     getHashData().add(new HashData("CRC32", crc32, getCompare()));

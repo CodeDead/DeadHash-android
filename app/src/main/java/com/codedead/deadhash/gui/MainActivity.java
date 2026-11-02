@@ -706,6 +706,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             hashAlgorithms.add(HashAlgorithm.sha384);
         if (settingsContainer.isCalculateSha512())
             hashAlgorithms.add(HashAlgorithm.sha512);
+        if (settingsContainer.isCalculateBlake3())
+            hashAlgorithms.add(HashAlgorithm.blake3);
         if (settingsContainer.isCalculateCrc32())
             hashAlgorithms.add(HashAlgorithm.crc32);
         return hashAlgorithms;

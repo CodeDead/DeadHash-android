@@ -9,6 +9,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.zip.CRC32;
 
+import org.bouncycastle.crypto.digests.Blake3Digest;
+
 public final class HashUtil {
 
     /**
@@ -81,6 +83,55 @@ public final class HashUtil {
                 return convertToHex(mdBytes);
             }
         } catch (final NoSuchAlgorithmException | IOException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Calculate the BLAKE3 hash of an array of bytes
+     *
+     * @param bytes The byte array that should be used to calculate a hash
+     * @return The String object that contains the BLAKE3 hash of the byte array
+     */
+    public static String calculateBlake3(final byte[] bytes) {
+        try {
+            final Blake3Digest digest = new Blake3Digest();
+            digest.update(bytes, 0, bytes.length);
+
+            final byte[] hash = new byte[digest.getDigestSize()];
+            digest.doFinal(hash, 0);
+            return convertToHex(hash);
+        } catch (final Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Calculate the BLAKE3 hash of a specified file
+     *
+     * @param uri             The Uri of the file that should be hashed
+     * @param contentResolver The ContentResolver that should be used to open the file
+     * @return The String object that contains the BLAKE3 hash of the file
+     */
+    public static String calculateBlake3(final Uri uri, final ContentResolver contentResolver) {
+        try {
+            final Blake3Digest digest = new Blake3Digest();
+            try (final InputStream fis = contentResolver.openInputStream(uri)) {
+                if (fis == null)
+                    return null;
+
+                final byte[] dataBytes = new byte[8192];
+
+                int nread;
+                while ((nread = fis.read(dataBytes)) != -1) {
+                    digest.update(dataBytes, 0, nread);
+                }
+
+                final byte[] hash = new byte[digest.getDigestSize()];
+                digest.doFinal(hash, 0);
+                return convertToHex(hash);
+            }
+        } catch (final IOException ex) {
             return null;
         }
     }

@@ -7,5 +7,6 @@ public enum HashAlgorithm {
     sha256,
     sha384,
     sha512,
+    blake3,
     crc32
 }
