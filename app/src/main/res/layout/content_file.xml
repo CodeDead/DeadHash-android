@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="16dp">
 
         <TableLayout
             android:id="@+id/layout_file"
@@ -35,22 +35,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.90"
-                    android:lines="1"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:hint="@string/card_file_path"
                     android:importantForAutofill="no"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:lines="1" />
 
                 <ImageButton
                     android:id="@+id/ImgBtnFileData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/card_open_folder"
-                    android:src="@drawable/ic_open_folder" />
+                    android:padding="12dp"
+                    android:src="@drawable/ic_open_folder"
+                    app:tint="?attr/colorControlNormal" />
             </TableRow>
 
             <TableRow android:paddingTop="5dp">
@@ -73,31 +75,38 @@
             </TableRow>
         </TableLayout>
 
-        <Button
-            android:id="@+id/BtnClearFileResults"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_file"
-            android:layout_alignParentStart="true"
-            android:visibility="invisible"
-            android:text="@string/clear" />
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/ButtonGenerateFile"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_file"
-            android:layout_alignParentEnd="true"
-            android:text="@string/button_generate" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/BtnClearFileResults"
+                style="@style/Widget.DeadHash.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/clear"
+                android:visibility="invisible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ButtonGenerateFile"
+                style="@style/Widget.DeadHash.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_generate" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@color/outline" />
 
     <ProgressBar
         android:id="@+id/PgbFile"
@@ -107,13 +116,15 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/file_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingTop="8dp"
             android:paddingBottom="88dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -125,8 +136,8 @@
             android:contentDescription="@string/export"
             android:src="@drawable/ic_export"
             android:visibility="gone"
-            app:backgroundTint="?attr/colorPrimary"
-            app:tint="?attr/colorOnPrimary" />
+            app:backgroundTint="@color/export_fab_background"
+            app:tint="@color/export_fab_icon" />
 
     </FrameLayout>
 

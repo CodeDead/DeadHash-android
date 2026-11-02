@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="nav_item_checked">#FFBB86FC</color>
+    <color name="outline">#33FFFFFF</color>
+    <color name="nav_header_background">@color/purple_700</color>
+    <color name="export_fab_background">@color/purple_200</color>
+    <color name="export_fab_icon">@color/black</color>
+    <color name="green">#FF81C784</color>
+    <color name="red">#FFEF5350</color>
 </resources>

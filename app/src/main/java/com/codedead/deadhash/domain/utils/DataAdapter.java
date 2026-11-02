@@ -107,12 +107,13 @@ public final class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataHold
 
             if (data.getCompareCheck() != null && !data.getCompareCheck().isEmpty()) {
                 originalCompare = data.getCompareCheck();
+                compareData.setVisibility(View.VISIBLE);
                 if (data.getHashData().equalsIgnoreCase(data.getCompareCheck())) {
                     compareData.setImageResource(R.drawable.ic_compare_check);
-                    compareData.setBackgroundTintList(ContextCompat.getColorStateList(compareData.getContext(), R.color.green));
+                    compareData.setImageTintList(ContextCompat.getColorStateList(compareData.getContext(), R.color.green));
                 } else {
                     compareData.setImageResource(R.drawable.ic_compare_uncheck);
-                    compareData.setBackgroundTintList(ContextCompat.getColorStateList(compareData.getContext(), R.color.red));
+                    compareData.setImageTintList(ContextCompat.getColorStateList(compareData.getContext(), R.color.red));
                 }
             } else {
                 compareData.setVisibility(View.INVISIBLE);
