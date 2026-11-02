@@ -2,71 +2,84 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:adjustViewBounds="false"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/hint_launcher_icon"
+            android:scaleType="fitCenter"
             app:srcCompat="@mipmap/ic_launcher_round" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:text="@string/text_information"
             android:textAlignment="center"
-            android:textSize="16sp"
-            android:textStyle="bold">
-
-        </TextView>
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
         <TextView
             android:id="@+id/TxtAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:lineSpacingExtra="4dp"
             android:text="@string/text_about"
-            android:textAlignment="center"
-            android:textSize="16sp" />
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="24dp"
             android:gravity="center"
+            android:orientation="horizontal"
             android:weightSum="3">
 
             <ImageButton
                 android:id="@+id/BtnFacebook"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/hint_facebook_logo"
+                android:padding="8dp"
+                android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_facebook_icon" />
 
             <ImageButton
                 android:id="@+id/BtnBluesky"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/hint_bluesky_logo"
+                android:padding="8dp"
+                android:scaleType="centerInside"
                 app:srcCompat="@drawable/bluesky_logo" />
 
             <ImageButton
                 android:id="@+id/BtnWebsiteAbout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/hint_website_logo"
+                android:padding="8dp"
+                android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_website_icon" />
 
         </LinearLayout>

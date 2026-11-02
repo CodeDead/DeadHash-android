@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="16dp">
 
         <EditText
             android:id="@+id/EdtText_Content"
@@ -49,23 +49,38 @@
             </TableRow>
         </TableLayout>
 
-        <Button
-            android:id="@+id/ButtonGenerateText"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_compare"
-            android:layout_alignParentEnd="true"
-            android:text="@string/button_generate">
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:orientation="horizontal">
 
-        </Button>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/BtnClearTextResults"
+                style="@style/Widget.DeadHash.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/clear"
+                android:visibility="invisible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ButtonGenerateText"
+                style="@style/Widget.DeadHash.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_generate" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@color/outline" />
 
     <ProgressBar
         android:id="@+id/PgbText"
@@ -75,13 +90,15 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/text_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingTop="8dp"
             android:paddingBottom="88dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -93,8 +110,8 @@
             android:contentDescription="@string/export"
             android:src="@drawable/ic_export"
             android:visibility="gone"
-            app:backgroundTint="?attr/colorPrimary"
-            app:tint="?attr/colorOnPrimary" />
+            app:backgroundTint="@color/export_fab_background"
+            app:tint="@color/export_fab_icon" />
 
     </FrameLayout>
 

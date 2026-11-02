@@ -24,9 +24,9 @@
     <string name="toast_error_notext">Please enter some text first!</string>
     <string name="button_website">Website</string>
     <string name="button_support">Support</string>
-    <string name="text_help">Generating file hashes can only be done when DeadHash has been given permission to read your storage. Generating hashes for larger files may take a while. This depends entirely on the processing power of your device.\n\nGenerating text hashes does not require any additional permissions to be granted. Generating hashes for larger strings may take a while. This depends entirely on the processing power of your device.\n\nIf you happen to come across a bug or if you need support, you can always contact us!</string>
+    <string name="text_help">Select a file with the folder button to calculate its hashes. DeadHash uses the system file picker, so it only accesses the file you select and does not require storage permissions.\n\nYou can choose which hash algorithms to calculate in Settings. Generating hashes for larger files or longer text may take a while; this depends entirely on the processing power of your device.\n\nAfter calculating, you can copy a hash, compare it with an expected value, clear the results, or export them as a TXT or CSV file.\n\nIf you happen to come across a bug or if you need support, you can always contact us!</string>
     <string name="nav_tools">Tools</string>
-    <string name="text_about">DeadHash was created by DeadLine. This app can be used to generate hashes of files and strings.\n\nNo ads or tracking devices are included in this release. All requested permissions are required in order to properly use this app.\n\nAll images are courtesy of Google.\n\nCopyright © 2026 CodeDead</string>
+    <string name="text_about">DeadHash was created by DeadLine. This app can be used to generate hashes of files and strings.\n\nNo ads or tracking devices are included in this release. DeadHash does not request any permissions.\n\nAll images are courtesy of Google.\n\nCopyright © 2026 CodeDead</string>
     <string name="text_language">Language</string>
     <string name="md5" translatable="false">MD5</string>
     <string name="sha_1" translatable="false">SHA-1</string>
@@ -64,4 +64,5 @@
     <string name="export_csv">CSV file</string>
     <string name="export_success">Hashes exported successfully!</string>
     <string name="export_error">Unable to export hashes!</string>
+    <string name="clear">Clear</string>
 </resources>
