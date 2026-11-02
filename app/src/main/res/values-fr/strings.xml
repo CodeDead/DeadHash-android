@@ -25,8 +25,8 @@
     <string name="text_compare">Comparer:</string>
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
-    <string name="text_about">DeadHash a été créé par DeadLine. Cette application peut être utilisée pour générer des hachages de fichiers et de chaînes.\n\nAucune publicité ou périphérique de suivi n\'est inclus dans cette version. Toutes les autorisations requises sont nécessaires pour utiliser correctement cette application.\n\nToutes les images sont gracieusement fournies par Google.\n\nCopyright © 2026 CodeDead</string>
-    <string name="text_help">La génération de hachages de fichiers ne peut être effectuée que lorsque DeadHash a été autorisé à lire votre stockage. Génération hash pour des fichiers plus volumineux peut prendre un certain temps. Cela dépend entièrement du pouvoir de traitement de votre appareil.\n\nLa génération de hachages de texte ne nécessite aucune autorisation supplémentaire. La génération de hachis pour un texte plus grand peut prendre un certain temps. Cela dépend entièrement du pouvoir de traitement de votre appareil.\n\nSi vous rencontrez un bug ou si vous avez besoin de soutien, vous pouvez toujours nous contacter!</string>
+    <string name="text_about">DeadHash a été créé par DeadLine. Cette application peut être utilisée pour générer des hachages de fichiers et de chaînes.\n\nCette version n\'inclut aucune publicité ni aucun périphérique de suivi. DeadHash ne demande aucune autorisation.\n\nToutes les images sont gracieusement fournies par Google.\n\nCopyright © 2026 CodeDead</string>
+    <string name="text_help">La génération de hachages de fichiers utilise le sélecteur de fichiers du système. DeadHash n\'a donc pas besoin d\'autorisation de stockage et accède uniquement au fichier que vous sélectionnez.\n\nVous pouvez choisir les algorithmes de hachage à calculer dans Paramètres. La génération de hachages pour des fichiers plus volumineux ou des textes plus longs peut prendre un certain temps. Cela dépend entièrement de la puissance de traitement de votre appareil.\n\nAprès le calcul, vous pouvez copier un hachage, le comparer à une valeur attendue, effacer les résultats ou les exporter dans un fichier TXT ou CSV.\n\nSi vous rencontrez un bug ou si vous avez besoin d\'aide, vous pouvez toujours nous contacter !</string>
     <string name="text_send_mail">Envoyez-nous un e-mail</string>
     <string name="alert_review_text">Envisagez de laisser un commentaire si vous aimez cette application!</string>
     <string name="alert_review_title">Revue</string>
@@ -52,4 +52,5 @@
     <string name="export_csv">Fichier CSV</string>
     <string name="export_success">Hachages exportés avec succès !</string>
     <string name="export_error">Impossible d\'exporter les hachages !</string>
+    <string name="clear">Effacer</string>
 </resources>

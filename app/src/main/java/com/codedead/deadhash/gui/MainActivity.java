@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FloatingActionButton fabExportFile;
     private FloatingActionButton fabExportText;
 
+    private Button btnClearFile;
+    private Button btnClearText;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         settingsContainer.loadSettings(getApplicationContext());
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                     fileDataArrayList.clear();
                                     mAdapterFile.notifyDataSetChanged();
-                                    updateExportVisibility();
+                                    updateActionVisibility();
                                 }
                             }
                         } else {
@@ -217,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     fileDataArrayList.clear();
                     mAdapterFile.notifyDataSetChanged();
-                    updateExportVisibility();
+                    updateActionVisibility();
                 }
             }
         }
@@ -342,8 +345,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerViewFile.setLayoutManager(mLayoutManagerFile);
 
         final ImageButton btnOpenFile = findViewById(R.id.ImgBtnFileData);
-        edtFilePath = findViewById(R.id.EdtFile_name);
         final Button btnGenerate = findViewById(R.id.ButtonGenerateFile);
+        btnClearFile = findViewById(R.id.BtnClearFileResults);
+        edtFilePath = findViewById(R.id.EdtFile_name);
         edtFileCompare = findViewById(R.id.Edit_FileCompare);
 
         fabExportFile = findViewById(R.id.FabExportFile);
@@ -366,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         mRecyclerViewFile.setAdapter(mAdapterFile);
-        updateExportVisibility();
+        updateActionVisibility();
 
         btnOpenFile.setOnClickListener(this::onClickSelectFile);
         edtFilePath.setOnClickListener(this::onClickSelectFile);
@@ -388,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fileDataArrayList.clear();
             mAdapterFile.notifyDataSetChanged();
-            updateExportVisibility();
+            updateActionVisibility();
 
             String compare = "";
             if (edtFileCompare.getText() != null) {
@@ -407,10 +411,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             fileDataArrayList.add(d);
                             mAdapterFile.notifyItemInserted(fileDataArrayList.size());
                         }
-                        updateExportVisibility();
+                        updateActionVisibility();
                     }));
 
             pgbFile.setVisibility(View.VISIBLE);
+        });
+
+        btnClearFile.setOnClickListener(v -> {
+            fileDataArrayList.clear();
+            mAdapterFile.notifyDataSetChanged();
+            updateActionVisibility();
         });
     }
 
@@ -428,6 +438,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         edtTextData = findViewById(R.id.EdtText_Content);
         final Button btnGenerate = findViewById(R.id.ButtonGenerateText);
+        btnClearText = findViewById(R.id.BtnClearTextResults);
         edtTextCompare = findViewById(R.id.Edit_TextCompare);
 
         fabExportText = findViewById(R.id.FabExportText);
@@ -450,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         mRecyclerViewText.setAdapter(mAdapterText);
-        updateExportVisibility();
+        updateActionVisibility();
 
         btnGenerate.setOnClickListener(v -> {
             if (textLoading) return;
@@ -463,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             textDataArrayList.clear();
             mAdapterText.notifyDataSetChanged();
-            updateExportVisibility();
+            updateActionVisibility();
 
             if (edtTextData.getText() == null || edtTextData.getText().toString().isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.toast_error_notext, Toast.LENGTH_SHORT).show();
@@ -489,10 +500,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             textDataArrayList.add(d);
                             mAdapterText.notifyItemInserted(textDataArrayList.size());
                         }
-                        updateExportVisibility();
+                        updateActionVisibility();
                     }));
 
             pgbText.setVisibility(View.VISIBLE);
+        });
+
+        btnClearText.setOnClickListener(v -> {
+            textDataArrayList.clear();
+            mAdapterText.notifyDataSetChanged();
+            updateActionVisibility();
         });
     }
 
@@ -546,14 +563,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * Show or hide the export buttons based on whether hashes are available
+     * Show or hide the export and clear buttons based on whether hashes are available
      */
-    private void updateExportVisibility() {
+    private void updateActionVisibility() {
         if (fabExportFile != null) {
             fabExportFile.setVisibility(fileDataArrayList.isEmpty() ? View.GONE : View.VISIBLE);
         }
         if (fabExportText != null) {
             fabExportText.setVisibility(textDataArrayList.isEmpty() ? View.GONE : View.VISIBLE);
+        }
+        if (btnClearFile != null) {
+            btnClearFile.setVisibility(fileDataArrayList.isEmpty() ? View.INVISIBLE : View.VISIBLE);
+        }
+        if (btnClearText != null) {
+            btnClearText.setVisibility(textDataArrayList.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         }
     }
 
