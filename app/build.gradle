@@ -42,5 +42,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.2'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.preference:preference:1.2.1'
+    // BLAKE3 is not available through Android's MessageDigest API
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.86'
     testImplementation 'junit:junit:4.13.2'
 }

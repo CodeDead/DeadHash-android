@@ -1,1 +1,1 @@
-Generieren von MD5, SHA und CRC32-Hashes für Dateien und Text
+Generieren von MD5, SHA, BLAKE3 und CRC32-Hashes für Dateien und Text
