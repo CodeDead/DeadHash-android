@@ -19,6 +19,8 @@ The following hash calculations are supported:
 * SHA-256
 * SHA-384
 * SHA-512
+* BLAKE3
+* XXH3-64
 * CRC32
 
 ## Translations

@@ -22,6 +22,7 @@ import com.codedead.deadhash.domain.objects.hashgenerator.FileHashGenerator;
 import com.codedead.deadhash.domain.objects.hashgenerator.HashAlgorithm;
 import com.codedead.deadhash.domain.objects.hashgenerator.TextHashGenerator;
 import com.codedead.deadhash.domain.objects.settings.SettingsContainer;
+import com.codedead.deadhash.domain.utils.HashUtil;
 import com.codedead.deadhash.domain.utils.IntentUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -706,6 +707,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             hashAlgorithms.add(HashAlgorithm.sha384);
         if (settingsContainer.isCalculateSha512())
             hashAlgorithms.add(HashAlgorithm.sha512);
+        if (settingsContainer.isCalculateBlake3())
+            hashAlgorithms.add(HashAlgorithm.blake3);
+        if (settingsContainer.isCalculateXxh3() && HashUtil.isXxh3Supported())
+            hashAlgorithms.add(HashAlgorithm.xxh3);
         if (settingsContainer.isCalculateCrc32())
             hashAlgorithms.add(HashAlgorithm.crc32);
         return hashAlgorithms;

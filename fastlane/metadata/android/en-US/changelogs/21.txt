@@ -1,0 +1,2 @@
+- Added blake3 support
+- Added XXH3-64 support

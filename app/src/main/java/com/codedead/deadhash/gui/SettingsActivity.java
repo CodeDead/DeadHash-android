@@ -14,10 +14,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.codedead.deadhash.R;
+import com.codedead.deadhash.domain.utils.HashUtil;
 import com.codedead.deadhash.domain.utils.IntentUtils;
 import com.codedead.deadhash.domain.utils.LocaleHelper;
 
@@ -105,6 +107,13 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            if (!HashUtil.isXxh3Supported()) {
+                final Preference xxh3Preference = findPreference("xxh3");
+                if (xxh3Preference != null) {
+                    xxh3Preference.setVisible(false);
+                }
+            }
         }
     }
 }

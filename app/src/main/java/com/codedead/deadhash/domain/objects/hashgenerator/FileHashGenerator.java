@@ -64,6 +64,14 @@ public final class FileHashGenerator extends HashGenerator {
                     final String sha512 = HashUtil.calculateHash(uri, contentResolver, "SHA-512");
                     getHashData().add(new HashData("SHA-512", sha512, getCompare()));
                 }
+                case blake3 -> {
+                    final String blake3 = HashUtil.calculateBlake3(uri, contentResolver);
+                    getHashData().add(new HashData("BLAKE3", blake3, getCompare()));
+                }
+                case xxh3 -> {
+                    final String xxh3 = HashUtil.calculateXxh3(uri, contentResolver);
+                    getHashData().add(new HashData("XXH3-64", xxh3, getCompare()));
+                }
                 case crc32 -> {
                     final String crc32 = HashUtil.calculateCRC32(uri, contentResolver);
                     getHashData().add(new HashData("CRC32", crc32, getCompare()));

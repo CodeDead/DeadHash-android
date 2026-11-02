@@ -16,6 +16,8 @@ public class SettingsContainer {
     private boolean calculateSha256;
     private boolean calculateSha384;
     private boolean calculateSha512;
+    private boolean calculateBlake3;
+    private boolean calculateXxh3;
     private boolean calculateCrc32;
     private int reviewTimes;
     private String theme;
@@ -91,6 +93,24 @@ public class SettingsContainer {
     }
 
     /**
+     * Get whether BLAKE3 hashes should be calculated
+     *
+     * @return True if BLAKE3 hashes should be calculated, otherwise false
+     */
+    public boolean isCalculateBlake3() {
+        return calculateBlake3;
+    }
+
+    /**
+     * Get whether XXH3-64 hashes should be calculated
+     *
+     * @return True if XXH3-64 hashes should be calculated, otherwise false
+     */
+    public boolean isCalculateXxh3() {
+        return calculateXxh3;
+    }
+
+    /**
      * Get whether CRC32 values should be calculated
      *
      * @return True if CRC32 values should be calculated, otherwise false
@@ -147,6 +167,8 @@ public class SettingsContainer {
         calculateSha256 = sharedPreferences.getBoolean("sha256", true);
         calculateSha384 = sharedPreferences.getBoolean("sha384", true);
         calculateSha512 = sharedPreferences.getBoolean("sha512", true);
+        calculateBlake3 = sharedPreferences.getBoolean("blake3", true);
+        calculateXxh3 = sharedPreferences.getBoolean("xxh3", true);
         calculateCrc32 = sharedPreferences.getBoolean("crc32", true);
         reviewTimes = sharedPreferences.getInt("reviewTimes", 0);
         theme = sharedPreferences.getString("theme", "2");
@@ -170,6 +192,8 @@ public class SettingsContainer {
         edit.putBoolean("sha256", isCalculateSha256());
         edit.putBoolean("sha384", isCalculateSha384());
         edit.putBoolean("sha512", isCalculateSha512());
+        edit.putBoolean("blake3", isCalculateBlake3());
+        edit.putBoolean("xxh3", isCalculateXxh3());
         edit.putBoolean("crc32", isCalculateCrc32());
         edit.putInt("reviewTimes", getReviewTimes());
         edit.putString("theme", getTheme());

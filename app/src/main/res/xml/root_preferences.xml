@@ -54,6 +54,16 @@
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
+            app:key="blake3"
+            app:title="@string/blake3" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="xxh3"
+            app:title="@string/xxh3" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
             app:key="crc32"
             app:title="@string/crc32" />
 
