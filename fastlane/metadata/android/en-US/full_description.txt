@@ -16,6 +16,7 @@
 * SHA-384
 * SHA-512
 * BLAKE3
+* XXH3-64
 * CRC32
 
 You can even compare a file or a text to a given input and DeadHash will notify you if there are any matches.

@@ -2,12 +2,17 @@ package com.codedead.deadhash.domain.utils;
 
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.os.Build;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import java.util.zip.CRC32;
+
+import com.dynatrace.hash4j.hashing.HashStream64;
+import com.dynatrace.hash4j.hashing.Hashing;
 
 import org.bouncycastle.crypto.digests.Blake3Digest;
 
@@ -134,6 +139,68 @@ public final class HashUtil {
         } catch (final IOException ex) {
             return null;
         }
+    }
+
+    /**
+     * Check whether XXH3 hashes can be calculated on this device.
+     * hash4j uses MethodHandles.byteArrayViewVarHandle, which is a public API from Android 13.
+     *
+     * @return True if XXH3 hashes can be calculated, otherwise false
+     */
+    public static boolean isXxh3Supported() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+    }
+
+    /**
+     * Calculate the XXH3-64 hash of an array of bytes
+     *
+     * @param bytes The byte array that should be used to calculate a hash
+     * @return The String object that contains the XXH3-64 hash of the byte array
+     */
+    public static String calculateXxh3(final byte[] bytes) {
+        try {
+            final long hash = Hashing.xxh3_64().hashBytesToLong(bytes);
+            return String.format(Locale.ROOT, "%016x", hash);
+        } catch (final Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Calculate the XXH3-64 hash of a specified file
+     *
+     * @param uri             The Uri of the file that should be hashed
+     * @param contentResolver The ContentResolver that should be used to open the file
+     * @return The String object that contains the XXH3-64 hash of the file
+     */
+    public static String calculateXxh3(final Uri uri, final ContentResolver contentResolver) {
+        try (final InputStream fis = contentResolver.openInputStream(uri)) {
+            if (fis == null)
+                return null;
+
+            return calculateXxh3(fis);
+        } catch (final IOException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Calculate the XXH3-64 hash of the data in the specified InputStream
+     *
+     * @param inputStream The InputStream that should be hashed
+     * @return The String object that contains the XXH3-64 hash of the stream
+     * @throws IOException If the stream could not be read
+     */
+    static String calculateXxh3(final InputStream inputStream) throws IOException {
+        final HashStream64 stream = Hashing.xxh3_64().hashStream();
+        final byte[] dataBytes = new byte[8192];
+
+        int nread;
+        while ((nread = inputStream.read(dataBytes)) != -1) {
+            stream.putBytes(dataBytes, 0, nread);
+        }
+
+        return String.format(Locale.ROOT, "%016x", stream.getAsLong());
     }
 
     /**
