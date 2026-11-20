@@ -53,4 +53,9 @@
     <string name="export_success">Хеши успешно экспортированы!</string>
     <string name="export_error">Не удалось экспортировать хеши!</string>
     <string name="clear">Очистить</string>
+    <string name="reset_settings">Сбросить параметры</string>
+    <string name="reset_settings_summary">Восстановить все параметры по умолчанию</string>
+    <string name="alert_reset_settings_title">Сбросить параметры?</string>
+    <string name="alert_reset_settings_message">Все параметры будут восстановлены по умолчанию. Это действие нельзя отменить.</string>
+    <string name="reset">Сбросить</string>
 </resources>

@@ -53,4 +53,9 @@
     <string name="export_success">Hachages exportés avec succès !</string>
     <string name="export_error">Impossible d\'exporter les hachages !</string>
     <string name="clear">Effacer</string>
+    <string name="reset_settings">Réinitialiser les paramètres</string>
+    <string name="reset_settings_summary">Restaurer tous les paramètres à leurs valeurs par défaut</string>
+    <string name="alert_reset_settings_title">Réinitialiser les paramètres?</string>
+    <string name="alert_reset_settings_message">Tous les paramètres seront restaurés à leurs valeurs par défaut. Cette action est irréversible.</string>
+    <string name="reset">Réinitialiser</string>
 </resources>

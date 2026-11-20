@@ -68,4 +68,11 @@
             app:title="@string/crc32" />
 
     </PreferenceCategory>
+
+    <Preference
+        app:key="reset_settings"
+        app:persistent="false"
+        app:summary="@string/reset_settings_summary"
+        app:title="@string/reset_settings" />
+
 </PreferenceScreen>

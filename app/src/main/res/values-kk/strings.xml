@@ -53,4 +53,9 @@
     <string name="export_success">Хэштер сәтті экспортталды!</string>
     <string name="export_error">Хэштерді экспорттау мүмкін болмады!</string>
     <string name="clear">Тазалау</string>
+    <string name="reset_settings">Баптауды қалпына келтіру</string>
+    <string name="reset_settings_summary">Барлық баптауларды әдепкі мәндерге қалпына келтіру</string>
+    <string name="alert_reset_settings_title">Баптауды қалпына келтіру керек пе?</string>
+    <string name="alert_reset_settings_message">Барлық баптаулар әдепкі мәндерге қалпына келтіріледі. Бұл әрекетті кері қайтару мүмкін емес.</string>
+    <string name="reset">Қалпына келтіру</string>
 </resources>

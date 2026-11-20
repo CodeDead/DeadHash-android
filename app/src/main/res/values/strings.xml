@@ -67,4 +67,9 @@
     <string name="export_success">Hashes exported successfully!</string>
     <string name="export_error">Unable to export hashes!</string>
     <string name="clear">Clear</string>
+    <string name="reset_settings">Reset settings</string>
+    <string name="reset_settings_summary">Restore all settings to their default values</string>
+    <string name="alert_reset_settings_title">Reset settings?</string>
+    <string name="alert_reset_settings_message">All settings will be restored to their default values. This cannot be undone.</string>
+    <string name="reset">Reset</string>
 </resources>

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +25,8 @@ import com.codedead.deadhash.domain.utils.IntentUtils;
 import com.codedead.deadhash.domain.utils.LocaleHelper;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private boolean resettingSettings;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private final SharedPreferences.OnSharedPreferenceChangeListener listener = (prefs, key) -> {
-        if (key == null)
+        if (key == null || resettingSettings)
             return;
 
         if (key.equals("language")) {
@@ -69,6 +72,26 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     };
+
+    /**
+     * Restore all settings to their default values and apply the default locale and theme
+     */
+    private void resetSettings() {
+        final Context appContext = getApplicationContext();
+
+        resettingSettings = true;
+        try {
+            PreferenceManager.getDefaultSharedPreferences(appContext).edit().clear().apply();
+            appContext.getSharedPreferences(getString(R.string.preferences_file_key), Context.MODE_PRIVATE).edit().clear().apply();
+
+            LocaleHelper.setLocale(appContext, "en");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        } finally {
+            resettingSettings = false;
+        }
+
+        recreate();
+    }
 
     /**
      * Reset the title of the activity
@@ -114,6 +137,27 @@ public class SettingsActivity extends AppCompatActivity {
                     xxh3Preference.setVisible(false);
                 }
             }
+
+            final Preference resetPreference = findPreference("reset_settings");
+            if (resetPreference != null) {
+                resetPreference.setOnPreferenceClickListener(preference -> {
+                    showResetSettingsDialog();
+                    return true;
+                });
+            }
+        }
+
+        /**
+         * Show a confirmation dialog before resetting all settings
+         */
+        private void showResetSettingsDialog() {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.alert_reset_settings_title)
+                    .setMessage(R.string.alert_reset_settings_message)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.reset, (dialog, which) -> ((SettingsActivity) requireActivity()).resetSettings())
+                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel())
+                    .show();
         }
     }
 }

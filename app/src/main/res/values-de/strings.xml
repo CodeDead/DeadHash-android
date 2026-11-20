@@ -53,4 +53,9 @@
     <string name="export_success">Hashes erfolgreich exportiert!</string>
     <string name="export_error">Hashes konnten nicht exportiert werden!</string>
     <string name="clear">Leeren</string>
+    <string name="reset_settings">Einstellungen zurücksetzen</string>
+    <string name="reset_settings_summary">Alle Einstellungen auf ihre Standardwerte zurücksetzen</string>
+    <string name="alert_reset_settings_title">Einstellungen zurücksetzen?</string>
+    <string name="alert_reset_settings_message">Alle Einstellungen werden auf ihre Standardwerte zurückgesetzt. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="reset">Zurücksetzen</string>
 </resources>

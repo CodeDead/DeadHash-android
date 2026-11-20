@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_generate">计算</string>
+    <string name="button_support">支持</string>
+    <string name="button_website">网站</string>
+    <string name="card_file">文件：</string>
+    <string name="card_file_path">文件路径</string>
+    <string name="card_open_folder">打开文件夹</string>
+    <string name="copy_data">复制数据</string>
+    <string name="nav_about">关于</string>
+    <string name="nav_file">文件</string>
+    <string name="nav_help">帮助</string>
+    <string name="nav_info">信息</string>
+    <string name="nav_settings">设置</string>
+    <string name="nav_text">文本</string>
+    <string name="nav_tools">工具</string>
+    <string name="navigation_drawer_close">关闭导航抽屉</string>
+    <string name="navigation_drawer_open">打开导航抽屉</string>
+    <string name="text_about">DeadHash 由 DeadLine 创建。此应用可用于生成文件和字符串的哈希值。\n\n此版本不包含任何广告或跟踪设备。DeadHash 不请求任何权限。\n\n所有图像均由 Google 提供。\n\nCopyright © 2026 CodeDead</string>
+    <string name="text_compare">比较：</string>
+    <string name="text_compare_hash">比较哈希值</string>
+    <string name="text_compare_hint">在此处输入哈希值</string>
+    <string name="text_content_hint">在此输入文本</string>
+    <string name="text_help">使用文件夹按钮选择文件，即可计算其哈希值。DeadHash 使用系统文件选择器，因此仅访问您选择的文件，无需存储权限。\n\n您可以在“设置”中选择要计算的哈希算法。为较大的文件或较长的文本生成哈希可能需要一些时间，这完全取决于设备的处理能力。\n\n计算完成后，您可以复制哈希值、将其与预期值进行比较、清除结果，或将结果导出为 TXT 或 CSV 文件。\n\n如果您遇到错误或需要支持，欢迎随时联系我们！</string>
+    <string name="text_language">语言</string>
+    <string name="toast_data_copied">数据已复制到剪贴板！</string>
+    <string name="toast_error_notext">请先输入文本！</string>
+    <string name="toast_hash_match">哈希值与输入内容匹配！</string>
+    <string name="toast_hash_mismatch">哈希值与输入内容不匹配！</string>
+    <string name="text_send_mail">给我们发送电子邮件</string>
+    <string name="alert_review_title">评价</string>
+    <string name="alert_review_text">如果您喜欢这款应用，请考虑留下评价！</string>
+    <string name="text_information">信息</string>
+    <string name="alert_review_never">从不</string>
+    <string name="string_no_clipboard_access">无法访问您的剪贴板！</string>
+    <string name="error_playstore">无法打开 Play 商店！</string>
+    <string name="error_website">无法打开网站！</string>
+    <string name="dialog_select_file">选择文件</string>
+    <string name="error_open_file">无法打开所选文件！</string>
+    <string name="error_no_file">未选择任何文件！</string>
+    <string name="theme">主题</string>
+    <string name="ui_header">用户界面</string>
+    <string name="hashing">哈希</string>
+    <string-array name="deadhash_theme_values">
+        <item>浅色</item>
+        <item>深色</item>
+        <item>跟随系统</item>
+    </string-array>
+    <string name="export">导出哈希</string>
+    <string name="export_dialog_title">导出哈希</string>
+    <string name="export_txt">TXT 文件</string>
+    <string name="export_csv">CSV 文件</string>
+    <string name="export_success">哈希导出成功！</string>
+    <string name="export_error">无法导出哈希！</string>
+    <string name="clear">清除</string>
+    <string name="reset_settings">重置设置</string>
+    <string name="reset_settings_summary">将所有设置恢复为默认值</string>
+    <string name="alert_reset_settings_title">重置设置？</string>
+    <string name="alert_reset_settings_message">所有设置将恢复为默认值。此操作无法撤销。</string>
+    <string name="reset">重置</string>
+</resources>
