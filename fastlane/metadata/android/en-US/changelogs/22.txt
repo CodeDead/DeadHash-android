@@ -1,0 +1,3 @@
+- Added simplified Chinese
+- Added ability to reset all settings
+- Updated dependencies and build tools

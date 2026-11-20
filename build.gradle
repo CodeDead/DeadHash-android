@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        agp_version = '9.5.0'
+        agp_version = '9.5.2'
     }
     repositories {
         mavenCentral()

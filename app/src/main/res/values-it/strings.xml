@@ -53,4 +53,9 @@
     <string name="export_success">Hash esportati con successo!</string>
     <string name="export_error">Impossibile esportare gli hash!</string>
     <string name="clear">Cancella</string>
+    <string name="reset_settings">Ripristina impostazioni</string>
+    <string name="reset_settings_summary">Ripristina tutte le impostazioni ai valori predefiniti</string>
+    <string name="alert_reset_settings_title">Ripristinare le impostazioni?</string>
+    <string name="alert_reset_settings_message">Tutte le impostazioni verranno ripristinate ai valori predefiniti. Questa operazione non può essere annullata.</string>
+    <string name="reset">Ripristina</string>
 </resources>
